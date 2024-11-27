@@ -2,6 +2,7 @@
   "src": [
     "pages/Index",
     "pages/ChannelSelection",
-    "pages/ShareNotes"
+    "pages/ShareNotes",
+    "pages/loginPage"
   ]
 }

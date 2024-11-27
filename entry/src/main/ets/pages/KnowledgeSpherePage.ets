@@ -1,52 +1,13 @@
-import { router } from '@kit.ArkUI'
+import { KSWaterflow } from '../views/KnowledgeSphere/KSTabcontent'
 
 @Component
 export struct KnowledgeSphere {
   @State list: string[] = [
-    "Apple",
-    "Banana",
-    "Cherry",
-    "Date",
-    "Elderberry",
-    "Fig",
-    "Grape",
-    "Honeydew",
-    "Kiwi",
-    "Lemon",
-    "Mango",
-    "Nectarine",
-    "Orange",
-    "Papaya",
-    "Quince",
-    "Raspberry",
-    "Strawberry",
-    "Tangerine",
-    "Ugli fruit",
-    "Vanilla",
-    "Watermelon",
-    "Xigua",
-    "Apple",
-    "Banana",
-    "Cherry",
-    "Date",
-    "Elderberry",
-    "Fig",
-    "Grape",
-    "Honeydew",
-    "Kiwi",
-    "Lemon",
-    "Mango",
-    "Nectarine",
-    "Orange",
-    "Papaya",
-    "Quince",
-    "Raspberry",
-    "Strawberry",
-    "Tangerine",
-    "Ugli fruit",
-    "Vanilla",
-    "Watermelon",
-    "Xigua"
+    "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew", "Kiwi", "Lemon", "Mango",
+    "Nectarine", "Orange", "Papaya", "Quince", "Raspberry", "Strawberry", "Tangerine", "Ugli fruit", "Vanilla",
+    "Watermelon", "Xigua", "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew", "Kiwi",
+    "Lemon", "Mango", "Nectarine", "Orange", "Papaya", "Quince", "Raspberry", "Strawberry", "Tangerine", "Ugli fruit",
+    "Vanilla", "Watermelon", "Xigua"
   ]
   @StorageProp('topHeight')
   topHeight: number = 0
@@ -68,37 +29,8 @@ export struct KnowledgeSphere {
         Tabs({ index: this.activeIndex }) {
           ForEach(this.list, (item: string, index: number) => {
             TabContent() {
-              WaterFlow() {
-                ForEach(Array.from({ length: 10 }), () => {
-                  FlowItem() {
-                    Column() {
-                      Text()
-                        .height(168)
-                        .width('100%')
-                      Row() {
-
-                      }
-                      .height(50)
-                      .width('100%')
-                      .backgroundColor('rgba(196, 196, 196, 0.5)')
-                      .borderRadius({ bottomLeft: 20, bottomRight: 20 })
-                    }
-                    .borderRadius(20)
-                    .width('100%')
-                    .backgroundColor('rgb(255, 255, 255)')
-                    .onClick(() => {
-                      // TODO
-                      router.pushUrl({
-                        url: 'pages/ShareNotes'
-                      })
-                    })
-                  }
-
-                })
-              }
-              .columnsTemplate('1fr 1fr')
-              .columnsGap(10)
-              .rowsGap(10)
+              // 单个标签内的所有内容
+              KSWaterflow()
             }
             .tabBar(this.tabBarBuilder(item, index))
             .padding({ left: 15, right: 15, bottom: 24 })
@@ -107,6 +39,7 @@ export struct KnowledgeSphere {
         .barMode(BarMode.Scrollable)
         .fadingEdge(false)
         .width('100%')
+        .scrollable(true)
         .onTabBarClick((index: number) => {
           this.activeIndex = index
         })
@@ -114,6 +47,7 @@ export struct KnowledgeSphere {
           this.activeIndex = index
         })
 
+        // 更多icon
         Row() {
           Image($rawfile('icon/more.png'))
             .width(27)
@@ -121,13 +55,6 @@ export struct KnowledgeSphere {
             .onClick(() => {
               this.isShow = true
               // TODO
-              // router.pushUrl({
-              //   url: 'pages/ChannelSelection',
-              //   params: {
-              //     list: this.list,
-              //     activeIndex: this.activeIndex
-              //   }
-              // })
             })
         }
         .width(40)
@@ -145,6 +72,7 @@ export struct KnowledgeSphere {
     .padding({ left: 15, right: 15 })
   }
 
+  // 自定义标题样式
   @Builder
   tabBarBuilder(item: string, index: number) {
     Text(item)
@@ -157,6 +85,7 @@ export struct KnowledgeSphere {
       .padding({ left: 10, right: 10 })
   }
 
+  // 筛选半模态框
   @Builder
   FilterSheetBuilder() {
     Column() {
