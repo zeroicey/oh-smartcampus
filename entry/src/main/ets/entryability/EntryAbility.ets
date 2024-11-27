@@ -5,6 +5,7 @@ import { fullScreen, logger } from '../commons/utils';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
+    AppStorage.setOrCreate('context', this.context)
     // hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
     logger.info('Ability onCreate')
   }
