@@ -1,4 +1,4 @@
-import { SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
+import { SNInput, SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
 import { router } from '@kit.ArkUI';
 
 interface IconItem {
@@ -18,6 +18,7 @@ struct ShareNotes {
   ]
   @StorageProp('topHeight')
   topHeight: number = 0
+  @State isSend: boolean = false
   UserInfoDialog = new CustomDialogController({
     builder: UserInfoDialog(),
     customStyle: true,
@@ -92,6 +93,9 @@ struct ShareNotes {
                 .fontColor('#98F4E9')
                 .width('100%')
             }
+            .onClick(() => {
+              // TODO
+            })
 
             Divider()
               .width('100%')
@@ -104,7 +108,6 @@ struct ShareNotes {
 
           // 聊天
           SNList()
-
         }
         .width('100%')
         .padding({ right: 30, left: 30 })
@@ -114,8 +117,13 @@ struct ShareNotes {
       .scrollBar(BarState.Off)
       .margin({ top: 20 })
 
-      // 底部点赞
-      SNNavBar()
+      if (this.isSend) {
+        // 发送评论
+        SNInput({ isSend: this.isSend })
+      } else {
+        // 底部点赞
+        SNNavBar({ isSend: this.isSend })
+      }
     }
     .width('100%')
     .height('100%')

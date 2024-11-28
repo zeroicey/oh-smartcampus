@@ -2,6 +2,7 @@
 export struct SNNavBar {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
+  @Link isSend: boolean
 
   build() {
     Row({ space: 30 }) {
@@ -12,8 +13,12 @@ export struct SNNavBar {
           .fontColor(false ? 'rgb(255, 153, 150)' : Color.White)
           .fontSize(18)
           .fontWeight(900)
+
       }
       .alignItems(VerticalAlign.Bottom)
+      .onClick(() => {
+        // TODO
+      })
 
       Row({ space: 5 }) {
         Image(false ? $rawfile('icon/collection_Selected.png') : $rawfile('icon/collection.png'))
@@ -22,6 +27,9 @@ export struct SNNavBar {
           .fontColor(false ? 'rgb(242, 245, 95)' : Color.White)
           .fontSize(18)
           .fontWeight(900)
+          .onClick(() => {
+            // TODO
+          })
 
       }
       .alignItems(VerticalAlign.Bottom)
@@ -35,6 +43,9 @@ export struct SNNavBar {
           .fontWeight(900)
       }
       .alignItems(VerticalAlign.Bottom)
+      .onClick(() => {
+        this.isSend = true
+      })
     }
     .width('100%')
     .borderRadius(20)
