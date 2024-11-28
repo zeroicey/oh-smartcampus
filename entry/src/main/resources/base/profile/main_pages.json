@@ -1,8 +1,11 @@
 {
   "src": [
     "pages/Index",
-    "pages/ChannelSelection",
     "pages/ShareNotes",
-    "pages/loginPage"
+    "pages/Login/Login",
+    "pages/Login/Registration",
+    "pages/Login/ResetPassword",
+    "pages/Login/Encrypted",
+    "pages/Mine/InformationEdite"
   ]
 }

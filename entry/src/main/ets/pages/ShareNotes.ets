@@ -1,7 +1,5 @@
-import { CustomNavBar } from '../commons/components';
-import { SNList } from '../views/ShareNotes/SNList';
-import { SNNavBar } from '../views/ShareNotes/SNNavBar';
-import { UserInfoDialog } from '../views/ShareNotes/UserInfoDialog';
+import { SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
+import { router } from '@kit.ArkUI';
 
 interface IconItem {
   icon: Resource;
@@ -18,6 +16,8 @@ struct ShareNotes {
     'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
     'https://img95.699pic.com/element/40159/7630.png_300.png'
   ]
+  @StorageProp('topHeight')
+  topHeight: number = 0
   UserInfoDialog = new CustomDialogController({
     builder: UserInfoDialog(),
     customStyle: true,
@@ -28,7 +28,20 @@ struct ShareNotes {
   build() {
     Column() {
       // 顶部导航条
-      CustomNavBar({ default: this.UserTitleBuilder, rightIcon: this.ChargingBtnBuilder })
+      Row() {
+        Image($rawfile('icon/backIcon.png'))
+          .width(30)
+          .margin({ right: 20 })
+          .onClick(() => {
+            router.back()
+          })
+        this.UserTitleBuilder()
+        Blank()
+        this.ChargingBtnBuilder()
+      }
+      .width('100%')
+      .padding({ left: 30, right: 30, top: this.topHeight })
+
       Scroll() {
         Column() {
           // 轮播图

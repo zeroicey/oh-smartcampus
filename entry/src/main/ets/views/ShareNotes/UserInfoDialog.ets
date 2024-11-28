@@ -1,4 +1,3 @@
-@Preview
 @CustomDialog
 export struct UserInfoDialog {
   controller: CustomDialogController

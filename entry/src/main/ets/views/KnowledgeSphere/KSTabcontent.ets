@@ -1,4 +1,4 @@
-import { router } from "@kit.ArkUI"
+import { router } from '@kit.ArkUI'
 
 @Component
 export struct KSWaterflow {
@@ -34,5 +34,6 @@ export struct KSWaterflow {
     .columnsTemplate('1fr 1fr')
     .columnsGap(10)
     .rowsGap(10)
+    .enableScrollInteraction(false)
   }
 }

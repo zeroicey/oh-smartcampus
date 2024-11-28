@@ -1,46 +1,43 @@
-import { router } from '@kit.ArkUI'
-import { UserInfoDialog } from '../../views/ShareNotes/UserInfoDialog'
+import { promptAction, router } from '@kit.ArkUI'
 
 @Preview
 @Component
 export struct CustomNavBar {
   @StorageProp('topHeight')
   topHeight: number = 0
-  @Prop title: string = '忘记密码'
-  @BuilderParam
-  default: () => void = this.defaultBuilder
-  @BuilderParam
-  rightIcon: () => void = this.rightBuilder
-  UserInfoDialog = new CustomDialogController({
-    builder: UserInfoDialog(),
-    customStyle: true,
-    maskColor: '#4dc4c4c4',
-    // backgroundBlurStyle: BlurStyle.BACKGROUND_THICK
-  })
-
-  @Builder
-  defaultBuilder() {
-    Text(this.title)
-      .fontSize(30)
-      .fontWeight(900)
-      .fontColor(Color.White)
-  }
-
-  @Builder
-  rightBuilder() {
-  }
+  // 标题文字
+  @Prop
+  title: string = '忘记密码'
+  // 左边图标
+  @Prop
+  leftIcon: ResourceStr = $rawfile('icon/backIcon.png')
+  // 右边图标
+  @Prop
+  rightIcon: ResourceStr = $rawfile('icon/Finished.png')
+  // 是否显示右边图标
+  @Prop
+  showRightIcon: boolean = true
 
   build() {
     Row() {
-      Image($rawfile('icon/backIcon.png'))
+      Image(this.leftIcon)
         .width(30)
         .margin({ right: 20 })
         .onClick(() => {
           router.back()
         })
-      this.default()
+      Text(this.title)
+        .fontSize(36)
+        .fontWeight(700)
+        .fontColor(Color.White)
       Blank()
-      this.rightIcon()
+      if (this.showRightIcon) {
+        Image(this.rightIcon)
+          .width(40)
+          .onClick(() => {
+            promptAction.showToast({ message: '编辑完成' })
+          })
+      }
     }
     .width('100%')
     .padding({ left: 30, right: 30, top: this.topHeight })

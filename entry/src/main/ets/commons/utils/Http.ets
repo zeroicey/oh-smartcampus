@@ -5,10 +5,6 @@ export const instance = axios.create({
   baseURL: 'https://5938e3db.r5.cpolar.cn',
   // 设置反应时间如果超过该时间进行报错
   timeout: 10000,
-  headers: {
-    uid: '1000001',
-    Authorization: ''
-  }
 })
 
 // 响应拦截器

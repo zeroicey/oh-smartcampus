@@ -1,5 +1,5 @@
 import { KnowledgeSphere } from './KnowledgeSpherePage';
-import { MinePage } from './MinePage';
+import { MinePage } from './Mine/MinePage';
 
 interface TabItem {
   icon: Resource;
@@ -12,6 +12,8 @@ interface TabItem {
 struct Index {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
+  @StorageProp('topHeight')
+  topHeight: number = 0
   tabList: TabItem[] = [
     {
       icon: $rawfile('icon/Home.png'),
@@ -55,42 +57,31 @@ struct Index {
   }
 
   build() {
-    Stack({ alignContent: Alignment.BottomStart }) {
-      Column() {
-        Image($rawfile('icon/tabBackground.png'))
-          .width('100%')
-      }
-      .width('100%')
-      .padding({ bottom: this.bottomHeight })
-      .backgroundColor('rgb(59, 59, 59)')
-      .borderRadius({ topLeft: 40, topRight: 40 })
-
-      Tabs() {
-        ForEach(this.tabList, (item: TabItem, index: number) => {
-          TabContent() {
-            if (index == 0) {
-              Text('首页')
-            } else if (index == 1) {
-              Text('AI对话')
-            } else if (index == 2) {
-              KnowledgeSphere()
-            } else {
-              MinePage()
-            }
+    Tabs() {
+      ForEach(this.tabList, (item: TabItem, index: number) => {
+        TabContent() {
+          if (index == 0) {
+            Text('首页')
+          } else if (index == 1) {
+            Text('AI对话')
+          } else if (index == 2) {
+            KnowledgeSphere()
+          } else {
+            MinePage()
           }
-          .tabBar(this.TabContent(item, index))
-        })
-      }
-      .barPosition(BarPosition.End)
-      .scrollable(false)
-      .backgroundColor('rgba(0,0,0,0)')
-      .onTabBarClick((index: number) => {
-        this.activeIndex = index
+        }
+        .tabBar(this.TabContent(item, index))
       })
-      .padding({ bottom: this.bottomHeight })
     }
+    .barPosition(BarPosition.End)
+    .scrollable(false)
+    .backgroundColor('rgba(0,0,0,0)')
+    .onTabBarClick((index: number) => {
+      this.activeIndex = index
+    })
     .width('100%')
     .height('100%')
     .backgroundColor('rgb(53, 50, 66)')
+    .padding({ top: this.topHeight + 10, bottom: this.bottomHeight })
   }
 }

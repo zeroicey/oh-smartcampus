@@ -1,10 +1,10 @@
-import { InputComponent } from '../commons/components'
-import { Type } from '../models'
+import { InputComponent } from '../../commons/components'
+import { Type } from '../../models'
 import { router } from '@kit.ArkUI'
 
 @Entry
 @Component
-struct LoginPage {
+struct Login {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
   @StorageProp('topHeight')
@@ -64,6 +64,11 @@ struct LoginPage {
         .fontColor('rgb(55, 226, 204)')
         .width('100%')
         .textAlign(TextAlign.Center)
+        .onClick(() => {
+          router.pushUrl({
+            url: 'pages/Login/Encrypted'
+          })
+        })
       Blank()
       Text() {
         Span('没有账户？')

@@ -18,28 +18,63 @@ export struct KnowledgeSphere {
 
   build() {
     Column() {
-      Text('知识圈')
-        .width('100%')
-        .fontColor(Color.White)
-        .fontSize(48)
-        .fontWeight(900)
-        .textAlign(TextAlign.Center)
-        .padding({ top: this.topHeight })
       Stack({ alignContent: Alignment.TopEnd }) {
         Tabs({ index: this.activeIndex }) {
           ForEach(this.list, (item: string, index: number) => {
             TabContent() {
               // 单个标签内的所有内容
-              KSWaterflow()
+              Scroll() {
+                Column({ space: 20 }) {
+                  Column() {
+                    Row({ space: 33 }) {
+                      Text('广东省')
+                        .width('50%')
+                        .fontSize(36)
+                        .fontColor(Color.White)
+                        .fontWeight(900)
+                        .padding({ right: 17 })
+                        .border({
+                          width: { right: 3 },
+                          color: 'rgb(141, 135, 242)'
+                        })
+                        .textAlign(TextAlign.End)
+                      Column() {
+                        Text('计算机专业')
+                          .fontSize(18)
+                          .fontWeight(900)
+                          .fontColor(Color.White)
+                        Text('563')
+                          .fontSize(36)
+                          .fontWeight(900)
+                          .fontColor('rgb(55, 226, 204)')
+                      }
+                      .width('50%')
+                      .alignItems(HorizontalAlign.Start)
+                    }
+                  }
+                  .height(190)
+                  .backgroundColor('rgb(196, 196, 196)')
+                  .padding(20)
+                  .width('100%')
+                  .borderRadius(20)
+
+                  KSWaterflow()
+                }
+              }
+              .width('100%')
+              .height('100%')
+              .scrollBar(BarState.Off)
             }
             .tabBar(this.tabBarBuilder(item, index))
-            .padding({ left: 15, right: 15, bottom: 24 })
+            .padding({ left: 15, right: 15 })
           })
         }
         .barMode(BarMode.Scrollable)
         .fadingEdge(false)
         .width('100%')
+        .height('100%')
         .scrollable(true)
+        .padding({ bottom: 10 })
         .onTabBarClick((index: number) => {
           this.activeIndex = index
         })
@@ -54,7 +89,6 @@ export struct KnowledgeSphere {
             .aspectRatio(1)
             .onClick(() => {
               this.isShow = true
-              // TODO
             })
         }
         .width(40)
@@ -89,9 +123,7 @@ export struct KnowledgeSphere {
   @Builder
   FilterSheetBuilder() {
     Column() {
-      // HcNavBar({ title: '知识圈', showRightIcon: false, leftIcon: $rawfile('icon/backIcon.png') })
-      //   .margin({ bottom: 40 })
-      Text('我的频道')
+      Text('频道')
         .fontSize(24)
         .fontWeight(700)
         .fontColor(Color.White)
