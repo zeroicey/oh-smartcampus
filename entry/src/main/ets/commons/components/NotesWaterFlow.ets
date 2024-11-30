@@ -1,7 +1,14 @@
+// 发布的所有笔记布局组件
+
 import { router } from '@kit.ArkUI'
 
+export interface ICircleIdParams {
+  CircleId: string
+  ContextId: string
+}
+
 @Component
-export struct KSWaterflow {
+export struct NotesWaterFlow {
   build() {
     WaterFlow() {
       ForEach(Array.from({ length: 10 }), (index: number) => {
@@ -24,7 +31,11 @@ export struct KSWaterflow {
           .onClick(() => {
             // TODO
             router.pushUrl({
-              url: 'pages/ShareNotes'
+              url: 'pages/ShareNotes',
+              params: {
+                CircleId: '',
+                ContextId: ''
+              }
             })
           })
         }
@@ -34,6 +45,5 @@ export struct KSWaterflow {
     .columnsTemplate('1fr 1fr')
     .columnsGap(10)
     .rowsGap(10)
-    .enableScrollInteraction(false)
   }
 }

@@ -22,9 +22,6 @@ export struct SNList {
                 .fontSize(12)
                 .fontWeight(900)
                 .fontColor('rgb(136, 136, 136)')
-                .bindSheet($$this.isShow, this.ExpansionPopupBuilder(), {
-                  showClose: false
-                })
                 .onClick(() => {
                   this.isShow = true
                 })
@@ -42,6 +39,9 @@ export struct SNList {
         }
       })
     }
+    .bindSheet($$this.isShow, this.ExpansionPopupBuilder(), {
+      showClose: false
+    })
   }
 
   @Builder

@@ -1,4 +1,4 @@
-import { KnowledgeSphere } from './KnowledgeSpherePage';
+import { KnowledgeSphere } from './KnowledgeSphere';
 import { MinePage } from './Mine/MinePage';
 
 interface TabItem {
@@ -38,6 +38,7 @@ struct Index {
   ]
   @State index: number = 0
   @State activeIndex: number = 0
+  @State angleNumber: number = 45
 
   @Builder
   TabContent(item: TabItem, index: number) {
@@ -78,6 +79,7 @@ struct Index {
     .backgroundColor('rgba(0,0,0,0)')
     .onTabBarClick((index: number) => {
       this.activeIndex = index
+      this.angleNumber = 0
     })
     .width('100%')
     .height('100%')

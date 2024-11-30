@@ -1,3 +1,5 @@
+// 回复评论组件
+
 @Component
 export struct CommentReply {
   // 是否设置右侧点赞按钮

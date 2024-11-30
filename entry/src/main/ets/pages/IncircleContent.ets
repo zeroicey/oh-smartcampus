@@ -1,7 +1,8 @@
-import { KSWaterflow } from '../views/KnowledgeSphere/KSTabcontent'
+import { NotesWaterFlow } from '../commons/components'
 
+@Entry
 @Component
-export struct KnowledgeSphere {
+export struct IncircleContent {
   @State list: string[] = [
     "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew", "Kiwi", "Lemon", "Mango",
     "Nectarine", "Orange", "Papaya", "Quince", "Raspberry", "Strawberry", "Tangerine", "Ugli fruit", "Vanilla",
@@ -15,11 +16,12 @@ export struct KnowledgeSphere {
   @State isShow: boolean = false
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
+  tabControl = new TabsController()
 
   build() {
     Column() {
       Stack({ alignContent: Alignment.TopEnd }) {
-        Tabs({ index: this.activeIndex }) {
+        Tabs({ controller: this.tabControl }) {
           ForEach(this.list, (item: string, index: number) => {
             TabContent() {
               // 单个标签内的所有内容
@@ -58,7 +60,7 @@ export struct KnowledgeSphere {
                   .width('100%')
                   .borderRadius(20)
 
-                  KSWaterflow()
+                  NotesWaterFlow()
                 }
               }
               .width('100%')
@@ -77,6 +79,7 @@ export struct KnowledgeSphere {
         .padding({ bottom: 10 })
         .onTabBarClick((index: number) => {
           this.activeIndex = index
+          this.tabControl.changeIndex(this.activeIndex)
         })
         .onAnimationEnd((index: number) => {
           this.activeIndex = index
@@ -103,7 +106,13 @@ export struct KnowledgeSphere {
     }
     .width('100%')
     .height('100%')
-    .padding({ left: 15, right: 15 })
+    .padding({
+      left: 15,
+      right: 15,
+      top: this.topHeight + 10,
+      bottom: this.bottomHeight
+    })
+    .backgroundColor('rgb(53, 50, 66)')
   }
 
   // 自定义标题样式
@@ -116,7 +125,10 @@ export struct KnowledgeSphere {
       .borderRadius(20)
       .margin({ right: 10 })
       .textAlign(TextAlign.Center)
-      .padding({ left: 10, right: 10 })
+      .padding({
+        left: 10,
+        right: 10
+      })
   }
 
   // 筛选半模态框
@@ -143,6 +155,7 @@ export struct KnowledgeSphere {
                 .padding({ left: 10, right: 10 })
                 .onClick(() => {
                   this.activeIndex = index
+                  this.tabControl.changeIndex(this.activeIndex)
                   this.isShow = false
                 })
             })
@@ -169,6 +182,9 @@ export struct KnowledgeSphere {
     .width('100%')
     .height('100%')
     .backgroundColor('rgb(53, 50, 66)')
-    .padding({ left: 30, right: 30 })
+    .padding({
+      left: 30,
+      right: 30
+    })
   }
 }

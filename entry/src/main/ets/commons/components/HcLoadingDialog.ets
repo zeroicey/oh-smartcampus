@@ -1,3 +1,5 @@
+// 自定义Loading加载框
+
 @CustomDialog
 export struct HcLoadingDialog {
   controller: CustomDialogController

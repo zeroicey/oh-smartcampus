@@ -1,6 +1,6 @@
-import { promptAction, router } from '@kit.ArkUI'
+// 自定义顶部导航栏
 
-@Preview
+import { promptAction, router } from '@kit.ArkUI'
 @Component
 export struct CustomNavBar {
   @StorageProp('topHeight')
@@ -17,15 +17,20 @@ export struct CustomNavBar {
   // 是否显示右边图标
   @Prop
   showRightIcon: boolean = true
+  // 是否显示左边图标
+  @Prop
+  showLeftIcon: boolean = true
 
   build() {
     Row() {
-      Image(this.leftIcon)
-        .width(30)
-        .margin({ right: 20 })
-        .onClick(() => {
-          router.back()
-        })
+      if (this.showLeftIcon) {
+        Image(this.leftIcon)
+          .width(30)
+          .margin({ right: 20 })
+          .onClick(() => {
+            router.back()
+          })
+      }
       Text(this.title)
         .fontSize(36)
         .fontWeight(700)
@@ -35,7 +40,7 @@ export struct CustomNavBar {
         Image(this.rightIcon)
           .width(40)
           .onClick(() => {
-            promptAction.showToast({ message: '编辑完成' })
+            promptAction.showToast({message:'编辑完成'})
           })
       }
     }
