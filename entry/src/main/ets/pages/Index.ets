@@ -36,7 +36,6 @@ struct Index {
       name: '我的'
     },
   ]
-  @State index: number = 0
   @State activeIndex: number = 0
   @State angleNumber: number = 45
 
@@ -66,7 +65,7 @@ struct Index {
           } else if (index == 1) {
             Text('AI对话')
           } else if (index == 2) {
-            KnowledgeSphere()
+            KnowledgeSphere({ activeIndex: this.activeIndex })
           } else {
             MinePage()
           }

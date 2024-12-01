@@ -49,3 +49,19 @@ export interface Topic {
   id: number;
   name: string;
 }
+
+export interface IAllPublisherNotes {
+  circleId: string;
+  context: IContext;
+
+  /**
+   * 创建时间
+   */
+  createTime: string;
+  id: string;
+
+  /**
+   * 话题完整对象，话题Id同时也是AI的Id，会通过他来跳转AI
+   */
+  topic: Topic;
+}

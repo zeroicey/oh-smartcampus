@@ -92,7 +92,7 @@ export struct MinePage {
 
           // 学习时长
           Row() {
-            Column() {
+            Column({ space: 12 }) {
               Text() {
                 Span('学习时长')
                   .fontWeight(900)
@@ -123,7 +123,7 @@ export struct MinePage {
             .padding(10)
             .backgroundColor('rgb(184, 181, 246)')
             .borderRadius(30)
-            .justifyContent(FlexAlign.SpaceBetween)
+            .justifyContent(FlexAlign.Center)
 
             Column() {
               Text() {
@@ -177,7 +177,7 @@ export struct MinePage {
             Row({ space: 15 }) {
               ForEach(Array.from({ length: 2 }), (item: null, index: number) => {
                 // 收藏
-                Column() {
+                Column({ space: 5 }) {
                   Row() {
                     Image(index == 0 ? $rawfile('icon/collection2.png') : $rawfile('icon/draft.png'))
                       .width(40)
