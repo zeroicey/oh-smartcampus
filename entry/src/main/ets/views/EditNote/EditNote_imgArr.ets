@@ -35,7 +35,7 @@ export struct EditNote_imgArr {
           })
           ListItem(){
             Column(){
-              Image($rawfile('other/card/AddPicture.png'))
+              Image($rawfile('other/Mock/Enpty.png'))
                 .width(50)
                 .height(50)
                 .margin({top:25})
