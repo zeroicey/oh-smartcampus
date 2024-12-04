@@ -2,7 +2,11 @@
   "modelVersion": "5.0.0",
   "description": "Please describe the basic information.",
   "dependencies": {
-    "@ohos/axios": "^2.2.4"
+    "@ohos/axios": "^2.2.4",
+    "@pura/spinkit": "^1.0.4",
+    "@luvi/lv-markdown-in": "^2.0.9",
+    "@ohmos/calendar": "^2.1.4",
+    "@visactor/harmony-vchart": "^1.12.12"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.19",

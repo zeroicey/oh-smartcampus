@@ -10,3 +10,4 @@
 /.clang-tidy
 **/.test
 /.appanalyzer
+/entry/src/main/ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/AI_item.ets
