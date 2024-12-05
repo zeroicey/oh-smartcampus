@@ -52,12 +52,18 @@ export struct NotesWaterFlow {
           attractTitle: "宇宙探索",
           id: 1,
           name: "宇宙"
+        },
+        user: {
+          name: '黑夜',
+          uid: '1',
+          avatar: 'https://tse2-mm.cn.bing.net/th/id/OIP-C.yp-D-KHI3e2nN4eMBJcEVAAAAA?rs=1&pid=ImgDetMain',
+          praise: 203
         }
       },
       {
         circleId: "c2",
         context: {
-          pictures: ["https://img.51miz.com/Element/00/81/15/50/c77e727b_E811550_7f9027db.jpg"],
+          pictures: ["https://tse3-mm.cn.bing.net/th/id/OIP-C.sdNN1iFf5WEp1Xnml5qOBgAAAA?rs=1&pid=ImgDetMain"],
           title: "深海世界的奇观",
           word: "潜入深海，发现未知生物"
         },
@@ -67,6 +73,12 @@ export struct NotesWaterFlow {
           attractTitle: "深海探险",
           id: 2,
           name: "深海"
+        },
+        user: {
+          name: '晨曦',
+          uid: '2',
+          avatar: 'https://tse3-mm.cn.bing.net/th/id/OIP-C.sdNN1iFf5WEp1Xnml5qOBgAAAA?rs=1&pid=ImgDetMain',
+          praise: 150
         }
       },
       {
@@ -82,6 +94,12 @@ export struct NotesWaterFlow {
           attractTitle: "历史遗迹",
           id: 3,
           name: "历史"
+        },
+        user: {
+          name: '夕阳',
+          uid: '3',
+          avatar: 'https://tse3-mm.cn.bing.net/th/id/OIP-C.Erum9yreLBLbYTOMWWzGIwAAAA?rs=1&pid=ImgDetMain',
+          praise: 300
         }
       },
       {
@@ -97,6 +115,12 @@ export struct NotesWaterFlow {
           attractTitle: "科技前沿",
           id: 4,
           name: "科技"
+        },
+        user: {
+          name: '星空',
+          uid: '4',
+          avatar: 'https://tse2-mm.cn.bing.net/th/id/OIP-C.0nTEIoAl_Bc1AeIEozQXEQAAAA?rs=1&pid=ImgDetMain',
+          praise: 450
         }
       },
       {
@@ -112,6 +136,12 @@ export struct NotesWaterFlow {
           attractTitle: "自然保护",
           id: 5,
           name: "自然"
+        },
+        user: {
+          name: '迷雾',
+          uid: '5',
+          avatar: 'https://tse1-mm.cn.bing.net/th/id/OIP-C.qkn-u2DXXEJ6L2KxAWHZ9wAAAA?rs=1&pid=ImgDetMain',
+          praise: 120
         }
       },
       {
@@ -127,6 +157,12 @@ export struct NotesWaterFlow {
           attractTitle: "艺术创作",
           id: 6,
           name: "艺术"
+        },
+        user: {
+          name: '清风',
+          uid: '6',
+          avatar: 'https://ts1.cn.mm.bing.net/th/id/R-C.fc02279502a5f170713f466d727c7e34?rik=z83T0O334o0kpw&riu=http%3a%2f%2fwww.gx8899.com%2fuploads%2fallimg%2f2018011510%2fcbn05xbnii1.jpg&ehk=RE8FctNNDvxeQ%2fGZrUbIIdLx5HBi5a4QtdkIy2CB9rY%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1',
+          praise: 180
         }
       },
       {
@@ -142,6 +178,12 @@ export struct NotesWaterFlow {
           attractTitle: "美食之旅",
           id: 7,
           name: "美食"
+        },
+        user: {
+          name: '细雨',
+          uid: '7',
+          avatar: 'https://tse1-mm.cn.bing.net/th/id/OIP-C.ZtrvDWpDrJNiyRQj6DwPvwAAAA?rs=1&pid=ImgDetMain',
+          praise: 250
         }
       },
       {
@@ -157,6 +199,12 @@ export struct NotesWaterFlow {
           attractTitle: "健康生活",
           id: 8,
           name: "健康"
+        },
+        user: {
+          name: '烈日',
+          uid: '8',
+          avatar: 'https://tse4-mm.cn.bing.net/th/id/OIP-C.hsnwZAr2R2xUr97ScoSjrgAAAA?rs=1&pid=ImgDetMain',
+          praise: 400
         }
       },
       {
@@ -172,6 +220,12 @@ export struct NotesWaterFlow {
           attractTitle: "教育影响",
           id: 9,
           name: "教育"
+        },
+        user: {
+          name: '暮色',
+          uid: '9',
+          avatar: 'https://tse3-mm.cn.bing.net/th/id/OIP-C.Uoz1-5uTFTJ7s8fymTUhYgAAAA?rs=1&pid=ImgDetMain',
+          praise: 350
         }
       },
       {
@@ -187,6 +241,12 @@ export struct NotesWaterFlow {
           attractTitle: "旅行体验",
           id: 10,
           name: "旅行"
+        },
+        user: {
+          name: '暮色',
+          uid: '9',
+          avatar: 'https://tse3-mm.cn.bing.net/th/id/OIP-C.Uoz1-5uTFTJ7s8fymTUhYgAAAA?rs=1&pid=ImgDetMain',
+          praise: 350
         }
       }
     ] as IAllPublisherNotes[]
@@ -210,11 +270,11 @@ export struct NotesWaterFlow {
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
               Row() {
                 Text() {
-                  ImageSpan('https://pic3.zhimg.com/v2-b173b089c839b82b923260d8acf1688f_r.jpg?source=1940ef5c')
+                  ImageSpan(item.user.avatar)
                     .width(15)
                     .borderRadius(10)
                     .margin({ right: 3 })
-                  Span('用户002')
+                  Span(item.user.name)
                     .fontSize(10)
                     .fontWeight(700)
                     .fontColor('rgb(127, 127, 127)')
@@ -226,7 +286,7 @@ export struct NotesWaterFlow {
                   ImageSpan($rawfile('icon/userLike.png'))
                     .width(15)
                     .margin({ right: 3 })
-                  Span('202')
+                  Span('' + item.user.praise)
                     .fontSize(10)
                     .fontWeight(700)
                     .fontColor('rgb(127, 127, 127)')

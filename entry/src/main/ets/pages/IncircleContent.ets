@@ -1,28 +1,91 @@
 import { NotesWaterFlow } from '../commons/components'
+import { httpReq } from '../commons/utils'
+import { ITopic } from '../models'
 
 @Entry
 @Component
 export struct IncircleContent {
-  @State list: string[] = [
-    "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew", "Kiwi", "Lemon", "Mango",
-    "Nectarine", "Orange", "Papaya", "Quince", "Raspberry", "Strawberry", "Tangerine", "Ugli fruit", "Vanilla",
-    "Watermelon", "Xigua", "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew", "Kiwi",
-    "Lemon", "Mango", "Nectarine", "Orange", "Papaya", "Quince", "Raspberry", "Strawberry", "Tangerine", "Ugli fruit",
-    "Vanilla", "Watermelon", "Xigua"
-  ]
   @StorageProp('topHeight')
   topHeight: number = 0
-  @State activeIndex: number = 0
-  @State isShow: boolean = false
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
+  @State topicList: ITopic[] = []
+  @State activeIndex: number = 0
+  @State isShow: boolean = false
   tabControl = new TabsController()
+
+  async getToicp() {
+    const res = await httpReq.request<ITopic>({
+      url: '/topic/findTopic',
+      params: {
+        circleId: '1'
+      }
+    })
+    return res
+  }
+
+  aboutToAppear(): void {
+    // TODO
+    const res = [
+      {
+        attractTitle: '探索宇宙的奥秘',
+        id: 1,
+        name: '天文学'
+      },
+      {
+        attractTitle: '未来科技的展望',
+        id: 2,
+        name: '科技前沿'
+      },
+      {
+        attractTitle: '金融市场的波动',
+        id: 3,
+        name: '财经动态'
+      },
+      {
+        attractTitle: '健康生活的秘诀',
+        id: 4,
+        name: '健康生活'
+      },
+      {
+        attractTitle: '艺术与文化的交融',
+        id: 5,
+        name: '艺术文化'
+      },
+      {
+        attractTitle: '旅行中的奇遇',
+        id: 6,
+        name: '旅游探险'
+      },
+      {
+        attractTitle: '美食的诱惑',
+        id: 7,
+        name: '美食天下'
+      },
+      {
+        attractTitle: '时尚潮流的风向',
+        id: 8,
+        name: '时尚潮流'
+      },
+      {
+        attractTitle: '心理与情绪的管理',
+        id: 9,
+        name: '心理健康'
+      },
+      {
+        attractTitle: '历史长河的回响',
+        id: 10,
+        name: '历史探索'
+      }
+    ] as ITopic[]
+    this.topicList = res
+  }
 
   build() {
     Column() {
       Stack({ alignContent: Alignment.TopEnd }) {
         Tabs({ controller: this.tabControl }) {
-          ForEach(this.list, (item: string, index: number) => {
+          ForEach(this.topicList, (item: ITopic, index: number) => {
             TabContent() {
               // 单个标签内的所有内容
               NotesWaterFlow()
@@ -79,8 +142,8 @@ export struct IncircleContent {
 
   // 自定义标题样式
   @Builder
-  tabBarBuilder(item: string, index: number) {
-    Text(item)
+  tabBarBuilder(item: ITopic, index: number) {
+    Text(item.name)
       .height(34)
       .constraintSize({ minWidth: 80 })
       .backgroundColor(this.activeIndex == index ? Color.Pink : Color.White)
@@ -106,8 +169,8 @@ export struct IncircleContent {
       Scroll() {
         Column() {
           Flex({ wrap: FlexWrap.Wrap }) {
-            ForEach(this.list, (item: string, index: number) => {
-              Text(item)
+            ForEach(this.topicList, (item: ITopic, index: number) => {
+              Text(item.name)
                 .height(40)
                 .constraintSize({ minWidth: 75 })
                 .borderRadius(20)
@@ -123,6 +186,7 @@ export struct IncircleContent {
             })
           }
           .margin({ bottom: 64 })
+          .backgroundColor(Color.Green)
 
           Row() {
             Text('点击进入知识圈频道')
@@ -136,10 +200,12 @@ export struct IncircleContent {
         }
         .width('100%')
         .padding({ bottom: 40 })
+        .borderColor(Color.Blue)
       }
       .width('100%')
       .layoutWeight(1)
       .scrollBar(BarState.Off)
+      .backgroundColor(Color.Pink)
     }
     .width('100%')
     .height('100%')

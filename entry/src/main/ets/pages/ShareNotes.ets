@@ -8,10 +8,10 @@ import { ICircleIdParams } from '../commons/components';
 @Entry
 @Component
 struct ShareNotes {
-  @State publisher: IPublisher = {} as IPublisher
-  @State publishContext: IContext = {} as IContext
   @StorageProp('topHeight')
   topHeight: number = 0
+  @State publisher: IPublisher = {} as IPublisher
+  @State publishContext: IContext = {} as IContext
   @State isSend: boolean = false
   UserInfoDialog = new CustomDialogController({
     builder: UserInfoDialog({ publisher: this.publisher }),

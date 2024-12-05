@@ -1,12 +1,15 @@
+import { IPublisher } from '../../models'
+
 @Component
 export struct SNInput {
   @Link isSend: boolean
+  @State value: string = ''
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
 
   build() {
     Row({ space: 12 }) {
-      TextInput({ placeholder: '请输入' })
+      TextInput({ placeholder: '请输入', text: $$this.value })
         .placeholderColor(Color.Gray)
         .layoutWeight(1)
       Image($rawfile('icon/send.png'))

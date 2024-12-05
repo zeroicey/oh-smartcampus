@@ -1,4 +1,4 @@
-import { KnowledgeSphere } from './KnowledgeSphere';
+import { KnowledgeSpherePage } from './KnowledgeSpherePage';
 import { MinePage } from './Mine/MinePage';
 
 interface TabItem {
@@ -65,7 +65,7 @@ struct Index {
           } else if (index == 1) {
             Text('AI对话')
           } else if (index == 2) {
-            KnowledgeSphere({ activeIndex: this.activeIndex })
+            KnowledgeSpherePage({ activeIndex: this.activeIndex })
           } else {
             MinePage()
           }
@@ -74,7 +74,6 @@ struct Index {
       })
     }
     .barPosition(BarPosition.End)
-    .scrollable(false)
     .backgroundColor('rgba(0,0,0,0)')
     .onTabBarClick((index: number) => {
       this.activeIndex = index
@@ -84,5 +83,6 @@ struct Index {
     .height('100%')
     .backgroundColor('rgb(53, 50, 66)')
     .padding({ top: this.topHeight + 10, bottom: this.bottomHeight })
+    .animationMode(AnimationMode.NO_ANIMATION)
   }
 }

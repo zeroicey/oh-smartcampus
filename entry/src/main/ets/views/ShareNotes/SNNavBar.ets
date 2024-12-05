@@ -3,34 +3,39 @@ export struct SNNavBar {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
   @Link isSend: boolean
+  // 点赞按钮
+  @State praiseFlag: boolean = false
+  // 收藏按钮
+  @State collectFlag: boolean = false
 
   build() {
     Row({ space: 30 }) {
       Row({ space: 5 }) {
-        Image(false ? $rawfile('icon/like_Selected.png') : $rawfile('icon/like.png'))
+        Image(this.praiseFlag ? $rawfile('icon/like_Selected.png') : $rawfile('icon/like.png'))
           .width(37)
+          .onClick(() => {
+            // TODO
+            this.praiseFlag = !this.praiseFlag
+          })
         Text('432')
-          .fontColor(false ? 'rgb(255, 153, 150)' : Color.White)
+          .fontColor(this.praiseFlag ? 'rgb(255, 153, 150)' : Color.White)
           .fontSize(18)
           .fontWeight(900)
 
       }
       .alignItems(VerticalAlign.Bottom)
-      .onClick(() => {
-        // TODO
-      })
 
       Row({ space: 5 }) {
-        Image(false ? $rawfile('icon/collection_Selected.png') : $rawfile('icon/collection.png'))
+        Image(this.collectFlag ? $rawfile('icon/collection_Selected.png') : $rawfile('icon/collection.png'))
           .width(37)
-        Text('432')
-          .fontColor(false ? 'rgb(242, 245, 95)' : Color.White)
-          .fontSize(18)
-          .fontWeight(900)
           .onClick(() => {
             // TODO
+            this.collectFlag = !this.collectFlag
           })
-
+        Text('432')
+          .fontColor(this.collectFlag ? 'rgb(242, 245, 95)' : Color.White)
+          .fontSize(18)
+          .fontWeight(900)
       }
       .alignItems(VerticalAlign.Bottom)
 

@@ -20,19 +20,19 @@ export interface IPublisherData {
   context: IContext;
   createTime: null;
   id: string;
-  topic: Topic;
+  topic: ITopic;
   user: IPublisher;
 }
 
 // 笔记发布者信息
 export interface IPublisher {
-  attendance: number; //签到
+  attendance?: number; //签到
   avatar: string;
-  introduction: string;
+  introduction?: string;
   name: string;
   praise: number; //点赞
-  referral: number; //发光
-  studyProgress: number; //课程进度
+  referral?: number; //发光
+  studyProgress?: number; //课程进度
   uid: string;
 }
 
@@ -44,7 +44,7 @@ export interface IContext {
 }
 
 // 话题
-export interface Topic {
+export interface ITopic {
   attractTitle: string;
   id: number;
   name: string;
@@ -53,7 +53,7 @@ export interface Topic {
 export interface IAllPublisherNotes {
   circleId: string;
   context: IContext;
-
+  user: IPublisher
   /**
    * 创建时间
    */
@@ -63,5 +63,5 @@ export interface IAllPublisherNotes {
   /**
    * 话题完整对象，话题Id同时也是AI的Id，会通过他来跳转AI
    */
-  topic: Topic;
+  topic: ITopic;
 }

@@ -212,6 +212,13 @@ export struct MinePage {
           }
           .width('100%')
           .justifyContent(FlexAlign.SpaceBetween)
+
+          Button('登录')
+            .onClick(() => {
+              router.pushUrl({
+                url: 'pages/Login/Login'
+              })
+            })
         }
         .height(600)
         .width('100%')

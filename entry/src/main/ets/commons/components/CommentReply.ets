@@ -4,6 +4,7 @@
 export struct CommentReply {
   // 是否设置右侧点赞按钮
   @Prop showRightIcon: boolean = true
+  @State praiseFlag: boolean = false
 
   build() {
     Row({ space: 5 }) {
@@ -21,13 +22,16 @@ export struct CommentReply {
           Blank()
           if (this.showRightIcon) {
             Column() {
-              Image(false ? $rawfile('icon/like_Selected.png') : $rawfile('icon/userLike.png'))
+              Image(this.praiseFlag ? $rawfile('icon/like_Selected.png') : $rawfile('icon/userLike.png'))
                 .width(24)
               Text('24')
                 .fontSize(14)
                 .fontWeight(900)
                 .fontColor('rgb(177, 177, 177)')
             }
+            .onClick(() => {
+              this.praiseFlag = !this.praiseFlag
+            })
           }
         }
         .width('100%')
