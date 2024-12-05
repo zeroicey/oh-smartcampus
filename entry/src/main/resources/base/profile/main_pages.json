@@ -7,6 +7,7 @@
     "pages/Login/ResetPassword",
     "pages/Login/Encrypted",
     "pages/Mine/InformationEdite",
-    "pages/IncircleContent"
+    "pages/IncircleContent",
+    "pages/Sign"
   ]
 }

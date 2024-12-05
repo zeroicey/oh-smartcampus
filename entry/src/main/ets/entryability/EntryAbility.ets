@@ -20,14 +20,14 @@ export default class EntryAbility extends UIAbility {
     // hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
     logger.info('Ability onWindowStageCreate')
 
-    windowStage.loadContent('pages/HomePage', (err) => {//改为Index
+    windowStage.loadContent('pages/Index', (err) => { //改为Index
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;
       }
       // hilog.info(0x0000, 'testTag', 'Succeeded in loading the content.');
       logger.info('Succeeded in loading the content.')
-      //fullScreen.enabled()//debug
+      fullScreen.enabled() //debug
     });
   }
 

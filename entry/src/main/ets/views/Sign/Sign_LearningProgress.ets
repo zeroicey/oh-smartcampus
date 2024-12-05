@@ -1,6 +1,6 @@
 
-import { roseChart } from 'ets/commons/utils/chart'
 import router from '@ohos.router';
+import { roseChart } from '../../commons/components';
 
 @Component
 export struct Sign_LearningProgress{

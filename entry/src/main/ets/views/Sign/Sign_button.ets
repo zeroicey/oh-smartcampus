@@ -1,29 +1,29 @@
 import { HmCalendarSelectedDay } from '@ohmos/calendar'
 
 @Component
-export struct Sign_button{
-  @Link buttonMovewidth:number
-  @Link fireworkSize:number
+export struct Sign_button {
+  @Link buttonMovewidth: number
+  @Link fireworkSize: number
   @Link signArr: Array<HmCalendarSelectedDay>
-  @Link clickFlag:number
-
+  @Link clickFlag: number
 
   animation_button(): void {
-    animateTo({ duration: 1000, curve: Curve.Linear}, () => {
+    animateTo({ duration: 1000, curve: Curve.Linear }, () => {
       this.buttonMovewidth = 150
     })
   }
 
   animation_firework(): void {
-    animateTo({ duration: 200, curve: Curve.Linear}, () => {
+    animateTo({ duration: 200, curve: Curve.Linear }, () => {
       this.fireworkSize = 100
+
     })
   }
 
   build() {
-    Row(){
-      Row(){
-        if(this.clickFlag==1){
+    Row() {
+      Row() {
+        if (this.clickFlag == 1) {
           Text(' 长按打卡 ')
             .fontColor(Color.White)
             .fontSize(35)
@@ -34,8 +34,8 @@ export struct Sign_button{
             .borderColor('#37e2cc')
             .width(160)
             .borderRadius(50)
-            .onClick(()=>{
-              this.clickFlag=2
+            .onClick(() => {
+              this.clickFlag = 2
             })
         } else {
           Row() {
@@ -44,7 +44,9 @@ export struct Sign_button{
                 .width(this.fireworkSize)
                 .height(this.fireworkSize)
                 .align(Alignment.Center)
-                .margin({left:20})
+                .margin({ left: 20 })
+              // .scale({ x: 4, y: 4 })//缩放属性
+              // .rotate({ angle: 45 }) //旋转
             }
             .backgroundColor('#37e2cc')
             .width(this.buttonMovewidth)

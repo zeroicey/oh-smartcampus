@@ -1,3 +1,4 @@
+import { HomePage } from './HomePage';
 import { KnowledgeSpherePage } from './KnowledgeSpherePage';
 import { MinePage } from './Mine/MinePage';
 
@@ -61,7 +62,7 @@ struct Index {
       ForEach(this.tabList, (item: TabItem, index: number) => {
         TabContent() {
           if (index == 0) {
-            Text('首页')
+            HomePage()
           } else if (index == 1) {
             Text('AI对话')
           } else if (index == 2) {

@@ -1,5 +1,5 @@
 import { router } from '@kit.ArkUI'
-import { NotesWaterFlow } from '../../commons/components'
+import { NotesWaterFlow, roseChart } from '../../commons/components'
 
 @Component
 export struct MinePage {
@@ -219,6 +219,15 @@ export struct MinePage {
                 url: 'pages/Login/Login'
               })
             })
+
+          roseChart({
+            dataValue: [
+              { type: '学习', value: '23' },
+              { type: '休息', value: '50' },
+              { type: '运动', value: '27' },
+            ],
+            legendPosition: 'bottom'
+          })
         }
         .height(600)
         .width('100%')
