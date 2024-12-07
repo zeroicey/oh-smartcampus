@@ -1,3 +1,4 @@
+import { auth } from '../commons/utils/Auth';
 import { HomePage } from './HomePage';
 import { KnowledgeSpherePage } from './KnowledgeSpherePage';
 import { MinePage } from './Mine/MinePage';
@@ -7,6 +8,8 @@ interface TabItem {
   activeIcon: Resource;
   name: string;
 }
+
+auth.initUser()
 
 @Entry
 @Component

@@ -1,8 +1,9 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from '@ohos/axios'
+import { logger } from '.'
 
 export const instance = axios.create({
   // 设置基地址
-  baseURL: 'https://5938e3db.r5.cpolar.cn',
+  baseURL: 'https://7b777251.r5.cpolar.cn',
   // 设置反应时间如果超过该时间进行报错
   timeout: 10000,
 })
@@ -15,6 +16,7 @@ instance.interceptors.response.use((response: AxiosResponse) => {
     // 拦截之后执行一些逻辑再返回给客户端
     return response.data.data
   }
+  logger.info(JSON.stringify(response.data))
   // 对响应错误做点什么
   return Promise.reject(response.data)
 }, (error: AxiosError) => {

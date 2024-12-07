@@ -1,6 +1,7 @@
 // 自定义顶部导航栏
 
 import { promptAction, router } from '@kit.ArkUI'
+
 @Component
 export struct CustomNavBar {
   @StorageProp('topHeight')
@@ -32,15 +33,15 @@ export struct CustomNavBar {
           })
       }
       Text(this.title)
-        .fontSize(36)
-        .fontWeight(700)
+        .fontSize(24)
+        .fontWeight(900)
         .fontColor(Color.White)
       Blank()
       if (this.showRightIcon) {
         Image(this.rightIcon)
           .width(40)
           .onClick(() => {
-            promptAction.showToast({message:'编辑完成'})
+            promptAction.showToast({ message: '编辑完成' })
           })
       }
     }

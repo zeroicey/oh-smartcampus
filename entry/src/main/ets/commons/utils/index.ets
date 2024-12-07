@@ -6,3 +6,5 @@ export * from './StatusBar'
 
 export * from './logger'
 
+export * from './Auth'
+

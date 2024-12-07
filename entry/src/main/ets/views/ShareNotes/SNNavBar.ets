@@ -55,6 +55,7 @@ export struct SNNavBar {
     .width('100%')
     .borderRadius(20)
     .backgroundColor('rgb(59, 59, 59)')
+    .justifyContent(FlexAlign.Center)
     .padding({
       left: 50,
       right: 50,

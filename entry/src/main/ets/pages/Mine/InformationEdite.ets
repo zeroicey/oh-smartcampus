@@ -1,18 +1,23 @@
-import { CustomNavBar } from '../../commons/components'
-import { TextType, Type } from '../../models'
+import { CustomNavBar, InputComponent } from '../../commons/components'
+import { ITextType } from '../../models'
 
 @Entry
 @Component
 export struct InformationEdite {
   @StorageProp('topHeight')
   topHeight: number = 0
-  list: TextType[] = [
-    { title: '名字', type: Type.name },
-    { title: '电子邮箱', type: Type.name },
-    { title: '生日', type: Type.name },
-    { title: '性别', type: Type.name },
-    { title: '个性签名', type: Type.name },
-  ]
+  // list: TextType[] = [
+  //   { title: '名字', type: ITextType.name },
+  //   { title: '电子邮箱', type: ITextType.name },
+  //   { title: '生日', type: ITextType.name },
+  //   { title: '性别', type: ITextType.name },
+  //   { title: '个性签名', type: ITextType.name },
+  // ]
+  @State name: string = ''
+  @State birth: string = ''
+  @State email: string = ''
+  @State gender: string = ''
+  @State sign: string = ''
 
   build() {
     Column() {
@@ -31,26 +36,25 @@ export struct InformationEdite {
           .margin({ bottom: 15 })
 
         List({ space: 15 }) {
-          ForEach(this.list, (item: TextType, index: number) => {
-            ListItem() {
-              Column({ space: 15 }) {
-                Text() {
-                  Span(item.title)
-                    .fontColor(Color.White)
-                    .fontWeight(600)
-                  Span('*')
-                    .fontColor('rgb(242, 111, 56)')
-                }
-                .width('100%')
+          ListItem() {
+            InputComponent({ title: '名字', value: this.name })
+          }
 
-                TextInput({ placeholder: item.title })
-                  .width('100%')
-                  .backgroundColor('rgb(115, 111, 138)')
-                  .padding({ left: 24 })
-                  .type(item.type == 'email' ? InputType.Email : InputType.Normal)
-              }
-            }
-          })
+          ListItem() {
+            InputComponent({ title: '电子邮箱', value: this.email, type: ITextType.email })
+          }
+
+          ListItem() {
+            InputComponent({ title: '生日', value: this.birth })
+          }
+
+          ListItem() {
+            InputComponent({ title: '性别', value: this.gender })
+          }
+
+          ListItem() {
+            InputComponent({ title: '个性签名', value: this.sign })
+          }
         }
       }
       .width('100%')

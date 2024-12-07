@@ -21,7 +21,7 @@ export struct HcLoadingDialog {
       .justifyContent(FlexAlign.Center)
       .width(120)
       .height(120)
-      .backgroundColor('rgba(0,0,0,0.6)')
+      .backgroundColor('rgba(169,169,169,0.6)')
       .borderRadius(16)
     }
   }

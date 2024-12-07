@@ -1,17 +1,35 @@
+// 用户信息
+export interface User {
+  avatar: string
+  name: string
+  token?: string
+  introduction: string
+  note: number
+  attendance: number
+  referral: number
+  praise: number
+  studyTime?: string
+}
+
+// 笔记WaterFlow组件枚举
+export enum WaterFlowType {
+  message = 0,
+  circle = 1,
+  myNotes = 2,
+  collection = 3,
+  draft = 4
+}
+
 // 输入框枚举
-export enum Type {
+export enum ITextType {
   name = 'name',
   email = 'email',
-  birth = 'birth',
-  gender = 'gender',
-  signature = 'signature',
-  number = 'number',
   password = 'password'
 }
 
 export interface TextType {
   title: string
-  type: Type
+  type: ITextType
 }
 
 // 单个笔记所有内容包括信息
@@ -64,4 +82,9 @@ export interface IAllPublisherNotes {
    * 话题完整对象，话题Id同时也是AI的Id，会通过他来跳转AI
    */
   topic: ITopic;
+}
+
+export interface IAllCircle {
+  circleId: string
+  name: string
 }

@@ -1,5 +1,7 @@
 import { router } from '@kit.ArkUI'
 import { NotesWaterFlow, roseChart } from '../../commons/components'
+import { UserInfo } from '../../commons/utils'
+import { User, WaterFlowType } from '../../models'
 
 @Component
 export struct MinePage {
@@ -7,6 +9,10 @@ export struct MinePage {
   bottomHeight: number = 0
   @State isShow: boolean = false
   @State sheetTitle: string = ''
+  // 半模态框种类
+  @State sheetType: WaterFlowType = WaterFlowType.myNotes
+  @StorageProp(UserInfo)
+  user: User = {} as User
 
   build() {
     Scroll() {
@@ -28,57 +34,69 @@ export struct MinePage {
           })
 
           Row({ space: 13 }) {
-            Image('https://pic1.zhimg.com/v2-e5962333059d0dc857301394d30f396d_r.jpg?source=1940ef5c')
+            Image(this.user.avatar || $rawfile('other/ic_mine_avatar.svg'))
+              .alt($rawfile('other/ic_mine_avatar.svg'))
               .width(80)
               .borderRadius(40)
-            Column() {
-              Text('HUA')
-                .fontSize(23)
-                .fontWeight(900)
-                .fontColor(Color.White)
-              Text('54ahysduiadiuasd')
-                .fontWeight(700)
-                .fontColor(Color.White)
+              .onClick(() => {
+                router.pushUrl({
+                  url: 'pages/Mine/InformationEdite'
+                })
+              })
+            if (this.user.token) {
+              Column() {
+                Text(this.user.name)
+                  .fontSize(23)
+                  .fontWeight(900)
+                  .fontColor(Color.White)
+                Text(this.user.introduction)
+                  .fontWeight(700)
+                  .fontColor(Color.White)
+              }
+              .layoutWeight(1)
+              .alignItems(HorizontalAlign.Start)
+            } else {
+              Column() {
+                Text('立即登录')
+                  .fontSize(23)
+                  .fontWeight(900)
+                  .fontColor(Color.White)
+                  .onClick(() => {
+                    router.pushUrl({
+                      url: 'pages/Login/Login'
+                    })
+                  })
+              }
+              .layoutWeight(1)
+              .alignItems(HorizontalAlign.Start)
             }
-            .layoutWeight(1)
-            .alignItems(HorizontalAlign.Start)
           }
           .width('100%')
-          .onClick(() => {
-            router.pushUrl({
-              url: 'pages/Mine/InformationEdite'
-            })
-          })
 
           // 用户获赞信息
           Grid() {
             ForEach(Array.from({ length: 3 }), (item: null, index: number) => {
               GridItem() {
-                Row() {
-                  Column() {
-                    Text(index == 0 ? '100' : index == 1 ? '230' : '145')
-                      .fontSize(36)
-                      .fontWeight(900)
-                      .fontColor('rgb(255, 124, 120)')
-                    Text(index == 0 ? '获赞数' : index == 1 ? '获亮数' : '发过笔记')
-                      .fontWeight(700)
-                      .fontColor('rgb(99, 95, 113)')
-                  }
-                  .padding(15)
-
-                  if (index != 2) {
-                    Divider()
-                      .vertical(true)
-                      .color('rgb(165, 165, 165)')
-                      .width(5)
-                      .height('70%')
-                  }
+                Column() {
+                  Text(index == 0 ? '100' : index == 1 ? '230' : '145')
+                    .fontSize(36)
+                    .fontWeight(900)
+                    .fontColor('rgb(255, 124, 120)')
+                  Text(index == 0 ? '获赞数' : index == 1 ? '获亮数' : '发过笔记')
+                    .fontWeight(700)
+                    .fontColor('rgb(99, 95, 113)')
                 }
+                .padding(15)
               }
+              .border({
+                color: 'rgb(165, 165, 165)',
+                width: { right: index != 2 ? 1 : 0 }
+              })
               .onClick(() => {
                 if (index == 2) {
                   this.isShow = true
                   this.sheetTitle = '发布过的笔记'
+                  this.sheetType = WaterFlowType.myNotes
                 }
               })
             })
@@ -191,8 +209,10 @@ export struct MinePage {
                     this.isShow = true
                     if (index == 0) {
                       this.sheetTitle = '收藏'
+                      this.sheetType = WaterFlowType.collection
                     } else {
                       this.sheetTitle = '笔记保存'
+                      this.sheetType = WaterFlowType.draft
                     }
                   })
 
@@ -263,7 +283,7 @@ export struct MinePage {
       }
       .width('100%')
 
-      NotesWaterFlow()
+      NotesWaterFlow({ flowType: this.sheetType })
         .layoutWeight(1)
     }
     .width('100%')

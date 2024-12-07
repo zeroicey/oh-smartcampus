@@ -1,7 +1,7 @@
 import { SNInput, SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
 import { router } from '@kit.ArkUI';
 import { IContext, IPublisher, IPublisherData } from '../models';
-import { httpReq } from '../commons/utils';
+import { httpReq, logger } from '../commons/utils';
 import { ICircleIdParams } from '../commons/components';
 
 
@@ -10,6 +10,37 @@ import { ICircleIdParams } from '../commons/components';
 struct ShareNotes {
   @StorageProp('topHeight')
   topHeight: number = 0
+  @State publisherData: IPublisherData = {
+    circleId: '1',
+    context: {
+      pictures: [
+        'https://tse2-mm.cn.bing.net/th/id/OIP-C.5ASZMDn60QmoRWwJhfAs9AHaHa?rs=1&pid=ImgDetMain',
+        'https://bpic.588ku.com/element_origin_min_pic/19/04/09/c2927d488f5166168b85288b186333b5.jpg',
+        'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
+        'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
+        'https://img95.699pic.com/element/40159/7630.png_300.png'
+      ],
+      title: "我最帅",
+      word: "文字描述666"
+    },
+    createTime: null,
+    id: '36467884384555459937',
+    topic: {
+      id: 1,
+      name: "绪论",
+      attractTitle: "这是一个营销号标题"
+    },
+    user: {
+      uid: '1000001',
+      name: '黑夜',
+      avatar: 'https://pic1.zhimg.com/v2-e5962333059d0dc857301394d30f396d_r.jpg?source=1940ef5c',
+      introduction: '我是百变小樱，不是百变酒精assfasafaafafafaf',
+      studyProgress: 0,
+      attendance: 0,
+      referral: 0,
+      praise: 0
+    }
+  } as IPublisherData
   @State publisher: IPublisher = {} as IPublisher
   @State publishContext: IContext = {} as IContext
   @State isSend: boolean = false
@@ -20,50 +51,22 @@ struct ShareNotes {
   })
 
   async getPublisherData(params: ICircleIdParams) {
-    const res = await httpReq.request<IPublisherData>({
+    this.publisherData = await httpReq.request<IPublisherData>({
       url: '/circle/queryById',
-      // TODO
       params
     })
-    return res
+    logger.info('res--', JSON.stringify(this.publisherData))
+    this.publisher = this.publisherData.user
+    this.publishContext = this.publisherData.context
   }
 
   aboutToAppear(): void {
     // TODO
     const params = router.getParams() as ICircleIdParams
-    const res = {
-      circleId: '1',
-      context: {
-        pictures: [
-          'https://tse2-mm.cn.bing.net/th/id/OIP-C.5ASZMDn60QmoRWwJhfAs9AHaHa?rs=1&pid=ImgDetMain',
-          'https://bpic.588ku.com/element_origin_min_pic/19/04/09/c2927d488f5166168b85288b186333b5.jpg',
-          'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
-          'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
-          'https://img95.699pic.com/element/40159/7630.png_300.png'
-        ],
-        title: "我最帅",
-        word: "文字描述666"
-      },
-      createTime: null,
-      id: '36467884384555459937',
-      topic: {
-        id: 1,
-        name: "绪论",
-        attractTitle: "这是一个营销号标题"
-      },
-      user: {
-        uid: '1000001',
-        name: '黑夜',
-        avatar: 'https://pic1.zhimg.com/v2-e5962333059d0dc857301394d30f396d_r.jpg?source=1940ef5c',
-        introduction: '我是百变小樱，不是百变酒精assfasafaafafafaf',
-        studyProgress: 0,
-        attendance: 0,
-        referral: 0,
-        praise: 0
-      }
-    } as IPublisherData
-    this.publisher = res.user
-    this.publishContext = res.context
+    this.getPublisherData(params)
+    // promptAction.showToast({ message: JSON.stringify(params) })
+    // this.publisher = this.publisherData.user
+    // this.publishContext = this.publisherData.context
   }
 
   build() {
@@ -173,13 +176,13 @@ struct ShareNotes {
   @Builder
   UserTitleBuilder() {
     Row({ space: 10 }) {
-      Image('https://pic1.zhimg.com/v2-e5962333059d0dc857301394d30f396d_r.jpg?source=1940ef5c')
+      Image(this.publisher.avatar)
         .width(50)
         .borderRadius(25)
         .onClick(() => {
           this.UserInfoDialog.open()
         })
-      Text('用户001')
+      Text(this.publisher.name)
         .fontSize(24)
         .fontColor(Color.White)
         .fontWeight(700)
