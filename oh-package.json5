@@ -6,7 +6,8 @@
     "@pura/spinkit": "^1.0.4",
     "@luvi/lv-markdown-in": "^2.0.9",
     "@ohmos/calendar": "^2.1.4",
-    "@visactor/harmony-vchart": "^1.12.12"
+    "@visactor/harmony-vchart": "^1.12.12",
+    "@hw-agconnect/ui-calendar-picker": "^1.0.1"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.19",

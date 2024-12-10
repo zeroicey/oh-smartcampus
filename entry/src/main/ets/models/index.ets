@@ -1,14 +1,16 @@
 // 用户信息
 export interface User {
-  avatar: string
-  name: string
-  token?: string
-  introduction: string
-  note: number
-  attendance: number
-  referral: number
-  praise: number
-  studyTime?: string
+  address?: string;
+  avatar: string;
+  birthday: string;
+  collegeName?: null;
+  email: string;
+  introduction: string;
+  name: string;
+  phone?: null;
+  sex: number;
+  token: string;
+  uid: string;
 }
 
 // 笔记WaterFlow组件枚举

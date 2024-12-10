@@ -1,9 +1,15 @@
 import { promptAction, router } from '@kit.ArkUI'
 import { CustomNavBar, HcLoadingDialog, InputComponent } from '../../commons/components'
+import { httpReq } from '../../commons/utils'
 import { ITextType } from '../../models'
 
 interface INewPasswordParam {
+  email: string
   newPassword: string
+}
+
+interface IRouterParam {
+  email: string
 }
 
 @Entry
@@ -13,13 +19,14 @@ struct ResetPassword {
   bottomHeight: number = 0
   @StorageProp('topHeight')
   topHeight: number = 0
-  @State password: string = 'P@ssW0rd2024!'
-  @State repeatPassword: string = 'P@ssW0rd2024!'
+  @State password: string = 'Xian20031112@'
+  @State repeatPassword: string = 'Xian20031112@'
   regPassword: RegExp = new RegExp('^\\S*(?=\\S{6,})(?=\\S*\\d)(?=\\S*[A-Z])(?=\\S*[a-z])(?=\\S*[!@#$%^&*? ])\\S*$')
   dialog: CustomDialogController = new CustomDialogController({
     builder: HcLoadingDialog({ message: '请稍后...' }),
     customStyle: true
   })
+  email: string = ''
 
   async submit() {
     if (this.password == '' || !this.regPassword.test(this.password)) {
@@ -32,24 +39,30 @@ struct ResetPassword {
       promptAction.showToast({ message: this.repeatPassword == '' ? '密码不能为空' : '与输入密码不一致' })
       return
     }
-    // TODO
     this.dialog.open()
-    setTimeout(() => {
-      this.dialog.close()
-      promptAction.showToast({ message: '修改成功！' })
-      // 跳转回登录页
-      router.back(2)
-    }, 1000)
-    // await httpReq.request<null, INewPasswordParam>({
-    //   url: '/user/update/password',
-    //   method: 'post',
-    //   data: {
-    //     newPassword: this.repeatPassword
-    //   }
-    // })
-    // this.dialog.close()
-    // promptAction.showToast({ message: '修改成功！' })
-    // router.back(2)
+    // TODO
+    // setTimeout(() => {
+    //   this.dialog.close()
+    //   promptAction.showToast({ message: '修改成功！' })
+    //   // 跳转回登录页
+    //   router.back(2)
+    // }, 1000)
+    await httpReq.request<null, INewPasswordParam>({
+      url: '/user/forgotPassword',
+      method: 'post',
+      data: {
+        email: this.email,
+        newPassword: this.repeatPassword
+      }
+    })
+    this.dialog.close()
+    promptAction.showToast({ message: '修改成功！' })
+    router.back(2)
+  }
+
+  aboutToAppear(): void {
+    const params = router.getParams() as IRouterParam
+    this.email = params.email
   }
 
   build() {

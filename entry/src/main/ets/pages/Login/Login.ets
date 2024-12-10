@@ -1,6 +1,7 @@
-import { InputComponent } from '../../commons/components'
-import { ITextType } from '../../models'
-import { promptAction, router } from '@kit.ArkUI'
+import { InputComponent } from '../../commons/components';
+import { ITextType, User } from '../../models';
+import { promptAction, router } from '@kit.ArkUI';
+import { auth, httpReq } from '../../commons/utils';
 
 interface ILoginParams {
   email?: null | string;
@@ -25,8 +26,8 @@ struct Login {
   bottomHeight: number = 0
   @StorageProp('topHeight')
   topHeight: number = 0
-  @State email: string = '2759688992@qq.com'
-  @State password: string = 'Aa123456'
+  @State email: string = '2372558841@qq.com'
+  @State password: string = 'Xian20031112@'
   @State isAgree: boolean = false
   @State isLoading: boolean = false
 
@@ -49,32 +50,32 @@ struct Login {
     }
     // TODO
     this.isLoading = true
-    setTimeout(() => {
-      this.isLoading = false
-      promptAction.showToast({ message: '登陆成功' })
-      router.back()
-    }, 1000)
-    // try {
-    //   this.isLoading = true
-    //   const user = await httpReq.request<User, ILoginParams>({
-    //     url: '/user/login',
-    //     method: 'post',
-    //     data: {
-    //       email: this.email,
-    //       password: this.password,
-    //       type: 1
-    //     }
-    //   })
+    // setTimeout(() => {
     //   this.isLoading = false
-    //   // 存储用户数据
-    //   auth.setUser(user)
     //   promptAction.showToast({ message: '登陆成功' })
     //   router.back()
-    // } catch (err) {
-    //   promptAction.showToast({ message: err.errorMsg })
-    // } finally {
-    //   this.isLoading = false
-    // }
+    // }, 1000)
+    try {
+      this.isLoading = true
+      const user = await httpReq.request<User, ILoginParams>({
+        url: '/user/login',
+        method: 'post',
+        data: {
+          email: this.email,
+          password: this.password,
+          type: 1
+        }
+      })
+      this.isLoading = false
+      // 存储用户数据
+      auth.setUser(user)
+      promptAction.showToast({ message: '登陆成功' })
+      router.back()
+    } catch (err) {
+      promptAction.showToast({ message: err.errorMsg })
+    } finally {
+      this.isLoading = false
+    }
   }
 
   build() {

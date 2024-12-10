@@ -1,5 +1,6 @@
 import { promptAction, router } from '@kit.ArkUI';
 import { CustomNavBar, HcLoadingDialog, InputComponent } from '../../commons/components';
+import { httpReq } from '../../commons/utils';
 import { ITextType } from '../../models';
 
 export interface IVerifyParams {
@@ -34,35 +35,32 @@ struct Encrypted {
       return
     }
     // TODO
-    this.dialog.open()
-    setTimeout(() => {
-      promptAction.showToast({ message: '验证成功！' })
+    // 校验验证码
+    try {
+      this.dialog.open()
+      await httpReq.request<null, IVerifyParams>({
+        url: '/check/email',
+        method: 'post',
+        data: {
+          email: this.email,
+          code: this.emailNum
+        }
+      })
+      promptAction.showToast({ message: '验证成功' })
       this.dialog.close()
       router.pushUrl({
-        url: 'pages/Login/ResetPassword'
+        url: 'pages/Login/ResetPassword',
+        params: {
+          email: this.email
+        }
       })
-    }, 1000)
-    // 校验验证码
-    // try {
-    //   await httpReq.request<null, IVerifyParams>({
-    //     url: '/check/email',
-    //     method: 'post',
-    //     data: {
-    //       email: this.email,
-    //       code: this.emailNum
-    //     }
-    //   })
-    // promptAction.showToast({message:'验证成功'})
-    // this.dialog.close()
-    // } catch (err) {
-    //   // 验证码错误
-    // } finally {
-    //   // 无论是否校验成功都关闭加载弹窗
-    //   this.dialog.close()
-    // router.pushUrl({
-    //   url: 'pages/Login/ResetPassword'
-    // })
-    // }
+    } catch (err) {
+      // 验证码错误
+      promptAction.showToast({ message: err.errorMsg })
+    } finally {
+      // 无论是否校验成功都关闭加载弹窗
+      this.dialog.close()
+    }
 
   }
 

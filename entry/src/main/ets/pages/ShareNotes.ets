@@ -61,12 +61,12 @@ struct ShareNotes {
   }
 
   aboutToAppear(): void {
-    // TODO
     const params = router.getParams() as ICircleIdParams
     this.getPublisherData(params)
     // promptAction.showToast({ message: JSON.stringify(params) })
-    // this.publisher = this.publisherData.user
-    // this.publishContext = this.publisherData.context
+    // TODO 记得删除下面
+    this.publisher = this.publisherData.user
+    this.publishContext = this.publisherData.context
   }
 
   build() {

@@ -1,6 +1,6 @@
 import { router } from '@kit.ArkUI'
 import { NotesWaterFlow, roseChart } from '../../commons/components'
-import { UserInfo } from '../../commons/utils'
+import { auth, UserInfo } from '../../commons/utils'
 import { User, WaterFlowType } from '../../models'
 
 @Component
@@ -233,11 +233,13 @@ export struct MinePage {
           .width('100%')
           .justifyContent(FlexAlign.SpaceBetween)
 
-          Button('登录')
+          Button('清除用户数据')
             .onClick(() => {
-              router.pushUrl({
-                url: 'pages/Login/Login'
-              })
+              auth.setUser({} as User)
+            })
+          Button('模拟token失效')
+            .onClick(() => {
+
             })
 
           roseChart({

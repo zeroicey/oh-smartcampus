@@ -1,7 +1,6 @@
 import { CustomNavBar, HcLoadingDialog, InputComponent } from '../../commons/components';
 import { ITextType } from '../../models';
 import { promptAction, router } from '@kit.ArkUI';
-import { IVerifyParams } from './Encrypted';
 import { httpReq } from '../../commons/utils';
 
 interface IRegisterParams {
@@ -21,8 +20,6 @@ struct Registration {
   @State repeatPassword: string = 'P@ssW0rd2024!'
   @State email: string = '2372558841@qq.com'
   @State emailNum: string = '123456'
-  // 是否校验成功
-  @State isAgree: boolean = false
   regName: RegExp = new RegExp('^[a-zA-Z0-9_]{4,20}$')
   regPassword: RegExp = new RegExp('^\\S*(?=\\S{6,})(?=\\S*\\d)(?=\\S*[A-Z])(?=\\S*[a-z])(?=\\S*[!@#$%^&*? ])\\S*$')
   regEmail: RegExp =
@@ -32,24 +29,6 @@ struct Registration {
     builder: HcLoadingDialog({ message: '注册中请稍后...' }),
     customStyle: true
   })
-
-  // 校验验证码
-  async verifyEmailNum() {
-    try {
-      await httpReq.request<null, IVerifyParams>({
-        url: '/check/email',
-        method: 'post',
-        data: {
-          email: this.email,
-          code: this.emailNum
-        }
-      })
-      this.isAgree = true
-    } catch (err) {
-      // 校验失败
-      // TODO
-    }
-  }
 
   async Register() {
     if (this.name == '' || !this.regName.test(this.name)) {
@@ -76,17 +55,16 @@ struct Registration {
       promptAction.showToast({ message: this.emailNum == '' ? '验证码不正确' : '验证码格式不对' })
       return
     }
-    this.dialog.open()
     // TODO
-    setTimeout(() => {
-      this.dialog.close()
-      router.back()
-      promptAction.showToast({ message: '注册成功！' })
-    }, 1000)
-    // 先校验验证码
-    // this.verifyEmailNum()
-    // 校验成功后执行注册逻辑
-    if (this.isAgree) {
+    // this.dialog.open()
+    // setTimeout(() => {
+    //   this.dialog.close()
+    //   router.back()
+    //   promptAction.showToast({ message: '注册成功！' })
+    // }, 1000)
+    // 执行注册逻辑
+    try {
+      this.dialog.open()
       await httpReq.request<null, IRegisterParams>({
         url: '/user/register',
         method: 'post',
@@ -97,10 +75,13 @@ struct Registration {
           password: this.password
         }
       })
-      this.isAgree = false
       this.dialog.close()
       promptAction.showToast({ message: '注册成功！' })
       router.back()
+    } catch (err) {
+      promptAction.showToast({ message: err.errorMsg })
+    } finally {
+      this.dialog.close()
     }
   }
 
