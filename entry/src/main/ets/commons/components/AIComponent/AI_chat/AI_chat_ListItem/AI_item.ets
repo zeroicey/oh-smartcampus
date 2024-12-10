@@ -42,13 +42,13 @@ export struct AI_Item {
         .borderRadius(100)
         .margin({ right: 8 })
         .onAppear(() => {
-          //this.inputTxt(50, '-' + this.item.content)
+          this.inputTxt(50, '-' + this.item.content)//debug
           this.extraMessageflag++
         })
 
       Column() {
-        //lvMarkdownIn({ text: this.currentTxt })this.item.content
-        lvMarkdownIn({ text: this.item.content})
+        lvMarkdownIn({ text: this.currentTxt })//this.item.content
+        //lvMarkdownIn({ text: this.item.content})//debug
         if (this.extraMessageflag == 1) {
           Column({space:5}) {
             Divider()
@@ -64,12 +64,15 @@ export struct AI_Item {
                 .fontSize(15)
                 .fontWeight(FontWeight.Bold)
                 .fontColor(Color.White)
+                .onClick(()=>{
+
+                })
             }
             .width('100%')
             .height(25)
             .borderRadius(20)
             .backgroundColor('#9685ff')
-            Divider().width('100%')
+            // Divider().width('100%')
             // Row({ space: 5}) {
             //   Text(' 5条上下文 ')
             //     .fontSize(10)
@@ -115,6 +118,7 @@ export struct AI_Item {
                 Image($rawfile('icon/GoAwnser.png'))
                   .height(20)
                   .width(15)
+                Blank().width(5)
                 Text('关于' + this.AITopic + '的题库，快去作答吧！')
                   .fontSize(13)
                   .fontColor(Color.White)
@@ -178,25 +182,25 @@ export struct AI_Item {
     .justifyContent(FlexAlign.Start)
   }
 
-  // inputTxt(step: number, text: string): void {
-  //   //let targetTxtArray = splitAndExtract(text);//分割字符串
-  //   let targetTxtArray = text.split('')
-  //   if (this.intervalId != -1) {
-  //     clearInterval(this.intervalId)
-  //     this.intervalId = -1
-  //   }
-  //   this.intervalId = setInterval(() => {
-  //     for (let index = 0; index < this.inputStepChar; index++) {
-  //       if (this.currentProgress >= targetTxtArray.length - 1) {
-  //         clearInterval(this.intervalId)
-  //         this.extraMessageflag = 1
-  //         break
-  //       } else {
-  //         this.currentTxt += targetTxtArray[++ this.currentProgress]
-  //       }
-  //     }
-  //   }, step)
-  // }
+  inputTxt(step: number, text: string): void {
+    let targetTxtArray = splitAndExtract(text);//分割字符串
+    //let targetTxtArray = text.split('')
+    if (this.intervalId != -1) {
+      clearInterval(this.intervalId)
+      this.intervalId = -1
+    }
+    this.intervalId = setInterval(() => {
+      for (let index = 0; index < this.inputStepChar; index++) {
+        if (this.currentProgress >= targetTxtArray.length - 1) {
+          clearInterval(this.intervalId)
+          this.extraMessageflag = 1
+          break
+        } else {
+          this.currentTxt += targetTxtArray[++ this.currentProgress]
+        }
+      }
+    }, step)
+  }
 }
 
 //分割字符串

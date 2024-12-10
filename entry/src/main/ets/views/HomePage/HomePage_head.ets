@@ -1,3 +1,4 @@
+import { router } from "@kit.ArkUI"
 
 
 @Component
@@ -53,6 +54,11 @@ export struct HomePage_head {
           .height(30)
           .width(30)
           .margin({ top: 10 })
+          .onClick(()=>{
+            router.pushUrl({
+              url: 'pages/Scan'
+            })
+          })
       }
       .height(50)
       .width(50)

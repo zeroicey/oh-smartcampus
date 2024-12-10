@@ -1,6 +1,7 @@
 
 import router from '@ohos.router';
-import { roseChart } from '../../commons/components';
+import { roseChart ,ValueObjects_rose} from '../../commons/components';
+import { BarChart ,valueObjects_bar} from '../../commons/components/BarChart';
 
 @Component
 export struct Sign_LearningProgress{
@@ -21,20 +22,56 @@ export struct Sign_LearningProgress{
       Text('学习进度')
         .fontWeight(FontWeight.Bolder)
         .fontSize(35)
-      Row(){
-        roseChart({
-          dataValue: [
-            { type: '学习', value: '23' },
-            { type: '休息', value: '50' },
-            { type: '运动', value: '27' },
-          ],
-          legendPosition: 'bottom'
-        })
+      Scroll() {
+        Column({space:20}) {
+          roseChart({
+            dataValue: [
+              { type: '学习', value: '23' },
+              { type: '休息', value: '50' },
+              { type: '运动', value: '27' },
+            ],
+            legendPosition: 'bottom'
+          })
+
+
+          BarChart(
+              {
+              dataValue: [
+                {
+                  type: "Autocracies",
+                  time: "1970",
+                  value: 129
+                },
+                {
+                  type: "Autocracies",
+                  time: "1940",
+                  value: 144
+                },
+                {
+                  type: "play",
+                  time: "1930",
+                  value: 172
+                },
+                {
+                  type: "zzz",
+                  time: "1920",
+                  value: 36
+                },
+              ]
+            }
+          )
+
+          Text(
+            'aaaaaaaaaaaaaaaaaaaaaaaaaa\n' +
+              'bbbbbbbbbbbbbbbbbbbbbb\n' +
+              'cccccccccccccccc'
+          )
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+        }
       }
-      .height(400)
-      Text('aaaaaaaaaaaaaaaaaaaaaaaaaa\nbbbbbbbbbbbbbbbbbbbbbb\ncccccccccccccccc')
-        .fontSize(20)
-        .fontWeight(FontWeight.Bold)
+      .height(600)
+
     }
     .margin({top:this.aniNum})
     .height('100%')

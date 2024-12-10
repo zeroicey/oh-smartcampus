@@ -20,6 +20,8 @@ export class week {
 }
 
 
+
+@Entry
 @Component
 export struct HomePage {
   @State isShowSideBar: boolean = false
@@ -28,19 +30,22 @@ export struct HomePage {
   @State userName: string = 'Mr.Ass'
   @State userText: string = 'My name is Mr.Ass'
   @State week: Array<week> = [
+    new week(7, false, false, ''),
     new week(1, false, false, ''),
-    new week(2, false, true, ''),
+    new week(2, false, false, ''),
     new week(3, false, false, ''),
     new week(4, false, false, ''),
-    new week(5, true, false, ''),
+    new week(5, false, false, ''),
     new week(6, false, false, ''),
-    new week(7, false, false, ''),
   ] //Mock
+
   @State circle: Array<number> = [1, 2, 3, 4] //debug
+  @State provinceCountLine:Array<string> = [] //debug
 
   //@State dayBKcolor:Array<string> = ['#8d87f2','#cac7ff','#ffffff']
 
   aboutToAppear(): void {
+    this.week[new Date().getDay()].isToday = true
     colorDraw(this.week)
   }
 
@@ -50,7 +55,6 @@ export struct HomePage {
       Scroll() {
         Column() {
           Column({ space: 20 }) {
-            Blank().height(0)
 
             HomePage_head({
               isShowSideBar: $isShowSideBar,
@@ -64,12 +68,12 @@ export struct HomePage {
               week: $week
             })
 
-
             HomePage_hotCircle({
               circle: $circle
             })
 
             HomePage_InfFastLook({
+              provinceCountLine: $provinceCountLine,
               circle: $circle
             })
 
@@ -105,4 +109,5 @@ function colorDraw(arr: Array<week>) {
       arr[i].color = '#ffffff'
     }
   }
+
 }

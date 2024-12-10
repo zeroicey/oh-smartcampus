@@ -63,7 +63,7 @@ export struct HomePage_sidebar{
         .borderRadius(20)
         Blank().height('5%')
         Row(){}
-        .width('70%')
+        .width('50%')
         .height(50)
         .backgroundColor('#c4c4c4')
         .borderRadius(30)
@@ -81,7 +81,6 @@ export struct HomePage_sidebar{
       .height('100%')
       .onClick(()=>{
         if(this.isShowSideBar){
-
           this.sidebar_Animation()
           this.isShowSideBar = false
         }

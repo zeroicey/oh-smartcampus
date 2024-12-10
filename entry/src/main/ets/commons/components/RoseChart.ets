@@ -9,7 +9,7 @@ interface ItemType {
   addState(str: string): void;
 }
 
-export interface ValueObjects {
+export interface ValueObjects_rose {
   type: string; //名称
   value: string; //占比（百分比，精确到小数点后两位）
 }
@@ -18,12 +18,13 @@ export interface ValueObjects {
 export struct roseChart {
   @Prop title: string = '' //标题内容
   //可视化选择
-  @Prop dataValue: Array<ValueObjects> = [] //获取父组件传递过来的图标数据
+  @Prop dataValue: Array<ValueObjects_rose> = [] //获取父组件传递过来的图标数据
   @Prop legendPosition: string = 'bottom' //图例位置（L，R，T，B）
   //@Prop isTitleVisible: boolean = false//标题
   //@Prop isContentVisible: boolean = true//中心标题内容
   //@Prop isLegendVisible: boolean = false//图例
   @State spec: Record<string, string | ESObject> = {
+  'color':['#ff89af','#f0cc18','#f69a18'],
   'type': 'rose',
   'data': {
     values: this.dataValue
@@ -33,12 +34,16 @@ export struct roseChart {
   "categoryField": "type",
   "valueField": "value",
   "seriesField": "type",
+  'legends': {
+    "interactive":false
+  },
   'label': {
     'visible': true,
     'layout': ({
       'tangentConstraint': false
     }) as ESObject
-  }
+  },
+
 };
   // @State spec: Record<string, string | ESObject> = {
   //   'type': 'rose',
@@ -143,7 +148,7 @@ export struct roseChart {
       Column() {
         VChart({
           spec: this.spec,
-          w: 300,
+          w: 400,
           h: 300,
           onChartInitCb: (vchart) => {
             return;
@@ -163,14 +168,14 @@ export struct roseChart {
       }
       .width('100%')
     }
-    .height('100%')
+    .height(300)
   }
 }
 
 
 //数据示例方法
-export function getData(): Array<ValueObjects> {
-  const data: Array<ValueObjects> = [
+export function getData(): Array<ValueObjects_rose> {
+  const data: Array<ValueObjects_rose> = [
     { type: 'oxygen', value: '46.60' },
     { type: 'silicon', value: '27.72' },
     { type: 'aluminum', value: '8.13' },

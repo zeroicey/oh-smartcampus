@@ -12,6 +12,7 @@ export struct HomePage_hotCircle {
         .width('90%')
 
       Row() {
+        Blank().width(10)
         ForEach(this.circle, (item: number, index: number) => {
           Column() {
             Image($rawfile('other/Mock/Enpty.png'))
@@ -28,6 +29,6 @@ export struct HomePage_hotCircle {
     .borderRadius(25)
     .width('100%')
     .height('13%')
-    .backgroundColor('#c4c4c4')
+    .backgroundColor('#ffc1c1')
   }
 }

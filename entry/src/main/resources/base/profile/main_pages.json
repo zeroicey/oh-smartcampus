@@ -8,6 +8,11 @@
     "pages/Login/Encrypted",
     "pages/Mine/InformationEdite",
     "pages/InCircleContent",
-    "pages/Sign"
+    "pages/Sign",
+    "pages/AINote",
+    "pages/AIChat",
+    "pages/EditNote",
+    "pages/AdmissionsCounseling",
+    "pages/Scan"
   ]
 }

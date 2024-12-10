@@ -10,8 +10,8 @@ export struct OperateBox {
   @Link isVisible_head: boolean
   @Link isVisible_CheckBox:boolean
   @Link ChatAIObj:Array<Message>
-  @State ObjString: string =JSON.stringify(this.ChatAIObj)
-  //@Link chatArray: Array<Message>
+  //@Link ObjString: string
+  @Link chatArray: Array<Message>
   build() {
       Row({ space: 35 }) {
         Blank().width(15)
@@ -48,7 +48,8 @@ export struct OperateBox {
             router.pushUrl({
               url: 'pages/AINote',
               params: {
-                chatArray_string:this.ObjString
+                //chatArray_string:this.ObjString,
+                chatArray:this.chatArray
               }
             })
           } else {

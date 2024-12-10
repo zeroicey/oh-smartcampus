@@ -7,23 +7,19 @@ export struct HomePage_sign{
     Stack() { //打卡及ai
       Image($rawfile('other/card/homePageCard.png'))
         .width('100%')
-        .height(200)
+        .height(220)
+
       Column() {
         Row() {
           Blank().width(12)
-          Text('AI')
-            .fontColor(Color.Black)
-            .backgroundColor(Color.White)
-            .fontWeight(FontWeight.Bolder)
-            .fontSize(25)
+          Image($rawfile('icon/paw.png'))
             .height(40)
             .width(40)
-            .textAlign(TextAlign.Center)
-            .borderRadius(20)
-          Blank().width('8%')
 
-          Row({ space: 3 }) {
-            Blank().width(4)
+          Blank().width('5%')
+
+          Row({ space: 7 }) {
+            Blank().width(5)
             ForEach(this.week, (item: week, index: number) => {
               Row() {
                 Text(item.day.toString())
@@ -38,11 +34,11 @@ export struct HomePage_sign{
               }
             })
           }
-          .width('75%')
+          .width('80%')
           .height('80%')
           .backgroundColor('#c4c4c4')
-          .margin({ bottom: 15, right: 15 })
-          .borderRadius(20)
+          .margin({bottom:15, right: 15 })
+          .borderRadius(25)
           .onClick(()=>{
             console.log('aaaaaa')
             router.pushUrl({
@@ -52,17 +48,30 @@ export struct HomePage_sign{
         }
         //.backgroundColor(Color.Pink)
         .width('100%')
-        .height('30%')
+        .height('32%')
+        .backgroundColor(Color.Transparent)
 
         Column() {
-
+          Column(){
+            Image($rawfile('other/card/cardFace.png'))//debug
+              .height(90)
+              .width(117)
+              .align(Alignment.Center)
+              .margin({top:25})
+          }
+          .width('90%')
+          .height(130)
+          //.backgroundColor(Color.Pink)//debug
+          .borderRadius(25)
         }
-        .width('100%')
         .height('70%')
+
+
 
         //.backgroundColor(Color.Blue).opacity(0.2)//debug
       }
     }
-    .height('27%')
+    .height('30%')
+
   }
 }

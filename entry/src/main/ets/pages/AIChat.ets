@@ -16,6 +16,11 @@ import { UserItem } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_Lis
 import { AI_Item } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/AI_item';//AI聊天项
 import { TypeIn_box } from 'ets/commons/components/AIComponent/AI_chat/TypeIn_box'//底部输入框
 import { OperateBox } from 'ets/commons/components/AIComponent/AI_chat/Operate_box'//底部操作框
+import { KeepAIChat,KeepAIChatResponse } from '../models/tempModel/Interface/KeepAIChat';
+import { getToken } from '../models/tempModel/DataModel/GetToken';
+import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
+
+
 //import { UploadWindow } from 'ets/components/AI_chat/Upload_window'//上传窗口组件
 //import { chatData ,DataSet,returnData} from 'ets/model/ChatData';
 
@@ -24,12 +29,14 @@ import { OperateBox } from 'ets/commons/components/AIComponent/AI_chat/Operate_b
 @Component
 export struct Chat {
 
-  //@State firstMessage: TopicAI = (router.getParams() as Record<number, Object>)['item'] as TopicAI
-  @State firstMessage: TopicAI = new TopicAI(1, 'java', 'java', 'avator', '1', 'java', 'java', 1)//Mock
+  @State firstMessage: TopicAI = (router.getParams() as Record<number, Object>)['item'] as TopicAI
+  //@State firstMessage: TopicAI = new TopicAI(1, 'java', 'java', 'avator', '1', 'java', 'java', 1)//Mock
   @State firstText: string = this.firstMessage.title//话题的ai介绍
   @State time: string = new Date().toLocaleString()//get//debug//这里目前引用当前时间
   @State Array: Array<Message> = []//渲染对象数组
   @State message: string = ''//输入框输入的内容
+  @State AccessToken: string = ''//token
+  // @State markdownReturn: string = ''//返回的markdown生成结果
   @StorageLink('userAvatar')
   pic:Resource|image.PixelMap = $rawfile('other/Mock/Enpty.png')//get
   //隐藏控制
@@ -75,6 +82,9 @@ export struct Chat {
     })
   }
 
+  aboutToDisappear(): void {
+    //this.httpMarkdownCrater_axios()
+  }
   build() {
     Stack() {
       Column() {
@@ -229,8 +239,9 @@ export struct Chat {
                 checkCount: $checkCount,
                 isVisible_head: $isVisible_head,
                 isVisible_CheckBox: $isVisible_CheckBox,
-                ChatAIObj: $Array
-                //chatArray: $chatArray
+                ChatAIObj: $Array,
+                //ObjString: $markdownReturn,
+                chatArray: $chatArray
               })
             }
             .margin({
@@ -304,38 +315,42 @@ export struct Chat {
       })
   }
 
-  // async httpSubmit_axios(chatArray:Array<Message>){
-  //   //console.log('GOT_message:  '+message)//
-  //   let obj: chatData = new chatData(
-  //     'heiye',
-  //     1,
-  //     new DataSet(
-  //       '1',
-  //       '1000001',
-  //       this.firstMessage.id,
-  //       chatArray
-  //     )
-  //   )
-  //
-  //   //console.log('GOT_RUN_HERE1')//
-  //   axios({
-  //     method: 'POST',
-  //     url: "http://127.0.0.1:4523/m1/4414785-4059781-default/ai/save",
-  //     data: obj,
-  //     headers: {
-  //       'Authorization': 'Bearer fastgpt-08KBc24GnU0hWrsb0I6Mpcs918z9fqkIW0Wp1ULuzoGCBKBTrIINyahBVN2u5kz',
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //     .then((response: AxiosResponse<returnData>) => {
-  //       //console.log('GOT_RUN_HERE2') //
-  //       let Return: returnData = response.data
-  //       console.log("Return.word:"+Return.word+'\n'+"Return.word:"+Return.word)
-  //     })
-  //     .catch((error: BusinessError) => {
-  //       console.error('Request failed:', error);
-  //     })
-  // }
+
+  async httpKeepChat_axios(type:number){
+    let Obj:Array<Message> = []
+    if(type==1){
+      Obj = this.chatArray//选择聊天记录
+    } else if(type == 2) {
+      Obj = this.Array//所有聊天记录
+    }
+    axios({
+      method: 'POST',
+      url: "http://117.72.36.183:3000/api/v1/chat/completions",
+      data: {
+        name:'heiye',
+        type:1,
+        DataSet:new DataSet(
+          '',//id
+          '',//uid
+          1,//topicId
+          Obj
+        )
+      } as KeepAIChat,
+      headers: {
+        'Authorization':'Bearer' + await getToken()
+      }
+    })
+      .then((response: AxiosResponse<KeepAIChatResponse>) => {
+        //TODO
+        console.log('word:  '+response.data.word)
+        console.log('img:  '+response.data.img)
+    })
+      .catch((error: BusinessError) => {
+        console.error('Request failed:', error);
+      })
+  }
+
+
 
 }
 

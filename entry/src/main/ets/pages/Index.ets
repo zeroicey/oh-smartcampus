@@ -2,6 +2,7 @@ import { auth } from '../commons/utils/Auth';
 import { HomePage } from './HomePage';
 import { KnowledgeSpherePage } from './KnowledgeSpherePage';
 import { MinePage } from './Mine/MinePage';
+import { TopicListPage } from './TopicListPage';
 
 interface TabItem {
   icon: Resource;
@@ -67,7 +68,7 @@ struct Index {
           if (index == 0) {
             HomePage()
           } else if (index == 1) {
-            Text('AI对话')
+            TopicListPage()
           } else if (index == 2) {
             KnowledgeSpherePage({ activeIndex: this.activeIndex })
           } else {

@@ -1,3 +1,4 @@
+import { lvMarkdownIn } from '@luvi/lv-markdown-in';
 import router from '@ohos.router';
 import {SpinKit,SpinType} from '@pura/spinkit'
 @Component
@@ -5,20 +6,22 @@ export struct AINote_content {
   @Link isLoading:boolean
   @Link Text:string
   @Link TargetAI_topic:string
-
-  animation_Tail_appear(): void {
-    animateTo({ duration: 500, curve: Curve.Smooth }, () => {
-      this.isLoading = false
-    })
-  }
+  @Link ImageUrl:string
+  // animation_Tail_appear(): void {
+  //   animateTo({ duration: 500, curve: Curve.Smooth }, () => {
+  //     this.isLoading = false
+  //   })
+  // }
 
     build() {
       Scroll() {
         Column() {
           Column() {
             if (!this.isLoading) {
-              Image($rawfile('other/Mock/Enpty.png'))
+              Image(this.ImageUrl)
                 .borderRadius(25)
+                .height('100%')
+                .width('100%')
             } else {
               Column() {
                 Blank().height('45%')
@@ -36,10 +39,7 @@ export struct AINote_content {
           .borderRadius(25)
 
           Blank().height(50)
-          Text(this.Text)
-            .fontSize(20)
-            .fontWeight(FontWeight.Bold)
-            .fontColor(Color.White)
+          lvMarkdownIn({ text: this.Text})
           Blank().height(25)
           Row() {
             Image($rawfile('icon/JumpToAI.png'))
@@ -67,4 +67,5 @@ export struct AINote_content {
       .height('75%')
       .width('100%')
     }
+
 }

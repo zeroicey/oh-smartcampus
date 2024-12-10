@@ -9,7 +9,6 @@ export struct UserItem {
   @Prop checkAll: boolean = false
   build() {
     Row() {
-
       Row() {
         if (this.isVisible_CheckBox === false) {
           Checkbox({ name: 'checkbox', group: 'checkboxGroup' })
@@ -45,9 +44,9 @@ export struct UserItem {
           .width(boxLength(this.item.content))
           .height('auto')
           .fontSize(20)
-          .fontColor('#353341')
+          .fontColor(Color.Black)
           .fontWeight(FontWeight.Bold)
-          .backgroundColor('#9893b1')
+          .backgroundColor('#e1fbf8')
           .padding(15.5)
           .borderRadius(20)
 
