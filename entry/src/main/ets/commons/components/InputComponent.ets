@@ -84,19 +84,6 @@ export struct InputComponent {
                       promptAction.showToast({ message: this.value == '' ? '请输入邮箱' : '邮箱格式不对' })
                       return
                     }
-                    // TODO
-                    // setTimeout(() => {
-                    //   promptAction.showToast({ message: '发送成功' })
-                    //   this.isWaiting = true
-                    //   const timeId = setInterval(() => {
-                    //     --this.waitTime
-                    //     if (this.waitTime == 0) {
-                    //       clearTimeout(timeId)
-                    //       this.isWaiting = false
-                    //       this.waitTime = 3
-                    //     }
-                    //   }, 1000)
-                    // }, 1000)
                     this.getEmailNum()
                   })
               } else {

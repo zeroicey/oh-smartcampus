@@ -1,6 +1,6 @@
 import { InputComponent } from '../../commons/components'
-import { httpReq } from '../../commons/utils'
-import { ITextType } from '../../models'
+import { auth, httpReq, UserInfo } from '../../commons/utils'
+import { ITextType, User } from '../../models'
 import { IVerifyParams } from '../../pages/Login/Encrypted'
 import { promptAction } from '@kit.ArkUI'
 
@@ -12,11 +12,15 @@ export interface IChangeEmail {
 @CustomDialog
 export struct ChangeEmailDialog {
   controller: CustomDialogController
-  @Link email: string
+  @StorageProp(UserInfo)
+  user: User = {} as User
+  @State email: string = this.user.email
   @State emailNum: string = ''
   @State newEmail: string = ''
   // 是否点击下一步
   @State isChange: boolean = false
+  updateInfo = (newEmail:string) => {
+  }
 
   async verify() {
     try {
@@ -24,12 +28,13 @@ export struct ChangeEmailDialog {
         url: '/check/email',
         method: 'post',
         data: {
-          email: this.newEmail,
+          email: this.user.email,
           code: this.emailNum
         }
       })
-      promptAction.showToast({ message: '验证成功' })
       this.isChange = true
+      this.emailNum = ''
+      promptAction.showToast({ message: '验证成功' })
     } catch (err) {
       // 验证码错误
       promptAction.showToast({ message: err.errorMsg })
@@ -37,20 +42,26 @@ export struct ChangeEmailDialog {
   }
 
   async changeEmail() {
-    await httpReq.request<null, IChangeEmail>({
-      url: '/user/update/email',
-      method: 'post',
-      headers: {
-        'uid': '1000001'
-      },
-      data: {
-        email: this.newEmail,
-        code: this.emailNum
-      }
-    })
-    this.email = this.newEmail
-    promptAction.showToast({ message: '换绑成功！' })
-    this.controller.close()
+    try {
+      await httpReq.request<null, IChangeEmail>({
+        url: '/user/update/email',
+        method: 'post',
+        headers: {
+          'uid': this.user.uid
+        },
+        data: {
+          email: this.newEmail,
+          code: this.emailNum
+        }
+      })
+      this.user.email = this.newEmail
+      // 更新用户数据
+      auth.setUser(this.user)
+      promptAction.showToast({ message: '换绑成功！' })
+      this.controller.close()
+    } catch (err) {
+      promptAction.showToast({ message: err.errorMsg })
+    }
   }
 
   build() {
@@ -76,12 +87,10 @@ export struct ChangeEmailDialog {
           if (!this.isChange) {
             // 校验验证码
             this.verify()
-            this.isChange = true
           } else {
             // 执行改绑操作
             this.changeEmail()
-            this.email = this.newEmail
-            this.controller.close()
+            this.updateInfo(this.newEmail)
           }
         })
     }

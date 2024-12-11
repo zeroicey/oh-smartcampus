@@ -40,13 +40,6 @@ struct ResetPassword {
       return
     }
     this.dialog.open()
-    // TODO
-    // setTimeout(() => {
-    //   this.dialog.close()
-    //   promptAction.showToast({ message: '修改成功！' })
-    //   // 跳转回登录页
-    //   router.back(2)
-    // }, 1000)
     await httpReq.request<null, INewPasswordParam>({
       url: '/user/forgotPassword',
       method: 'post',

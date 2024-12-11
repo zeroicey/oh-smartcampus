@@ -2,6 +2,8 @@ import { router } from '@kit.ArkUI'
 import { NotesWaterFlow, roseChart } from '../../commons/components'
 import { auth, UserInfo } from '../../commons/utils'
 import { User, WaterFlowType } from '../../models'
+import { Avatar } from '../../views/MinePage/Avatar'
+import { MineStudyTime } from '../../views/MinePage/MineStudyTime'
 
 @Component
 export struct MinePage {
@@ -33,45 +35,8 @@ export struct MinePage {
             })
           })
 
-          Row({ space: 13 }) {
-            Image(this.user.avatar || $rawfile('other/ic_mine_avatar.svg'))
-              .alt($rawfile('other/ic_mine_avatar.svg'))
-              .width(80)
-              .borderRadius(40)
-              .onClick(() => {
-                router.pushUrl({
-                  url: 'pages/Mine/InformationEdite'
-                })
-              })
-            if (this.user.token) {
-              Column() {
-                Text(this.user.name)
-                  .fontSize(23)
-                  .fontWeight(900)
-                  .fontColor(Color.White)
-                Text(this.user.introduction)
-                  .fontWeight(700)
-                  .fontColor(Color.White)
-              }
-              .layoutWeight(1)
-              .alignItems(HorizontalAlign.Start)
-            } else {
-              Column() {
-                Text('立即登录')
-                  .fontSize(23)
-                  .fontWeight(900)
-                  .fontColor(Color.White)
-                  .onClick(() => {
-                    router.pushUrl({
-                      url: 'pages/Login/Login'
-                    })
-                  })
-              }
-              .layoutWeight(1)
-              .alignItems(HorizontalAlign.Start)
-            }
-          }
-          .width('100%')
+          // 用户头像区域
+          Avatar({ user: this.user })
 
           // 用户获赞信息
           Grid() {
@@ -109,68 +74,7 @@ export struct MinePage {
           .height(90)
 
           // 学习时长
-          Row() {
-            Column({ space: 12 }) {
-              Text() {
-                Span('学习时长')
-                  .fontWeight(900)
-                  .fontColor(Color.White)
-                ImageSpan($rawfile('icon/duration.png'))
-                  .width(17)
-              }
-
-              Text() {
-                Span('138')
-                  .fontWeight(700)
-                  .fontColor(Color.Black)
-                  .fontSize(20)
-                Span('小时')
-                  .fontWeight(600)
-                  .fontColor(Color.White)
-                Span('43')
-                  .fontWeight(700)
-                  .fontColor(Color.Black)
-                  .fontSize(24)
-                Span('分钟')
-                  .fontWeight(600)
-                  .fontColor(Color.White)
-              }
-            }
-            .height(90)
-            .width(150)
-            .padding(10)
-            .backgroundColor('rgb(184, 181, 246)')
-            .borderRadius(30)
-            .justifyContent(FlexAlign.Center)
-
-            Column() {
-              Text() {
-                Span('连续打卡天数')
-                  .fontWeight(900)
-                  .fontColor(Color.White)
-                ImageSpan($rawfile('icon/clockIn.png'))
-                  .width(17)
-              }
-
-              Text() {
-                Span('23')
-                  .fontWeight(700)
-                  .fontColor(Color.Black)
-                  .fontSize(48)
-                Span('天')
-                  .fontWeight(600)
-                  .fontColor(Color.White)
-              }
-            }
-            .height(90)
-            .width(150)
-            .padding(10)
-            .backgroundColor('rgb(184, 181, 246)')
-            .borderRadius(30)
-            .justifyContent(FlexAlign.SpaceAround)
-          }
-          .width('100%')
-          .justifyContent(FlexAlign.SpaceAround)
+          MineStudyTime()
         }
         .width('100%')
         .padding({ left: 30, right: 30 })
@@ -239,7 +143,8 @@ export struct MinePage {
             })
           Button('模拟token失效')
             .onClick(() => {
-
+              this.user.token += 'xx'
+              auth.setUser(this.user)
             })
 
           roseChart({

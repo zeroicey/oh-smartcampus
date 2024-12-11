@@ -7,6 +7,7 @@ import { FormData } from '@ohos/axios'
 import { promptAction } from '@kit.ArkUI'
 import { UICalendarPicker } from '@hw-agconnect/ui-calendar-picker'
 import { ChangeEmailDialog } from '../../views/InformationEdite/ChangeEmailDialog'
+import { image } from '@kit.ImageKit'
 
 interface IUpdateInfoParams {
   name?: string
@@ -22,18 +23,22 @@ export struct InformationEdite {
   topHeight: number = 0
   @StorageProp(UserInfo)
   user: User = {} as User
-  @State name: string = ''
-  @State birth: string = ''
-  @State email: string = ''
-  @State gender: number = 1
-  @State sign: string = ''
+  @State name: string = this.user.name
+  @State birth: string = this.user.birthday
+  @State email: string = this.user.email
+  @State gender: number = this.user.sex
+  @State sign: string = this.user.introduction
   regName: RegExp = new RegExp('^[a-zA-Z0-9_]{4,20}$')
   dialog: CustomDialogController = new CustomDialogController({
     builder: HcLoadingDialog({ message: '更新中请稍后...' }),
     customStyle: true
   })
   changeEmailDialog: CustomDialogController = new CustomDialogController({
-    builder: ChangeEmailDialog({ email: this.email }),
+    builder: ChangeEmailDialog({
+      updateInfo: (newEmail: string) => {
+        this.email = newEmail
+      }
+    }),
     customStyle: true
   })
 
@@ -54,24 +59,35 @@ export struct InformationEdite {
     // ------------------------------------------------
     if (uri) {
       this.dialog.open()
-      // 将图片存储到沙箱环境下
-      // 打开文件
+      // 根据相册图片生成ImageSource对象
       const file = fileIo.openSync(uri, fileIo.OpenMode.READ_ONLY)
-      // 生成完整的图片路径
-      const filePath = getContext(this).cacheDir + '/' + file.name
-      // 拷贝图片  file.fd-->文件的标识符
-      fileIo.copyFileSync(file.fd, filePath)
-      // 关闭图片
-      fileIo.closeSync(file.fd)
-      // ------------------------------------------------
+      const imageSource = image.createImageSource(file.fd)
+      // 使用packing压缩图片，生成二进制图片数据
+      const imagePacker = image.createImagePacker()
+      const arrayBuffer = await imagePacker.packing(imageSource, {
+        format: 'image/jpeg',
+        quality: 70
+      })
+      // 存储到沙箱环境目录
+      const newFilePath = getContext(this).cacheDir + '/' + Date.now() + '.jpg'
+      const newFile = fileIo.openSync(newFilePath, fileIo.OpenMode.CREATE | fileIo.OpenMode.READ_WRITE)
+      fileIo.writeSync(newFile.fd, arrayBuffer)
+      logger.info('压缩后的图片大小', fileIo.statSync(newFile.fd).size.toString())
+      fileIo.closeSync(newFile.fd)
       // 创建formData对象---用来装载图片
       const formData = new FormData()
-      formData.append('file', `internal://cache/${file.name}`)
-      // TODO
-      setTimeout(() => {
-        this.dialog.close()
-        promptAction.showToast({ message: '更新成功' })
-      }, 1000)
+      formData.append('file', `internal://cache/${newFile.name}`)
+      // 提交头像文件
+      this.user.avatar = await httpReq.request<string>({
+        url: '/file/upload',
+        method: 'post',
+        data: formData,
+        headers: { 'Content-Type': 'multipart/form-data' },
+        context: getContext(this)
+      })
+      // 并更新user数据
+      auth.setUser(this.user)
+      this.dialog.close()
     }
   }
 
@@ -85,7 +101,6 @@ export struct InformationEdite {
     }
     this.user.name = this.name
     this.user.birthday = this.birth
-    this.user.email = this.email
     this.user.sex = this.gender
     this.user.introduction = this.sign
     this.dialog.open()
@@ -93,20 +108,15 @@ export struct InformationEdite {
     await httpReq.request<null, IUpdateInfoParams>({
       url: '/user/update/info',
       method: 'post',
+      headers: {
+        'uid': this.user.uid
+      },
       data: this.user
     })
     // 在更新本地数据
     auth.setUser(this.user)
     this.dialog.close()
     promptAction.showToast({ message: '修改成功！' })
-  }
-
-  aboutToAppear(): void {
-    this.name = this.user.name
-    this.birth = this.user.birthday
-    this.email = this.user.email
-    this.gender = this.user.sex
-    this.sign = this.user.introduction
   }
 
   build() {
@@ -118,12 +128,15 @@ export struct InformationEdite {
         }
       })
 
-      Image('https://pic1.zhimg.com/v2-e5962333059d0dc857301394d30f396d_r.jpg?source=1940ef5c')
+      Image(this.user.avatar || $rawfile('other/ic_mine_avatar.svg'))
         .width(125)
+        .aspectRatio(1)
         .borderRadius(50)
         .margin({ bottom: 20, top: 24 })
-        .onClick(() => {
-          this.updateAvatar()
+        .onClick(async () => {
+          await this.updateAvatar()
+          // 再提交用户数据给后台
+          await this.updateUserInfo()
         })
 
       Column() {

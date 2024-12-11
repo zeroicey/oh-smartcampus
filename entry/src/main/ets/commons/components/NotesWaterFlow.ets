@@ -22,6 +22,7 @@ export interface ICircleIdParams {
 
 @Component
 export struct NotesWaterFlow {
+  // 判断请求是属于哪种类型
   @Prop flowType: WaterFlowType
   @Prop topicId: number
   @Prop circleId: string
@@ -240,30 +241,30 @@ export struct NotesWaterFlow {
   ]
   @State isLoading: boolean = false
 
-  async getInCircleContent() {
+  async getInCircleContent(flowType: WaterFlowType) {
     this.isLoading = true
     this.list = await httpReq.request<IAllPublisherNotes[]>({
       url: '/circle/queryBatch',
       params: {
         // TODO
-        circleId: this.circleId,
+        circleId: flowType == WaterFlowType.circle ? this.circleId : '5',
         page: this.page.toString(),
         size: '10',
-        topicId: this.topicId
+        topicId: flowType == WaterFlowType.circle ? this.topicId : '0'
       } as IInCircleContentRes
     })
     this.isLoading = false
     // logger.info(JSON.stringify(this.flowList))
   }
 
-  aboutToAppear(): void {
+  aboutToAppear() {
     // TODO
     if (this.flowType == WaterFlowType.message) {
       promptAction.showToast({ message: '资讯' })
-      // this.getInCircleContent()
+      this.getInCircleContent(this.flowType)
     } else if (this.flowType == WaterFlowType.circle) {
       promptAction.showToast({ message: '知识圈' })
-      // this.getInCircleContent()
+      this.getInCircleContent(this.flowType)
     } else if (this.flowType == WaterFlowType.myNotes) {
       promptAction.showToast({ message: '笔记' })
       // this.getInCircleContent()

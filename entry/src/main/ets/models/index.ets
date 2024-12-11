@@ -15,11 +15,11 @@ export interface User {
 
 // 笔记WaterFlow组件枚举
 export enum WaterFlowType {
-  message = 0,
-  circle = 1,
-  myNotes = 2,
-  collection = 3,
-  draft = 4
+  message = 0, //资讯
+  circle = 1, //知识圈
+  myNotes = 2, //发布的笔记
+  collection = 3, //收藏的笔记
+  draft = 4 //草稿
 }
 
 // 输入框枚举
