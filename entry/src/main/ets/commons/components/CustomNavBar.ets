@@ -42,7 +42,7 @@ export struct CustomNavBar {
       Blank()
       if (this.showRightIcon) {
         Image(this.rightIcon)
-          .width(40)
+          .width(30)
           .onClick(() => {
             this.onclick()
           })

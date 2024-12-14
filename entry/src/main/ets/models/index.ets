@@ -90,3 +90,20 @@ export interface IAllCircle {
   circleId: string
   name: string
 }
+
+// 根据科目id获取章节
+export interface IChapter {
+  id: number; //章节id
+  name: string; //章节名称
+  questionNum: number; //题目数量
+}
+
+// 每个章节对应的题目
+export interface ISubject {
+  id: number, //题目id
+  chapterId: string, //章节id
+  content: string, //题干
+  answer: string, //答案
+  explanation: string, //解析
+  optionsList: string[] //选项
+}

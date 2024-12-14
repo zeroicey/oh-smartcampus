@@ -39,7 +39,8 @@ export struct InformationEdite {
         this.email = newEmail
       }
     }),
-    customStyle: true
+    customStyle: true,
+    maskColor: '#4dcfcccc'
   })
 
   // 更新头像

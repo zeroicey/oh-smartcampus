@@ -1,4 +1,4 @@
-import { NotesWaterFlow } from '../commons/components'
+import { FilterSheet, NotesWaterFlow } from '../commons/components'
 import { httpReq } from '../commons/utils'
 import { ITopic, WaterFlowType } from '../models'
 import { router } from '@kit.ArkUI'
@@ -170,60 +170,15 @@ export struct InCircleContent {
   // 筛选半模态框
   @Builder
   FilterSheetBuilder() {
-    Column() {
-      Text('频道')
-        .fontSize(24)
-        .fontWeight(700)
-        .fontColor(Color.White)
-        .width('100%')
-        .margin({ bottom: 19, top: 40 })
-      Scroll() {
-        Column() {
-          Flex({ wrap: FlexWrap.Wrap }) {
-            ForEach(this.topicList, (item: ITopic, index: number) => {
-              Text(item.name)
-                .height(40)
-                .constraintSize({ minWidth: 75 })
-                .borderRadius(20)
-                .backgroundColor(this.activeIndex == index ? Color.Pink : Color.White)
-                .textAlign(TextAlign.Center)
-                .margin({ right: 14, bottom: 15 })
-                .padding({ left: 10, right: 10 })
-                .onClick(() => {
-                  this.activeIndex = index
-                  this.tabControl.changeIndex(this.activeIndex)
-                  this.isShow = false
-                })
-            })
-          }
-          .margin({ bottom: 64 })
-
-          Row() {
-            Text('点击进入知识圈频道')
-              .fontSize(24)
-              .fontWeight(700)
-              .width('100%')
-              .textAlign(TextAlign.Center)
-              .fontColor(Color.White)
-              .margin({ bottom: this.bottomHeight })
-          }
-        }
-        .width('100%')
-        .padding({ bottom: 40 })
-        .borderColor(Color.Blue)
+    FilterSheet({
+      title: '频道',
+      activeIndex: this.activeIndex,
+      list: this.topicList,
+      onclick: (index: number) => {
+        this.activeIndex = index
+        this.tabControl.changeIndex(this.activeIndex)
+        this.isShow = false
       }
-      .width('100%')
-      .layoutWeight(1)
-      .scrollBar(BarState.Off)
-      .align(Alignment.Top)
-    }
-    .width('100%')
-    .height('100%')
-    .backgroundColor('rgb(53, 50, 66)')
-    .padding({
-      left: 30,
-      right: 30,
-      bottom: this.bottomHeight
     })
   }
 }

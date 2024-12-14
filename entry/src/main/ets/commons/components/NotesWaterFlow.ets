@@ -24,8 +24,11 @@ export interface ICircleIdParams {
 export struct NotesWaterFlow {
   // 判断请求是属于哪种类型
   @Prop flowType: WaterFlowType
+  // 话题id
   @Prop topicId: number
+  // 知识圈id
   @Prop circleId: string
+  // 请求页码
   @State page: number = 1
   @State list: IAllPublisherNotes[] = [
     {
@@ -239,6 +242,7 @@ export struct NotesWaterFlow {
       }
     }
   ]
+  // 是否处在加载中
   @State isLoading: boolean = false
 
   async getInCircleContent(flowType: WaterFlowType) {

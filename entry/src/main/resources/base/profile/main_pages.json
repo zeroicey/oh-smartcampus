@@ -13,6 +13,8 @@
     "pages/AIChat",
     "pages/EditNote",
     "pages/AdmissionsCounseling",
-    "pages/Scan"
+    "pages/Scan",
+    "pages/BrushProblem",
+    "pages/Answer"
   ]
 }

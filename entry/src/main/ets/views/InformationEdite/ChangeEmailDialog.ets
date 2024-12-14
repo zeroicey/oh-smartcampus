@@ -19,7 +19,7 @@ export struct ChangeEmailDialog {
   @State newEmail: string = ''
   // 是否点击下一步
   @State isChange: boolean = false
-  updateInfo = (newEmail:string) => {
+  updateInfo = (newEmail: string) => {
   }
 
   async verify() {
@@ -65,43 +65,55 @@ export struct ChangeEmailDialog {
   }
 
   build() {
-    Column({ space: 30 }) {
-      Text('电子邮箱改绑')
-        .fontSize(36)
-        .fontWeight(700)
-        .fontColor(Color.White)
-      if (!this.isChange) {
-        InputComponent({ title: '请输入您的邮箱', type: ITextType.email, value: this.email })
-      } else {
-        InputComponent({ title: '新的邮箱', type: ITextType.email, value: this.newEmail })
+    Stack() {
+      Column() {
+
       }
-      InputComponent({ title: '邮箱验证码', value: this.emailNum })
-      Button(!this.isChange ? '下一步' : '完成')
-        .width(150)
-        .height(50)
-        .fontColor(Color.White)
-        .fontSize(24)
-        .fontWeight(700)
-        .backgroundColor('rgb(55, 226, 204)')
-        .onClick(() => {
-          if (!this.isChange) {
-            // 校验验证码
-            this.verify()
-          } else {
-            // 执行改绑操作
-            this.changeEmail()
-            this.updateInfo(this.newEmail)
-          }
-        })
+      .width('100%')
+      .height('100%')
+      .blur(20)
+      .onClick(() => {
+        this.controller.close()
+      })
+
+      Column({ space: 30 }) {
+        Text('电子邮箱改绑')
+          .fontSize(36)
+          .fontWeight(700)
+          .fontColor(Color.White)
+        if (!this.isChange) {
+          InputComponent({ title: '请输入您的邮箱', type: ITextType.email, value: this.email })
+        } else {
+          InputComponent({ title: '新的邮箱', type: ITextType.email, value: this.newEmail })
+        }
+        InputComponent({ title: '邮箱验证码', value: this.emailNum })
+        Button(!this.isChange ? '下一步' : '完成')
+          .width(150)
+          .height(50)
+          .fontColor(Color.White)
+          .fontSize(24)
+          .fontWeight(700)
+          .backgroundColor('rgb(55, 226, 204)')
+          .onClick(() => {
+            if (!this.isChange) {
+              // 校验验证码
+              this.verify()
+            } else {
+              // 执行改绑操作
+              this.changeEmail()
+              this.updateInfo(this.newEmail)
+            }
+          })
+      }
+      .padding({
+        top: 60,
+        bottom: 20,
+        left: 15,
+        right: 15
+      })
+      .backgroundColor('rgb(184, 171, 239)')
+      .borderRadius(30)
+      .width(330)
     }
-    .padding({
-      top: 60,
-      bottom: 20,
-      left: 15,
-      right: 15
-    })
-    .backgroundColor('rgb(184, 171, 239)')
-    .borderRadius(30)
-    .width(330)
   }
 }

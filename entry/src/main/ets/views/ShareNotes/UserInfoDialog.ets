@@ -13,6 +13,9 @@ export struct UserInfoDialog {
       .width('100%')
       .height('100%')
       .blur(20)
+      .onClick(() => {
+        this.controller.close()
+      })
 
       Column() {
         Stack({ alignContent: Alignment.Bottom }) {
@@ -94,8 +97,5 @@ export struct UserInfoDialog {
       .borderRadius(30)
       .padding({ left: 20, right: 20 })
     }
-    .onClick(() => {
-      this.controller.close()
-    })
   }
 }
