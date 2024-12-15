@@ -20,7 +20,7 @@ import { KeepAIChat,KeepAIChatResponse } from '../models/tempModel/Interface/Kee
 import { GetToken } from '../models/tempModel/DataModel/GetToken';
 import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
 import { CustomNavBar } from '../commons/components';
-
+import { QuestionAnswer } from 'ets/models/tempModel/Interface/ChatQandA'
 
 //import { UploadWindow } from 'ets/components/AI_chat/Upload_window'//上传窗口组件
 //import { chatData ,DataSet,returnData} from 'ets/model/ChatData';
@@ -37,6 +37,7 @@ export struct Chat {
   @State Array: Array<Message> = []//渲染对象数组
   @State message: string = ''//输入框输入的内容
   @State AccessToken: string = ''//token
+  @State QandA: Array<QuestionAnswer> = []
   // @State markdownReturn: string = ''//返回的markdown生成结果
   @StorageLink('userAvatar')
   pic:Resource|image.PixelMap = $rawfile('other/Mock/Enpty.png')//get
@@ -142,6 +143,7 @@ export struct Chat {
                       checkCount: $checkCount,
                       checkAll: $allchecked,
                       AITopic: this.firstMessage.title,
+                      SourceArr: this.QandA
                     })
                   }
                 }
@@ -164,7 +166,7 @@ export struct Chat {
                     Blank().width(10)
                     SpinKit({
                       spinType: SpinType.spinF,
-                      spinColor: Color.White, //
+                      spinColor: Color.White,
                       spinSize: 25,
                     })
                   }
@@ -212,7 +214,8 @@ export struct Chat {
                 message: $message,
                 isVisible_head: $isVisible_head,
                 tail_height: $tail_height,
-                Tail_height: $Tail_height
+                Tail_height: $Tail_height,
+                sourceArr: $QandA
               })
             }
             .margin({

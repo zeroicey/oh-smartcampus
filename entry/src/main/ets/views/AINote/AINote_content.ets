@@ -1,4 +1,4 @@
-
+import { pushImagePreview } from 'ets/pages/ImgPreview'
 import { lvMarkdownIn } from '@luvi/lv-markdown-in';
 import router from '@ohos.router';
 import {SpinKit,SpinType} from '@pura/spinkit'
@@ -9,6 +9,7 @@ export struct AINote_content {
   @Link TargetAI_topic:string
   @Link ImageUrl:string
   @Link finishFlag:boolean
+  @Link imageItems:Array<string>
   //@Link imageItems:Array<string>
 
   // animation_Tail_appear(): void {
@@ -33,6 +34,9 @@ export struct AINote_content {
                 .width('100%')
                 .backgroundColor(Color.Pink)
                 .sharedTransition('PrewiewImg',{ duration:500 })
+                .onClick(() => {
+                  pushImagePreview({images:this.imageItems,index:0})//
+                })
                 .onAppear(()=>{
                   this.finishFlag = true
                 })

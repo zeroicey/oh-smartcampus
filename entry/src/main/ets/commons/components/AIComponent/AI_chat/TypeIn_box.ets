@@ -11,6 +11,7 @@ import { AIhttpReq } from '../../../utils/AIhttp';
 import { logger } from '../../../utils';
 import { http } from '@kit.NetworkKit';
 import { stream } from '@kit.ArkTS';
+import { QuestionAnswer } from '../../../../models/tempModel/Interface/ChatQandA';
 
 @Component
 export struct TypeIn_box {
@@ -20,6 +21,7 @@ export struct TypeIn_box {
   @Link isVisible_head: boolean
   @Link tail_height: number
   @Link Tail_height: number
+  @Link sourceArr: Array<QuestionAnswer>
 
   build() {
     Row({ space: 20 }) {
@@ -95,7 +97,7 @@ export struct TypeIn_box {
     let obj: chatData = {
       chatId:'sbsbsbsbsbsb',
       stream: false,
-      detail: false,
+      detail: true,
       messages: [new Message('user', message)]
     } as chatData
     console.log('GOT_RUN_HERE1')//
@@ -103,17 +105,16 @@ export struct TypeIn_box {
       method: 'POST',
       url: "http://117.72.36.183:3000/api/v1/chat/completions",
       data: obj,
-      //responseType: 'json',
       headers: {
-        'Authorization': 'Bearer fastgpt-08KBc24GnU0hWrsb0I6Mpcs918z9fqkIW0Wp1ULuzoGCBKBTrIINyahBVN2u5kz',
+        'Authorization': 'Bearer fastgpt-a1RONT8IrAaPCw8a1K7bYu5gOdaOf3x1RjZDs1t44E3D4XAHlslm',
         'Content-Type': 'application/json',
         //'Upgrade':'websocket'
       },
-
     })
       .then((response: AxiosResponse<chatResponseData>) => {
         console.log(JSON.stringify(response.data))
         this.Array.push(response.data.choices[0].message); //填入渲染数组
+        //todo this.sourceArr=
       })
       .catch((error: BusinessError) => {
         console.error('Request failed:', error);

@@ -1,10 +1,12 @@
-
+import { promptAction } from '@kit.ArkUI';
 import { Sign_calender } from '../views/Sign/Sign_calender';
 import { HmCalendarSelectedDay } from '@ohmos/calendar';
 import { Sign_button } from '../views/Sign/Sign_button';
 import { Sign_LearningProgress } from '../views/Sign/Sign_LearningProgress';
 import { SignDialog } from '../views/Sign/SignDialog';
 import { CustomNavBar } from '../commons/components';
+import axios ,{ AxiosResponse }from '@ohos/axios';
+import { SignData } from '../models/tempModel/Interface/SignData';
 
 interface date { date:string }
 
@@ -12,8 +14,8 @@ interface date { date:string }
 @Entry
 @Component
 struct Sign {
-  @State year: string = new Date().getFullYear().toString()
-  @State month: string = new Date().getMonth().toString()
+  // @State year: string = new Date().getFullYear().toString()
+  // @State month: string = new Date().getMonth().toString()
   @State DateArray: Array<date> = [ { date: '2024-12-01'} ]//get
   @State signArr: Array<HmCalendarSelectedDay> = this.DateArray
   @State today: HmCalendarSelectedDay = { date: new Date().toLocaleDateString() }
@@ -56,16 +58,34 @@ struct Sign {
       Sign_LearningProgress({
         aniNum: $aniNum
       })
+
       if(this.clickFlag==3){
-        Blank().height(0).onAppear(()=>{this.controller.open()})
+        Blank().height(0).onAppear(()=>{
+          this.controller.open()
+        })
+      } else if(this.clickFlag==4){
+        Blank().height(0).onAppear(()=>{
+          promptAction.showToast({ message: "输入内容不可为空" })
+        })
       }
+
     }
     .height('160%')
     .width('100%')
     .backgroundColor('#353242')
   }
-
-  httpSign_axios(){
-    //TODO
+  httpSignData_axios(){
+    axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8081/taskList/day',
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ', //token
+        'uid': '1000001'
+      }
+    })
+      .then((response: AxiosResponse<SignData>)=>{
+        this.signedDay = response.data.data
+    })
   }
 }

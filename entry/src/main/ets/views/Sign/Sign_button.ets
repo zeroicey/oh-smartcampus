@@ -1,4 +1,6 @@
 import { HmCalendarSelectedDay } from '@ohmos/calendar'
+import axios,{ AxiosResponse } from '@ohos/axios'
+import { BusinessError } from '@kit.BasicServicesKit'
 
 @Component
 export struct Sign_button {
@@ -6,7 +8,7 @@ export struct Sign_button {
   @Link fireworkSize: number
   @Link signArr: Array<HmCalendarSelectedDay>
   @Link clickFlag: number
-
+  @State reqFlag:boolean = false
   animation_button(): void {
     animateTo({ duration: 1000, curve: Curve.Linear }, () => {
       this.buttonMovewidth = 150
@@ -65,7 +67,9 @@ export struct Sign_button {
                 this.animation_firework()
                 this.signArr.push({ date: new Date().toLocaleDateString() })
                 Sleep(600).then(()=>{
-                  this.clickFlag=3
+
+                  this.httpSign_axios()//进行签到操作
+
                 })
               })
           )
@@ -74,6 +78,20 @@ export struct Sign_button {
     }
     .height('10%')
   }
+  httpSign_axios(){
+    axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8081/taskList/press',
+    })
+      .then((response: AxiosResponse)=>{
+      this.clickFlag = response.data
+        this.clickFlag=3
+    })
+    .catch((error:BusinessError)=>{
+      this.clickFlag=4
+      console.log(error.message)
+    })
+  } //上传打卡数据
 }
 const Sleep = (ms: number)=> {
   return new Promise<void>(resolve=>setTimeout(resolve, ms))

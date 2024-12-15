@@ -3,7 +3,6 @@ import {SpinKit,SpinType} from '@pura/spinkit'
 import axios, { AxiosResponse } from '@ohos/axios';
 import { GetToken, TokenRequest } from 'ets/models/tempModel/DataModel/GetToken'
 import { BusinessError } from '@kit.BasicServicesKit';
-import { AINote_head } from 'ets/views/AINote/AINote_head'
 import { AINote_foot } from 'ets/views/AINote/AINote_foot'
 import { AINote_content } from 'ets/views/AINote/AINote_content'
 import {  ResponseMindMapData,mindMapPostData } from '../models/tempModel/DataModel/Mindmap';
@@ -31,6 +30,7 @@ export struct AINote {
   @State ImageUrl:string = ''//url
   @State tokenGot:string = ''
   @State finishFlag:boolean = false
+  @State imageItems:Array<string> = []
   aboutToAppear(): void {
     this.httpGetToken_axios()
   }
@@ -47,7 +47,8 @@ export struct AINote {
         TargetAI_topic:$TargetAI_topic,
         isLoading:$isLoading,
         ImageUrl:$ImageUrl,
-        finishFlag:$finishFlag
+        finishFlag:$finishFlag,
+        imageItems:$imageItems
       })
       AINote_foot({
         url:this.ImageUrl,
@@ -130,10 +131,10 @@ export struct AINote {
       }
     })
       .then((response: AxiosResponse<ResponseMindMapData>) => {
-
         this.ImageUrl = extractUrlFromJsonString(response.data.result.output[1].content[0].content)
         console.log('GOT_ImgUrl_content:'+this.ImageUrl)
         this.isLoading = false
+        this.imageItems.push(this.ImageUrl)
       })
       .catch((err:BusinessError)=>{
         console.log('ERROR_GOT_TOKEN:'+this.tokenGot);

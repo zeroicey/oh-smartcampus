@@ -2,6 +2,8 @@
 import { Message } from 'ets/models/tempModel/DataModel/Message'
 //import { html2md } from '@luvi/html2md'
 import { lvMarkdownIn, lvText, lvTitle } from '@luvi/lv-markdown-in'
+import { sourceDialog } from '../dialog/sourceDialog'
+import { QuestionAnswer } from '../../../../../models/tempModel/Interface/ChatQandA'
 
 //lvText.setTextColor('#ffffff')
 lvText.setTextSize(20)
@@ -20,6 +22,7 @@ export struct AI_Item {
   @Prop item: Message = new Message('', '')
   @Link checkAll: boolean
   @Prop AITopic: string = ''
+  @Prop SourceArr: Array<QuestionAnswer>
   @State intervalId: number = -1
   @State inputStepChar: number = 1
   @State currentProgress: number = 0
@@ -30,6 +33,11 @@ export struct AI_Item {
   @State colorTarget: number = 1
   @State extraMessageflag: number = 0
 
+  controller:CustomDialogController=new CustomDialogController({
+    builder:sourceDialog({
+      souArr: this.SourceArr
+    })
+  })
   // @State BackgroundColorArr: Array<string> = ['#FFCCCC','#FFE5CC','#FFFFCC','#E5FFCC','#CCFFCC','#CCFFE5','#CCFFFF','#CCE5FF','#CCCCFF','#E5CCFF','#FFCCE5']
   // @State FrontColorArr: Array<string> = ['#990000','#994c00','#999900','#4c9900','#009900','#00994c','#009999','#004c99','#000099','#4c0099','#990099']
   build() {
@@ -64,14 +72,15 @@ export struct AI_Item {
                 .fontSize(15)
                 .fontWeight(FontWeight.Bold)
                 .fontColor(Color.White)
-                .onClick(()=>{
 
-                })
             }
             .width('100%')
             .height(25)
             .borderRadius(20)
             .backgroundColor('#9685ff')
+            .onClick(()=>{
+              this.controller.open()
+            })
             // Divider().width('100%')
             // Row({ space: 5}) {
             //   Text(' 5条上下文 ')
