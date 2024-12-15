@@ -1,13 +1,13 @@
 import router from '@ohos.router';
+import { CustomNavBar } from '../commons/components';
+
 import { EditNote_dealButton } from '../views/EditNote/EditNote_dealButton';
 import { EditNote_edit } from '../views/EditNote/EditNote_edit';
-import { EditNote_head } from '../views/EditNote/EditNote_head';
 import { EditNote_imgArr } from '../views/EditNote/EditNote_imgArr';
 
 @Entry
 @Component
 export struct EditNote {
-  @State ImageList: Array<string> = []
   @State AIPictureUrl:string=''
   @State UserName:string='MR.ASS'
   @State Topic: string = ''
@@ -17,7 +17,8 @@ export struct EditNote {
   @State buttonWidth1:string='30%'
   @State buttonWidth2:string='30%'
   @State onClickFlag:number=1
-
+  @State url:string=''
+  @State imageItems:string[] = []
   animation_button(): void {
     if(this.onClickFlag==1){
       animateTo({ duration: 500, curve: Curve.Smooth }, () => {
@@ -37,18 +38,28 @@ export struct EditNote {
     }
   }
 
+  aboutToAppear(): void {
+    this.url = (router.getParams() as string )['url']
+    if(this.url != '' && this.url != undefined && this.url != null){
+      this.imageItems.push(this.url)
+    }
+  }
+
   build() {
     Column(){
-      EditNote_head()
+      //EditNote_head()
       //.backgroundColor(Color.Pink)
+      CustomNavBar({
+        title: '编辑笔记',
+        showRightIcon: false,
+      })
 
       Scroll(){
         Column() {
           EditNote_imgArr({
-            ImageList:$ImageList,
-            AIPictureUrl:$AIPictureUrl
+            imageItems:$imageItems
+            //AIPictureUrl:$AIPictureUrl
           })
-          //.backgroundColor(Color.Pink)
           EditNote_edit({
             Text:$Text,
             Topic:$Topic,
@@ -56,7 +67,6 @@ export struct EditNote {
             UserName:$UserName,
             TargetAI_topic:$TargetAI_topic
           })
-
           Blank().height('51%')
           Text('<  END')
             .width('100%')
@@ -79,7 +89,6 @@ export struct EditNote {
         buttonWidth1:$buttonWidth1,
         buttonWidth2:$buttonWidth2,
         onClickFlag:$onClickFlag,
-
       })
 
 

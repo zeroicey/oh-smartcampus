@@ -39,10 +39,6 @@ export struct BarChart {
           'fill': 'red'
         } as ESObject)
       } as ESObject),
-      // 'style': ({
-      //   "stroke": "#000",
-      //   "lineWidth": 1
-      // } as ESObject)
     },
     'legends': {
       "interactive":false,

@@ -1,9 +1,10 @@
-import { Sign_head } from '../views/Sign/Sign_head';
+
 import { Sign_calender } from '../views/Sign/Sign_calender';
 import { HmCalendarSelectedDay } from '@ohmos/calendar';
 import { Sign_button } from '../views/Sign/Sign_button';
 import { Sign_LearningProgress } from '../views/Sign/Sign_LearningProgress';
 import { SignDialog } from '../views/Sign/SignDialog';
+import { CustomNavBar } from '../commons/components';
 
 interface date { date:string }
 
@@ -34,13 +35,15 @@ struct Sign {
   })
   build() {
     Column() {
-      Sign_head()
+
+      CustomNavBar({
+        title: '打卡',
+        showRightIcon: false,
+      }).margin({bottom:20})
 
       Sign_calender({
         signArr: $signArr,
         today: $today,
-        // month: $month,
-        // year: $year
       })
 
       Sign_button({

@@ -1,7 +1,7 @@
 import {SpinKit,SpinType} from '@pura/spinkit'
 
 import axios, { AxiosResponse } from '@ohos/axios';
-import { getToken } from 'ets/models/tempModel/DataModel/GetToken'
+import { GetToken, TokenRequest } from 'ets/models/tempModel/DataModel/GetToken'
 import { BusinessError } from '@kit.BasicServicesKit';
 import { AINote_head } from 'ets/views/AINote/AINote_head'
 import { AINote_foot } from 'ets/views/AINote/AINote_foot'
@@ -12,71 +12,80 @@ import { Message } from '../models/tempModel/DataModel/Message';
 import { chatData } from '../models/tempModel/Interface/Chat';
 import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
 import { lvMarkdownIn, lvText, lvTitle } from '@luvi/lv-markdown-in'
+import { CustomNavBar } from '../commons/components';
+
 lvText.setTextSize(20)
 lvTitle.setLevel1Title(25)
 lvTitle.setLevel2Title(23)
 lvText.setTextColor('#ffffff')
+
+
+
 @Entry
 @Component
 export struct AINote {
   @State isLoading:boolean = true
   @State Text:string = ' wait for response...'//markdown
   @State ChatArray:Array<Message> = (router.getParams() as Array<Message> )['chatArray']
-    // 'SpinKit 是一个适用于OpenHarmony/HarmonyOS的加载动画库。\n' +
-    // '\n' +
-    // 'harmony-utils 一款功能丰富且极易上手的HarmonyOS工具库，借助众多实用工具类，致力于助力开发者迅速构建鸿蒙应用。\n' +
-    // '\n' +
-    // 'harmony-dialog 一款极为简单易用的零侵入弹窗，仅需一行代码即可轻松实现，无论在何处都能够轻松弹出。'
   @State TargetAI_topic:string = 'TOPIC'
   @State ImageUrl:string = ''//url
-
+  @State tokenGot:string = ''
+  @State finishFlag:boolean = false
   aboutToAppear(): void {
-    console.log('GOT_Text: ' + this.Text)
-    //console.log('GOT_Inf:'+(router.getParams() as string)['chatArray_string'])//未接收到传值
-    this.httpMarkdownCrater_axios(this.ChatArray)//markdown生成
-
-    console.log('GOT_Text: ' + this.Text)
+    this.httpGetToken_axios()
   }
 
   build() {
     Column(){
-      AINote_head()
+      //AINote_head()
+      CustomNavBar({
+        title: 'AI笔记',
+        showRightIcon: false,
+      })
       AINote_content({
         Text:$Text,
         TargetAI_topic:$TargetAI_topic,
         isLoading:$isLoading,
         ImageUrl:$ImageUrl,
+        finishFlag:$finishFlag
       })
-      AINote_foot()
+      AINote_foot({
+        url:this.ImageUrl,
+        finishFlag:this.finishFlag
+      })
     }
     .width("100%")
     .height("100%")
     .justifyContent(FlexAlign.SpaceBetween)
     .backgroundColor('#353242')
   }
-  async httpGetImg_axios(text:string) {
-    //console.log('GOT_token: '+await getToken())
-      axios({
-        method: 'POST',
-        url: 'https://chatglm.cn/chatglm/assistant-api/v1/stream_sync',
-        data:{
-          assistant_id:"671cede7c216fe0625154b75",
-          prompt:text
-        } as mindMapPostData,
-        headers: {
-          'Authorization':'Bearer' + await getToken()
-        }
-      })
-        .then((response: AxiosResponse<ResponseMindMapData>) => {
-          this.ImageUrl = response.data.result.output[0].content[0].content
-          this.isLoading = false
-        })
-        .catch((err:BusinessError)=>{
-          console.log(err.message)
-        })
-  }
 
-  httpMarkdownCrater_axios( message:Array<Message> ){
+  httpGetToken_axios(){
+    axios({
+      method: 'POST',
+      url: "https://chatglm.cn/chatglm/assistant-api/v1/get_token",
+      data: {
+        api_key: "0c2aef874ee6de79",
+        api_secret: "c68185c59c2197017eaad9ca1ecd7c1e",
+      } as TokenRequest,
+      // headers: {
+      //   // 'Authorization': 'Bearer fastgpt-08KBc24GnU0hWrsb0I6Mpcs918z9fqkIW0Wp1ULuzoGCBKBTrIINyahBVN2u5kz',
+      //   // 'Authorization':'',
+      //   'Content-Type': 'application/json'
+      // }
+    })
+      .then((response: AxiosResponse<GetToken>) => {
+        console.log('GOT_Response data:', response.data.result.access_token);
+        this.tokenGot = response.data.result.access_token;
+      })
+      .catch((error: BusinessError) => {
+        console.log('Request failed:', error)
+      })
+      .then(()=>{
+        this.httpMarkdown_axios(this.ChatArray)
+      })
+  } //获取Token
+  httpMarkdown_axios( message:Array<Message> ){
     axios({
       method: 'POST',
       url: "http://117.72.36.183:3000/api/v1/chat/completions",
@@ -96,21 +105,66 @@ export struct AINote {
           this.Text = '<Get null or undefined / 请求失败，请重试>'
         } else {
           this.Text = trimKnownBackticks(response.data.choices[0].message.content)
+          //console.log('GOT_DealedText: ' + this.Text)
         }
       })
       .catch((error: BusinessError) => {
-        this.Text = JSON.stringify(error);
         console.error('Request failed:', error);
       })
-      .then(() => {
+      .then(()=>{
         this.httpGetImg_axios(this.Text)
       })
-  }
 
+  } //请求生成Markdown
+  httpGetImg_axios(text:string) {
+    //console.log('GOT_token: '+await getToken())
+    axios({
+      method: 'POST',
+      url: 'https://chatglm.cn/chatglm/assistant-api/v1/stream_sync',
+      data:{
+        assistant_id:"671cede7c216fe0625154b75",
+        prompt:text
+      } as mindMapPostData,
+      headers: {
+        'Authorization':'Bearer ' + this.tokenGot
+      }
+    })
+      .then((response: AxiosResponse<ResponseMindMapData>) => {
+
+        this.ImageUrl = extractUrlFromJsonString(response.data.result.output[1].content[0].content)
+        console.log('GOT_ImgUrl_content:'+this.ImageUrl)
+        this.isLoading = false
+      })
+      .catch((err:BusinessError)=>{
+        console.log('ERROR_GOT_TOKEN:'+this.tokenGot);
+        console.log('ERROR_GOT_Text:'+this.Text)
+        console.log('GOT_ImgReqErr'+err.message)
+      })
+  } //依据获取的Token和Markdown，请求图片
 }
-
-
+interface urlObj{ url:string } //提取url用的临时对象
 function trimKnownBackticks(str: string): string {
-  // 已知每个字符串以 ``` 开头和结尾，所以直接切片去掉开头和结尾的三个字符
-  return str.length > 6 ? str.slice(3, -3) : '';
-}
+  // 定义正则表达式，匹配开头的三个反引号后跟换行符、markdown 和另一个换行符
+  const startPattern = /^```\s*markdown\s*\n/;
+  // 匹配结尾的三个反引号前可能有的空白字符或换行符
+  const endPattern = /\n\s*```\s*$/;
+  // 使用正则表达式替换方法去除指定的开头和结尾部分
+  return str.replace(startPattern, '').replace(endPattern, '');
+} //去除markdown中的多余信息
+function extractUrlFromJsonString(jsonString: string): string {
+  try {
+    // 尝试解析 JSON 字符串
+    const jsonObject: urlObj = JSON.parse(jsonString);
+    console.log('GOT_JsonObj_url:'+jsonObject.url)
+    // 检查 'url' 属性是否存在并且不是空值
+    if (jsonObject.url) {
+      return jsonObject.url;
+    } else {
+      console.error("JSON 对象中不存在 'url' 属性或其值为空");
+      return 'null';
+    }
+  } catch (error) {
+    console.error("解析 JSON 字符串时出错:", error);
+    return 'null';
+  }
+} //截取url

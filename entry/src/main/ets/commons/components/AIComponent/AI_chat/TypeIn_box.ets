@@ -12,7 +12,6 @@ import { logger } from '../../../utils';
 import { http } from '@kit.NetworkKit';
 import { stream } from '@kit.ArkTS';
 
-
 @Component
 export struct TypeIn_box {
   @Link isVisible_CheckBox: boolean
@@ -40,17 +39,11 @@ export struct TypeIn_box {
           if (this.message == '') {
             promptAction.showToast({ message: "输入内容不可为空" })
           } else {
-            //let In: Message = new Message('user', this.message) //  封装对象
             this.Array.push(new Message('user', this.message))//将对象填入渲染数组
-            this.httpData_axios(
-              this.message
-            )
-            //this.httpData(In)//发送请求
+            this.httpData_axios(this.message)
             this.message = "" // 清空输入框里的内容
           }
-          //console.log("GOT_```markdown\n# 多重中断的特点\n## 优先级\n- **优先级差异**：中断请求有不同的优先级。\n- **响应顺序**：根据优先级高低决定CPU响应的顺序。\n\n## 中断嵌套\n- **中断触发**：在处理一个中断的过程中，可能触发另一个中断。\n- **高优先级中断**：触发的中断是更高优先级的。\n- **嵌套执行**：导致中断服务程序的嵌套执行。\n\n## 中断响应周期\n- **多个周期**：CPU在处理中断时，可能会进入多个中断响应周期。\n- **周期处理**：每个周期处理一个中断请求。\n```")
         })
-
     }
     .backgroundColor('#9893b1')
     .borderRadius(30)
