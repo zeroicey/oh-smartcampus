@@ -1,7 +1,5 @@
 import router from '@ohos.router';
 import { Message } from 'ets/models/tempModel/DataModel/Message'
-//import { transObjectToString,transStringToObject } from 'ets/components/algorithm/JSON_ObjTransArray'/
-
 @Component
 export struct OperateBox {
   @Link checkAll: boolean
@@ -10,7 +8,6 @@ export struct OperateBox {
   @Link isVisible_head: boolean
   @Link isVisible_CheckBox:boolean
   @Link ChatAIObj:Array<Message>
-  //@Link ObjString: string
   @Link chatArray: Array<Message>
   build() {
       Row({ space: 35 }) {
@@ -25,7 +22,6 @@ export struct OperateBox {
             .fontSize(12)
         }
         .onClick(() => {
-          //let chatArray_string: string = transObjectToString(this.chatArray)
           router.pushUrl({
             url: 'pages/Knowledge_circlePage',
             params: {
@@ -44,17 +40,14 @@ export struct OperateBox {
         }
         .onClick(() => {
           if (this.checkCount >= 2) {
-            //let chatArray_string: string = transObjectToString(this.chatArray)
             router.pushUrl({
               url: 'pages/AINote',
               params: {
-                //chatArray_string:this.ObjString,
                 chatArray:this.chatArray
               }
             })
           } else {
-            AlertDialog.show(
-              {
+            AlertDialog.show({
                 title: '选择对话数过少', //弹窗标题
                 message: '请选择两条以上的对话', //弹窗内容
                 autoCancel: true, //点击遮罩层，是否关闭弹窗
@@ -70,8 +63,7 @@ export struct OperateBox {
                 cancel: () => {
                   console.info('showDialog cancel');
                 }
-              }
-            )
+              })
 
           }
         })

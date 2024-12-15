@@ -52,17 +52,22 @@ export struct HomePage_InfFastLook{
 
       Scroll() {
         Row() {
-          ForEach(this.circle, (item: number, index: number) => {
-            Row() {
-              Text('')
-                .width(100)
-                .height(22)
-                .borderRadius(10)
-                .backgroundColor('#c7c4ff')
-            }
+          List() {
+            ForEach(this.circle, (item: number, index: number) => {
+              ListItem() {
+                Row() {
+                  Text('')
+                    .width(100)
+                    .height(22)
+                    .borderRadius(10)
+                    .backgroundColor('#c7c4ff')
+                  Blank().width(10)
+                }
+              }
+            })
+          }
+          .listDirection(Axis.Horizontal)
 
-            Blank().width(10)
-          })
         }
       }
       .scrollable(ScrollDirection.Horizontal)
@@ -111,14 +116,13 @@ export struct HomePage_InfFastLook{
               })
             })
           }
-
           Blank().height(10)
         })
       }
       //.backgroundColor(Color.Pink)
       .width('90%')
-
     }
     .width('100%')
   }
 }
+

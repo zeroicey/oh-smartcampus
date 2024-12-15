@@ -17,8 +17,9 @@ import { AI_Item } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_List
 import { TypeIn_box } from 'ets/commons/components/AIComponent/AI_chat/TypeIn_box'//底部输入框
 import { OperateBox } from 'ets/commons/components/AIComponent/AI_chat/Operate_box'//底部操作框
 import { KeepAIChat,KeepAIChatResponse } from '../models/tempModel/Interface/KeepAIChat';
-import { getToken } from '../models/tempModel/DataModel/GetToken';
+import { GetToken } from '../models/tempModel/DataModel/GetToken';
 import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
+import { CustomNavBar } from '../commons/components';
 
 
 //import { UploadWindow } from 'ets/components/AI_chat/Upload_window'//上传窗口组件
@@ -88,33 +89,19 @@ export struct Chat {
   build() {
     Stack() {
       Column() {
-        Blank().height(50)
-        Row({space: 20}){
-          Blank().width(10)
-          Image($rawfile('icon/backIcon.png'))
-            .width(30)
-            .height(40)
-            .onClick(()=>{
-              router.back()
-            })
-          Text(this.firstMessage.title)
-            .fontColor(Color.White)
-            .fontSize(25)
-            .fontWeight(FontWeight.Bolder)
-          Image($rawfile('icon/DealAIChat.png'))
-            .width(30)
-            .height(30)
-            .margin({ left: 140 })
-            .onClick(()=>{
-              this.tail_height = 200
-              this.Tail_height = 200
-              this.isVisible_CheckBox = !this.isVisible_CheckBox
-              this.isVisible_head = true
-              this.animation_Tail_appear()
-            })
-          Blank().width(30)
-        }
-        .width('100%')
+        //GotToken({ token: $AccessToken })
+        CustomNavBar({
+          title: this.firstMessage.title,
+          showRightIcon: true,
+          rightIcon: $rawfile('icon/DealAIChat.png'),
+          onclick: () => {
+            this.tail_height = 200
+            this.Tail_height = 200
+            this.isVisible_CheckBox = !this.isVisible_CheckBox
+            this.isVisible_head = true
+            this.animation_Tail_appear()
+          }
+        })
 
         Blank().height(10)
         Divider()
@@ -289,7 +276,7 @@ export struct Chat {
   }
 
 
-   httpData_axios(message:string): void {
+  httpData_axios(message:string): void {
     console.log('GOT_message:  '+message)//
     let obj: chatData = {
       chatId:'sbsbsbsbsbsb',
@@ -314,8 +301,6 @@ export struct Chat {
         console.error('Request failed:', error);
       })
   }
-
-
   async httpKeepChat_axios(type:number){
     let Obj:Array<Message> = []
     if(type==1){
@@ -337,7 +322,7 @@ export struct Chat {
         )
       } as KeepAIChat,
       headers: {
-        'Authorization':'Bearer' + await getToken()
+        'Authorization':'Bearer' + this.AccessToken
       }
     })
       .then((response: AxiosResponse<KeepAIChatResponse>) => {

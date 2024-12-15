@@ -14,15 +14,12 @@ class Result {
   conversation_id: string;
   history_id: string;
   output: Output[];
-  api_name: string;
-  others: string; // 代替“一堆废话字段”和“废话字段”
 
-  constructor(conversation_id: string, history_id: string, output: Output[], api_name: string, others: string) {
+  constructor(conversation_id: string, history_id: string, output: Output[]) {
     this.conversation_id = conversation_id;
     this.history_id = history_id;
     this.output = output;
-    this.api_name = api_name;
-    this.others = others;
+
   }
 }
 

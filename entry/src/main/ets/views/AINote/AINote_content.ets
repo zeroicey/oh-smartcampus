@@ -1,3 +1,4 @@
+
 import { lvMarkdownIn } from '@luvi/lv-markdown-in';
 import router from '@ohos.router';
 import {SpinKit,SpinType} from '@pura/spinkit'
@@ -7,10 +8,18 @@ export struct AINote_content {
   @Link Text:string
   @Link TargetAI_topic:string
   @Link ImageUrl:string
+  @Link finishFlag:boolean
+  //@Link imageItems:Array<string>
+
   // animation_Tail_appear(): void {
   //   animateTo({ duration: 500, curve: Curve.Smooth }, () => {
   //     this.isLoading = false
   //   })
+  // }
+
+  // aboutToAppear(): void {
+  //     this.ImageUrl = extractUrlFromJsonString(this.ImageUrl)
+  //     console.log('GOT_ImageUrl:'+this.ImageUrl)
   // }
 
     build() {
@@ -22,6 +31,12 @@ export struct AINote_content {
                 .borderRadius(25)
                 .height('100%')
                 .width('100%')
+                .backgroundColor(Color.Pink)
+                .sharedTransition('PrewiewImg',{ duration:500 })
+                .onAppear(()=>{
+                  this.finishFlag = true
+                })
+
             } else {
               Column() {
                 Blank().height('45%')
@@ -38,7 +53,14 @@ export struct AINote_content {
           .backgroundColor(Color.Gray)
           .borderRadius(25)
 
+
           Blank().height(50)
+          Text('AI笔记')
+            .fontSize(30)
+            .width('100%')
+            .textAlign(TextAlign.Start)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
           lvMarkdownIn({ text: this.Text})
           Blank().height(25)
           Row() {
@@ -53,8 +75,7 @@ export struct AINote_content {
                 router.pushUrl({
                   url: 'pages/AI_chatPage',
                   params: {
-                    //TODO
-                    //topic: this.TargetAI_topic//待修改
+
                   }
                 })
               })
@@ -69,3 +90,8 @@ export struct AINote_content {
     }
 
 }
+
+
+
+
+
