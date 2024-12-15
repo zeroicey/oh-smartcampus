@@ -35,9 +35,8 @@ export interface TextType {
 }
 
 // 单个笔记所有内容包括信息
-export interface IPublisherData {
+export interface IPublisherData extends IContext {
   circleId: string;
-  context: IContext;
   createTime: null;
   id: string;
   topic: ITopic;
@@ -70,14 +69,15 @@ export interface ITopic {
   name: string;
 }
 
-export interface IAllPublisherNotes {
+export interface IAllPublisherNotes extends IContext {
   circleId: string;
-  context: IContext;
   user: IPublisher
   /**
    * 创建时间
    */
   createTime: string;
+
+  // 单个笔记id
   id: string;
 
   /**

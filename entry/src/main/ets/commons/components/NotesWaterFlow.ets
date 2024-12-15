@@ -9,15 +9,14 @@ import { NotesWaterFlowItem } from './NotesWaterFlowItem';
 interface IInCircleContentRes {
   // TODO
   circleId: string;
-  page: string;
-  size: string;
+  page: number;
+  size: number;
   topicId: number
 }
 
 // 跳转页面参数类型
 export interface ICircleIdParams {
-  CircleId: string
-  ContextId: string
+  noteId: string
 }
 
 @Component
@@ -33,11 +32,9 @@ export struct NotesWaterFlow {
   @State list: IAllPublisherNotes[] = [
     {
       circleId: "c1",
-      context: {
-        pictures: ['https://pic3.zhimg.com/v2-b173b089c839b82b923260d8acf1688f_r.jpg?source=1940ef5c'],
-        title: "探索宇宙的奥秘",
-        word: "一起揭开宇宙的神秘面纱"
-      },
+      pictures: ['https://pic3.zhimg.com/v2-b173b089c839b82b923260d8acf1688f_r.jpg?source=1940ef5c'],
+      title: "探索宇宙的奥秘",
+      word: "一起揭开宇宙的神秘面纱",
       createTime: "2024-12-01T12:00:00Z",
       id: "note1",
       topic: {
@@ -54,11 +51,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c2",
-      context: {
-        pictures: ["https://tse3-mm.cn.bing.net/th/id/OIP-C.sdNN1iFf5WEp1Xnml5qOBgAAAA?rs=1&pid=ImgDetMain"],
-        title: "深海世界的奇观",
-        word: "潜入深海，发现未知生物"
-      },
+      pictures: ["https://tse3-mm.cn.bing.net/th/id/OIP-C.sdNN1iFf5WEp1Xnml5qOBgAAAA?rs=1&pid=ImgDetMain"],
+      title: "深海世界的奇观",
+      word: "潜入深海，发现未知生物",
       createTime: "2024-12-01T13:00:00Z",
       id: "note2",
       topic: {
@@ -75,11 +70,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c3",
-      context: {
-        pictures: ["https://img.keaitupian.cn/newupload/02/1675677268420959.jpg"],
-        title: "古代文明的遗迹",
-        word: "探索古代文明的遗迹，揭开历史的秘密"
-      },
+      pictures: ["https://img.keaitupian.cn/newupload/02/1675677268420959.jpg"],
+      title: "古代文明的遗迹",
+      word: "探索古代文明的遗迹，揭开历史的秘密",
       createTime: "2024-12-01T14:00:00Z",
       id: "note3",
       topic: {
@@ -96,11 +89,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c4",
-      context: {
-        pictures: ["https://pic1.zhimg.com/v2-5bc1f1dfd6b29a08e521b531cae39fe7_r.jpg?source=1940ef5c"],
-        title: "未来科技的展望一窥未来科技的发展趋势",
-        word: "一窥未来科技的发展趋势"
-      },
+      pictures: ["https://pic1.zhimg.com/v2-5bc1f1dfd6b29a08e521b531cae39fe7_r.jpg?source=1940ef5c"],
+      title: "未来科技的展望一窥未来科技的发展趋势",
+      word: "一窥未来科技的发展趋势",
       createTime: "2024-12-01T15:00:00Z",
       id: "note4",
       topic: {
@@ -117,11 +108,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c5",
-      context: {
-        pictures: ["https://c-ssl.duitang.com/uploads/item/202008/14/20200814195015_ofoic.jpg"],
-        title: "自然生态的保护",
-        word: "保护自然，维护生态平衡"
-      },
+      pictures: ["https://c-ssl.duitang.com/uploads/item/202008/14/20200814195015_ofoic.jpg"],
+      title: "自然生态的保护",
+      word: "保护自然，维护生态平衡",
       createTime: "2024-12-01T16:00:00Z",
       id: "note5",
       topic: {
@@ -138,11 +127,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c6",
-      context: {
-        pictures: ["https://pic.nximg.cn/file/20230219/1344586_133139393109_2.jpg"],
-        title: "艺术创作的灵感",
-        word: "艺术创作，灵感的源泉"
-      },
+      pictures: ["https://pic.nximg.cn/file/20230219/1344586_133139393109_2.jpg"],
+      title: "艺术创作的灵感",
+      word: "艺术创作，灵感的源泉",
       createTime: "2024-12-01T17:00:00Z",
       id: "note6",
       topic: {
@@ -159,11 +146,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c7",
-      context: {
-        pictures: ["https://pic4.zhimg.com/v2-68c750d8993665feca72cc58438ca066_r.jpg"],
-        title: "美食文化的传播",
-        word: "探索世界各地的美食文化"
-      },
+      pictures: ["https://pic4.zhimg.com/v2-68c750d8993665feca72cc58438ca066_r.jpg"],
+      title: "美食文化的传播",
+      word: "探索世界各地的美食文化",
       createTime: "2024-12-01T18:00:00Z",
       id: "note7",
       topic: {
@@ -180,11 +165,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c8",
-      context: {
-        pictures: ["https://c-ssl.duitang.com/uploads/item/202005/23/20200523112253_fulke.png"],
-        title: "健康生活的重要性",
-        word: "健康生活，从我做起"
-      },
+      pictures: ["https://c-ssl.duitang.com/uploads/item/202005/23/20200523112253_fulke.png"],
+      title: "健康生活的重要性",
+      word: "健康生活，从我做起",
       createTime: "2024-12-01T19:00:00Z",
       id: "note8",
       topic: {
@@ -201,11 +184,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c9",
-      context: {
-        pictures: ["https://c-ssl.duitang.com/uploads/item/202005/17/20200517212053_rwgtl.jpg"],
-        title: "教育的力量",
-        word: "教育改变未来"
-      },
+      pictures: ["https://c-ssl.duitang.com/uploads/item/202005/17/20200517212053_rwgtl.jpg"],
+      title: "教育的力量",
+      word: "教育改变未来",
       createTime: "2024-12-01T20:00:00Z",
       id: "note9",
       topic: {
@@ -222,11 +203,9 @@ export struct NotesWaterFlow {
     },
     {
       circleId: "c10",
-      context: {
-        pictures: ["https://c-ssl.dtstatic.com/uploads/item/202003/04/20200304111526_xuqjq.thumb.400_0.jpg"],
-        title: "旅行的意义",
-        word: "旅行，发现世界的不同"
-      },
+      pictures: ["https://c-ssl.dtstatic.com/uploads/item/202003/04/20200304111526_xuqjq.thumb.400_0.jpg"],
+      title: "旅行的意义",
+      word: "旅行，发现世界的不同",
       createTime: "2024-12-01T21:00:00Z",
       id: "note10",
       topic: {
@@ -244,21 +223,48 @@ export struct NotesWaterFlow {
   ]
   // 是否处在加载中
   @State isLoading: boolean = false
+  // 是否加载全部
+  @State isFinished: boolean = false
+  // 触底计时器id
+  @State endTimeId: number = -1
+  // 下拉刷新计时器
+  @State refreshId: number = -1
 
-  async getInCircleContent(flowType: WaterFlowType) {
-    this.isLoading = true
+  // 获取用户发布过的/草稿箱/收藏的笔记
+  async getUserPublished(flowType: WaterFlowType) {
     this.list = await httpReq.request<IAllPublisherNotes[]>({
+      url: flowType == WaterFlowType.myNotes ? '/circle/find_note' : '/circle/get_save_note',
+      headers: {
+        "uid": "1000001"
+      }
+    })
+  }
+
+  // 知识圈以及资讯上滑加载逻辑
+  async Loading(flowType: WaterFlowType) {
+    const res = await this.getInCircleContent(flowType)
+    // 将获取到的数组内容放入新数组当中
+    this.list.push(...res)
+    this.isLoading = false
+    if (res === null || res === undefined || res.length === 0) {
+      this.isFinished = true
+    } else {
+      this.page++
+    }
+  }
+
+  // 获取知识圈以及资讯的所有笔记
+  getInCircleContent(flowType: WaterFlowType): Promise<IAllPublisherNotes[]> {
+    return httpReq.request<IAllPublisherNotes[]>({
       url: '/circle/queryBatch',
       params: {
         // TODO
         circleId: flowType == WaterFlowType.circle ? this.circleId : '5',
-        page: this.page.toString(),
-        size: '10',
+        page: this.page,
+        size: 5,
         topicId: flowType == WaterFlowType.circle ? this.topicId : '0'
       } as IInCircleContentRes
     })
-    this.isLoading = false
-    // logger.info(JSON.stringify(this.flowList))
   }
 
   aboutToAppear() {
@@ -267,25 +273,21 @@ export struct NotesWaterFlow {
       promptAction.showToast({ message: '资讯' })
       this.getInCircleContent(this.flowType)
     } else if (this.flowType == WaterFlowType.circle) {
-      promptAction.showToast({ message: '知识圈' })
-      this.getInCircleContent(this.flowType)
+      this.Loading(this.flowType)
     } else if (this.flowType == WaterFlowType.myNotes) {
-      promptAction.showToast({ message: '笔记' })
-      // this.getInCircleContent()
+      this.getUserPublished(this.flowType)
     } else if (this.flowType == WaterFlowType.collection) {
-      promptAction.showToast({ message: '收藏' })
-      // this.getInCircleContent()
+      this.getUserPublished(this.flowType)
     } else {
-      promptAction.showToast({ message: '保存' })
-      // this.getInCircleContent()
+      this.getUserPublished(this.flowType)
     }
   }
 
   build() {
-    if (this.isLoading) {
+    if (false) {
       HcSkeleton()
     } else {
-      WaterFlow() {
+      WaterFlow({ footer: this.LoadMoreBuilder() }) {
         ForEach(this.list, (item: IAllPublisherNotes, index: number) => {
           FlowItem() {
             NotesWaterFlowItem({ item: item })
@@ -294,17 +296,55 @@ export struct NotesWaterFlow {
                 router.pushUrl({
                   url: 'pages/ShareNotes',
                   params: {
-                    CircleId: item.circleId,
-                    ContextId: item.id
+                    noteId: item.id,
                   } as ICircleIdParams
                 })
               })
           }
         })
+
       }
       .columnsTemplate('1fr 1fr')
       .columnsGap(10)
       .rowsGap(10)
+      .edgeEffect(EdgeEffect.None)
+      .onReachEnd(() => {
+        // 如果已经到底则不会再加载
+        if (this.isFinished) {
+          return
+        }
+        this.isLoading = true
+        // 防抖处理
+        clearTimeout(this.endTimeId)
+        this.endTimeId = setTimeout(() => {
+          this.Loading(this.flowType)
+        }, 700)
+      })
+    }
+  }
+
+  @Builder
+  LoadMoreBuilder() {
+    if (this.isFinished) {
+      // 加载完成的状态
+      Text('没有更多内容了~')
+        .fontSize(14)
+        .fontColor(Color.White)
+        .width('100%')
+        .height(80)
+        .textAlign(TextAlign.Center)
+    } else if (this.isLoading) {
+      // 正在加载中的状态
+      Row() {
+        LoadingProgress()
+          .width(20)
+        Text('加载中...')
+          .fontSize(14)
+          .fontColor(Color.White)
+      }
+      .width('100%')
+      .justifyContent(FlexAlign.Center)
+      .height(80)
     }
   }
 }

@@ -1,6 +1,6 @@
 import { SNInput, SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
 import { router } from '@kit.ArkUI';
-import { IContext, IPublisher, IPublisherData } from '../models';
+import { IPublisher, IPublisherData } from '../models';
 import { httpReq, logger } from '../commons/utils';
 import { ICircleIdParams } from '../commons/components';
 
@@ -12,17 +12,15 @@ struct ShareNotes {
   topHeight: number = 0
   @State publisherData: IPublisherData = {
     circleId: '1',
-    context: {
-      pictures: [
-        'https://tse2-mm.cn.bing.net/th/id/OIP-C.5ASZMDn60QmoRWwJhfAs9AHaHa?rs=1&pid=ImgDetMain',
-        'https://bpic.588ku.com/element_origin_min_pic/19/04/09/c2927d488f5166168b85288b186333b5.jpg',
-        'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
-        'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
-        'https://img95.699pic.com/element/40159/7630.png_300.png'
-      ],
-      title: "我最帅",
-      word: "文字描述666"
-    },
+    pictures: [
+      'https://tse2-mm.cn.bing.net/th/id/OIP-C.5ASZMDn60QmoRWwJhfAs9AHaHa?rs=1&pid=ImgDetMain',
+      'https://bpic.588ku.com/element_origin_min_pic/19/04/09/c2927d488f5166168b85288b186333b5.jpg',
+      'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
+      'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
+      'https://img95.699pic.com/element/40159/7630.png_300.png'
+    ],
+    title: "我最帅",
+    word: "文字描述666",
     createTime: null,
     id: '36467884384555459937',
     topic: {
@@ -42,8 +40,11 @@ struct ShareNotes {
     }
   } as IPublisherData
   @State publisher: IPublisher = {} as IPublisher
-  @State publishContext: IContext = {} as IContext
   @State isSend: boolean = false
+  // 笔记所属知识圈id
+  @State circleId: string = ''
+  // 笔记id
+  @State noteId: string = ''
   UserInfoDialog = new CustomDialogController({
     builder: UserInfoDialog({ publisher: this.publisher }),
     customStyle: true,
@@ -57,16 +58,13 @@ struct ShareNotes {
     })
     logger.info('res--', JSON.stringify(this.publisherData))
     this.publisher = this.publisherData.user
-    this.publishContext = this.publisherData.context
   }
 
   aboutToAppear(): void {
     const params = router.getParams() as ICircleIdParams
     this.getPublisherData(params)
+    this.noteId = params.noteId
     // promptAction.showToast({ message: JSON.stringify(params) })
-    // TODO 记得删除下面
-    this.publisher = this.publisherData.user
-    this.publishContext = this.publisherData.context
   }
 
   build() {
@@ -90,7 +88,7 @@ struct ShareNotes {
         Column() {
           // 轮播图
           Swiper() {
-            ForEach(this.publishContext.pictures, (item: string) => {
+            ForEach(this.publisherData.pictures, (item: string) => {
               Column() {
                 Image(item)
                   .width('100%')
@@ -116,13 +114,13 @@ struct ShareNotes {
 
           // 话题
           Column({ space: 10 }) {
-            Text(this.publishContext.title)
+            Text(this.publisherData.title)
               .fontSize(24)
               .fontWeight(900)
               .fontColor(Color.White)
               .width('100%')
 
-            Text(this.publishContext.word)
+            Text(this.publisherData.word)
               .fontSize(20)
               .fontWeight(900)
               .fontColor(Color.White)
@@ -165,7 +163,7 @@ struct ShareNotes {
         SNInput({ isSend: this.isSend })
       } else {
         // 底部点赞
-        SNNavBar({ isSend: this.isSend })
+        SNNavBar({ isSend: this.isSend, noteId: this.noteId })
       }
     }
     .width('100%')

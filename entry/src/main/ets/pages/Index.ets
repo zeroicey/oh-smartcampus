@@ -80,6 +80,7 @@ struct Index {
     }
     .barPosition(BarPosition.End)
     .backgroundColor('rgba(0,0,0,0)')
+    .scrollable(false)
     .onTabBarClick((index: number) => {
       this.activeIndex = index
       this.angleNumber = 0

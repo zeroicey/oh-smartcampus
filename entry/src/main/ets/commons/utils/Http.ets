@@ -3,7 +3,7 @@ import { logger } from '.'
 
 export const instance = axios.create({
   // 设置基地址
-  baseURL: 'https://28ec141f.r7.cpolar.cn',
+  baseURL: 'http://jqlkdqvq.dongtaiyuming.net',
   // 设置反应时间如果超过该时间进行报错
   timeout: 10000,
 })

@@ -1,5 +1,6 @@
 import { router } from '@kit.ArkUI'
 import { NotesWaterFlow, roseChart } from '../../commons/components'
+import { BarChart, valueObjects_bar } from '../../commons/components/BarChart'
 import { auth, UserInfo } from '../../commons/utils'
 import { User, WaterFlowType } from '../../models'
 import { Avatar } from '../../views/MinePage/Avatar'
@@ -13,6 +14,13 @@ export struct MinePage {
   @State sheetTitle: string = ''
   // 半模态框种类
   @State sheetType: WaterFlowType = WaterFlowType.myNotes
+  @State BarArr: Array<valueObjects_bar> = [
+    { type: 'oxygen', time: '2024-12-01', value: 46 },
+    { type: 'silicon', time: '2024-12-02', value: 27 },
+    { type: 'aluminum', time: '2024-12-03', value: 8 },
+    { type: 'iron', time: '2024-12-04', value: 5 },
+    { type: 'calcium', time: '2024-12-05', value: 3 },
+  ]
   @StorageProp(UserInfo)
   user: User = {} as User
 
@@ -155,8 +163,11 @@ export struct MinePage {
             ],
             legendPosition: 'bottom'
           })
+          // 条形统计图
+          BarChart({
+            dataValue: this.BarArr
+          })
         }
-        .height(600)
         .width('100%')
         .backgroundImage($rawfile('other/analyzeBtnBackground.png'))
         .backgroundImageSize(ImageSize.Cover)

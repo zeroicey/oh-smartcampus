@@ -16,7 +16,7 @@ export struct NotesWaterFlowItem {
         .borderRadius({ topLeft: 20, topRight: 20 })
 
         Column({ space: 6 }) {
-          Text(this.item.context.title)
+          Text(this.item.title)
             .fontSize(18)
             .fontWeight(700)
             .maxLines(2)
@@ -60,7 +60,7 @@ export struct NotesWaterFlowItem {
       }
       .borderRadius(20)
       .width('100%')
-      .backgroundImage(this.item.context.pictures[0])
+      .backgroundImage(this.item.pictures[0])
       .backgroundImageSize(ImageSize.Cover)
     }
   }
