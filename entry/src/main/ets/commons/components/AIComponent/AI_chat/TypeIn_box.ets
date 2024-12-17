@@ -7,11 +7,13 @@ import { DataSet } from 'ets/models/tempModel/DataModel/DataSet'
 import { TopicAI } from 'ets/models/tempModel/DataModel/TopicAI'
 //接口
 import { chatData , chatResponseData } from 'ets/models/tempModel/Interface/Chat';
-import { AIhttpReq } from '../../../utils/AIhttp';
-import { logger } from '../../../utils';
-import { http } from '@kit.NetworkKit';
-import { stream } from '@kit.ArkTS';
+// import { AIhttpReq } from '../../../utils/AIhttp';
+// import { logger } from '../../../utils';
+// import { http } from '@kit.NetworkKit';
+// import { stream } from '@kit.ArkTS';
 import { QuestionAnswer } from '../../../../models/tempModel/Interface/ChatQandA';
+import { AiChatResponse } from '../../../../models/tempModel/Interface/Awnser';
+import { httpChat_axios_v1 } from '../../../../views/HttpRequests';
 
 @Component
 export struct TypeIn_box {
@@ -39,12 +41,12 @@ export struct TypeIn_box {
 
       Image($rawfile('icon/send.png'))
         .width(30)
-        .onClick(() => {
+        .onClick( async () => {
           if (this.message == '') {
             promptAction.showToast({ message: "输入内容不可为空" })
           } else {
             this.Array.push(new Message('user', this.message))//将对象填入渲染数组
-            this.httpData_axios(this.message)
+            this.Array.push(await httpChat_axios_v1( this.message,'sbsbsbsb'))//发送请求
             this.message = "" // 清空输入框里的内容
           }
         })
@@ -95,34 +97,7 @@ export struct TypeIn_box {
   //     })
   // }
 
-  httpData_axios(message:string): void {
-    console.log('GOT_message:  '+message)//
-    let obj: chatData = {
-      chatId:'sbsbsbsbsbsb',
-      stream: false,
-      detail: true,
-      messages: [new Message('user', message)]
-    } as chatData
-    console.log('GOT_RUN_HERE1')//
-    axios({
-      method: 'POST',
-      url: "http://117.72.36.183:3000/api/v1/chat/completions",
-      data: obj,
-      headers: {
-        'Authorization': 'Bearer fastgpt-a1RONT8IrAaPCw8a1K7bYu5gOdaOf3x1RjZDs1t44E3D4XAHlslm',
-        'Content-Type': 'application/json',
-        //'Upgrade':'websocket'
-      },
-    })
-      .then((response: AxiosResponse<chatResponseData>) => {
-        console.log(JSON.stringify(response.data))
-        this.Array.push(response.data.choices[0].message); //填入渲染数组
-        //todo this.sourceArr=
-      })
-      .catch((error: BusinessError) => {
-        console.error('Request failed:', error);
-      })
-  }
+
 }
 
 

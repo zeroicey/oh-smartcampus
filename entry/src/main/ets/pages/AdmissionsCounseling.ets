@@ -1,6 +1,8 @@
 import router from '@ohos.router';
+import axios ,{AxiosResponse}from '@ohos/axios';
+import { GotPointLine } from '../models/tempModel/Interface/GotPointLine';
 import { pickProvinceDialog } from '../views/AdmissionsCounseling/pickProvinceDialog';
-
+import { BusinessError } from '@kit.BasicServicesKit';
 @Entry
 @Component
 struct AdmissionsCounseling {
@@ -229,5 +231,20 @@ struct AdmissionsCounseling {
     .height('100%')
     .width('100%')
     .backgroundColor('#353242')
+  }
+  httpSearchPointLine_axios(){
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8080/api/getPointLine',
+      params: {
+        university:this.uniName
+      }
+    })
+      .then((response: AxiosResponse<GotPointLine>)=>{
+        //TODO
+      })
+      .catch((error:BusinessError)=>{
+        console.log(error.message)
+      })
   }
 }

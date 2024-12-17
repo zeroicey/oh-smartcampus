@@ -4,7 +4,6 @@ import { HomePage_hotCircle } from '../views/HomePage/HomePage_hotCircle';
 import { HomePage_InfFastLook } from '../views/HomePage/HomePage_InfFastLook';
 import { HomePage_sidebar } from '../views/HomePage/HomePage_sideBar';
 
-
 export class week {
   day: number
   isToday: boolean
@@ -38,9 +37,8 @@ export struct HomePage {
     new week(5, false, false, ''),
     new week(6, false, false, ''),
   ] //Mock
-
   @State circle: Array<number> = [1, 2, 3, 4] //debug
-  @State provinceCountLine:Array<string> = [] //debug
+  @State provinceCountLine: Array<string> = [] //debug
 
   //@State dayBKcolor:Array<string> = ['#8d87f2','#cac7ff','#ffffff']
 
@@ -95,8 +93,6 @@ export struct HomePage {
       })
     }
   }
-
-  // }
 }
 
 function colorDraw(arr: Array<week>) {

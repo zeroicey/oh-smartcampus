@@ -13,21 +13,21 @@ export struct sourceDialog {
           ForEach(this.souArr, (item: QuestionAnswer,index: number) => {
             ListItem() {
               Column({ space: 10 }) {
-                Text("Q:   " + item.q.toString())
+                Text("Q:   " + item.q)
                   .fontSize(24)
                   //.fontColor('#FFFFFF')
                   .margin({ top: 20 })
                   .width('100%')
                   .textAlign(TextAlign.Start)
 
-                Text("A:   " + item.a.toString())
+                Text("A:   " + item.a)
                   .fontSize(24)
                   //.fontColor('#FFFFFF')
                   .margin({ top: 20 })
                   .width('100%')
                   .textAlign(TextAlign.Start)
 
-                Text('出处：  ' + item.sourceName)
+                Text('出处：  《' + item.sourceName+'》')
                   .fontSize(24)
                   //.fontColor('#FFFFFF')
                   .margin({ top: 20 })

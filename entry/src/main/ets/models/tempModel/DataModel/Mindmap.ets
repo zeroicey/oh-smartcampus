@@ -1,3 +1,5 @@
+
+
 export class ResponseMindMapData {
   message: string;
   result: Result;

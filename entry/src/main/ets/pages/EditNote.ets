@@ -68,10 +68,21 @@ export struct EditNote {
             TargetAI_topic:$TargetAI_topic
           })
           Blank().height('51%')
-          Text('<  END')
-            .width('100%')
-            .fontColor(Color.White)
-            .textAlign(TextAlign.End)
+          Row(){
+            Button(' 删除 ')
+              .backgroundColor('#ff9996')
+              .width(50)
+              .height('30')
+              .fontSize(20)
+              .onClick(()=>{
+                //TODO
+                //delete
+              })
+            Text('<  END')
+              .width('100%')
+              .fontColor(Color.White)
+              .textAlign(TextAlign.End)
+          }
         }
         .width('85%')
         .height('auto')

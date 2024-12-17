@@ -24,6 +24,11 @@ export struct CustomNavBar {
   onclick = () => {
 
   }
+  //返回键点击事件
+  onClickBack = () => {
+
+  }
+
 
   build() {
     Row() {
@@ -32,6 +37,7 @@ export struct CustomNavBar {
           .width(30)
           .margin({ right: 20 })
           .onClick(() => {
+            this.onClickBack()
             router.back()
           })
       }

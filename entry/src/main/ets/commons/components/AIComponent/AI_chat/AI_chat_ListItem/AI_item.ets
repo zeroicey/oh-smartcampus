@@ -4,6 +4,7 @@ import { Message } from 'ets/models/tempModel/DataModel/Message'
 import { lvMarkdownIn, lvText, lvTitle } from '@luvi/lv-markdown-in'
 import { sourceDialog } from '../dialog/sourceDialog'
 import { QuestionAnswer } from '../../../../../models/tempModel/Interface/ChatQandA'
+import { router } from '@kit.ArkUI'
 
 //lvText.setTextColor('#ffffff')
 lvText.setTextSize(20)
@@ -133,6 +134,15 @@ export struct AI_Item {
                   .fontColor(Color.White)
                   .align(Alignment.Center)
                   .fontWeight(FontWeight.Bold)
+                  .onClick(() => {
+                    router.pushUrl({
+                      url: 'pages/Answer',
+                      params: {
+                        // TODO  这里要修改
+                        topicContext: '数据通路'
+                      }
+                    })
+                  })
               }
               .align(Alignment.Center)
               .width('100%')

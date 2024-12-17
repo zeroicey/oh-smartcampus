@@ -16,6 +16,8 @@
     "pages/Scan",
     "pages/ImgPreview",
     "pages/BrushProblem",
-    "pages/Answer"
+    "pages/Answer",
+    "pages/ChatHistory",
+    "pages/Note"
   ]
 }

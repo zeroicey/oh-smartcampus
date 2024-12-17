@@ -21,6 +21,7 @@ import { GetToken } from '../models/tempModel/DataModel/GetToken';
 import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
 import { CustomNavBar } from '../commons/components';
 import { QuestionAnswer } from 'ets/models/tempModel/Interface/ChatQandA'
+import { httpChat_axios_v1 } from '../views/HttpRequests';
 
 //import { UploadWindow } from 'ets/components/AI_chat/Upload_window'//上传窗口组件
 //import { chatData ,DataSet,returnData} from 'ets/model/ChatData';
@@ -30,7 +31,7 @@ import { QuestionAnswer } from 'ets/models/tempModel/Interface/ChatQandA'
 @Component
 export struct Chat {
 
-  @State firstMessage: TopicAI = (router.getParams() as Record<number, Object>)['item'] as TopicAI
+  @State firstMessage: TopicAI = new TopicAI(1, 'java', 'java', 'avator', '1', 'java', 'java', 1)
   //@State firstMessage: TopicAI = new TopicAI(1, 'java', 'java', 'avator', '1', 'java', 'java', 1)//Mock
   @State firstText: string = this.firstMessage.title//话题的ai介绍
   @State time: string = new Date().toLocaleString()//get//debug//这里目前引用当前时间
@@ -59,6 +60,7 @@ export struct Chat {
   //@State lastItemRole:string|undefined = this.Array[this.Array.length - 1].role//判断最后一位的角色
 
   aboutToAppear(): void {
+    this.firstMessage = (router.getParams() as Record<number, Object>)['item'] as TopicAI
     this.onClickUpload=1
   }
 
@@ -148,9 +150,9 @@ export struct Chat {
                   }
                 }
                 .padding({ bottom: 50 })
-                .onAppear(() => {
-                  this.scrollerForScroll.scrollEdge(Edge.Bottom) //
-                })
+                // .onAppear(() => {
+                //   this.scrollerForScroll.scrollEdge(Edge.Bottom) //
+                // })
               })
               //对话加载动画出现逻辑
               if (this.Array.length == 0 || this.Array[this.Array.length-1].role == "user") {
@@ -173,13 +175,14 @@ export struct Chat {
 
                   //.margin({ right: 100 })
                 }
-                .onAppear(() => {
-                  this.scrollerForScroll.scrollEdge(Edge.Bottom)
-                })
+                // .onAppear(() => {
+                //   this.scrollerForScroll.scrollEdge(Edge.Bottom)
+                // })
               }
             }
-            .onAppear(() => {
-              this.httpData_axios('什么是' + this.firstMessage.title + '？80字以内解答。')
+            .onAppear(async () => {
+              this.Array.push(await httpChat_axios_v1('什么是' + this.firstMessage.title + '？80字以内解答。', 'sbsbsbsb'))//debug
+              //this.httpData_axios('什么是' + this.firstMessage.title + '？80字以内解答。', 'sbsbsbsb')//内容+id
             })
 
           }
@@ -230,7 +233,6 @@ export struct Chat {
                 isVisible_head: $isVisible_head,
                 isVisible_CheckBox: $isVisible_CheckBox,
                 ChatAIObj: $Array,
-                //ObjString: $markdownReturn,
                 chatArray: $chatArray
               })
             }
@@ -241,13 +243,10 @@ export struct Chat {
         }
         .width('100%')
         .height('10%')
-
       }
       .width("100%")
       .height("100%")
       .justifyContent(FlexAlign.SpaceBetween)
-      //.backgroundImage($r('app.media.background'))
-      //.backgroundImageSize(ImageSize.FILL)
       .backgroundColor('#353242')
       .transition( //入场
         TransitionEffect.translate({ y: 1000 })
@@ -257,15 +256,7 @@ export struct Chat {
         //UploadWindow()
       }
     }
-
-    // .sharedTransition("AIChatPage",{
-    //   duration:600,
-    //   curve:Curve.Smooth
-    // })
   }
-
-
-
 
   //转场效果
   pageTransition() {
@@ -277,79 +268,4 @@ export struct Chat {
       .opacity(0)
       .scale({x:0,y:0})//缩放
   }
-
-
-  httpData_axios(message:string): void {
-    console.log('GOT_message:  '+message)//
-    let obj: chatData = {
-      chatId:'sbsbsbsbsbsb',
-      stream: false,
-      detail: false,
-      messages: [new Message('user', message)]
-    } as chatData
-    console.log('GOT_RUN_HERE1')//
-    axios({
-      method: 'POST',
-      url: "http://117.72.36.183:3000/api/v1/chat/completions",
-      data: obj,
-      headers: {
-        'Authorization': 'Bearer fastgpt-08KBc24GnU0hWrsb0I6Mpcs918z9fqkIW0Wp1ULuzoGCBKBTrIINyahBVN2u5kz',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response: AxiosResponse<chatResponseData>) => {
-        this.Array.push(response.data.choices[0].message); //填入渲染数组
-      })
-      .catch((error: BusinessError) => {
-        console.error('Request failed:', error);
-      })
-  }
-  async httpKeepChat_axios(type:number){
-    let Obj:Array<Message> = []
-    if(type==1){
-      Obj = this.chatArray//选择聊天记录
-    } else if(type == 2) {
-      Obj = this.Array//所有聊天记录
-    }
-    axios({
-      method: 'POST',
-      url: "http://117.72.36.183:3000/api/v1/chat/completions",
-      data: {
-        name:'heiye',
-        type:1,
-        DataSet:new DataSet(
-          '',//id
-          '',//uid
-          1,//topicId
-          Obj
-        )
-      } as KeepAIChat,
-      headers: {
-        'Authorization':'Bearer' + this.AccessToken
-      }
-    })
-      .then((response: AxiosResponse<KeepAIChatResponse>) => {
-        //TODO
-        console.log('word:  '+response.data.word)
-        console.log('img:  '+response.data.img)
-    })
-      .catch((error: BusinessError) => {
-        console.error('Request failed:', error);
-      })
-  }
-
-
-
 }
-
-
-// 全选点击事件
-// .onClick(() => {
-//   if (this.allchecked === false) {
-//     this.allchecked = true
-//   } else {
-//     this.allchecked = false
-//     this.chatArray = []
-//     this.checkCount = 0
-//   }
-// })

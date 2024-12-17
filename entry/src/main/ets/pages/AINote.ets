@@ -12,6 +12,7 @@ import { chatData } from '../models/tempModel/Interface/Chat';
 import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
 import { lvMarkdownIn, lvText, lvTitle } from '@luvi/lv-markdown-in'
 import { CustomNavBar } from '../commons/components';
+import { httpGetImg_axios, httpGetToken_axios, httpMarkdown_axios } from '../views/HttpRequests';
 
 lvText.setTextSize(20)
 lvTitle.setLevel1Title(25)
@@ -25,14 +26,15 @@ lvText.setTextColor('#ffffff')
 export struct AINote {
   @State isLoading:boolean = true
   @State Text:string = ' wait for response...'//markdown
-  @State ChatArray:Array<Message> = (router.getParams() as Array<Message> )['chatArray']
+  @State ChatArray:Array<Message> = []
   @State TargetAI_topic:string = 'TOPIC'
   @State ImageUrl:string = ''//url
-  @State tokenGot:string = ''
+  @State tokenGot:string = ''//token
   @State finishFlag:boolean = false
   @State imageItems:Array<string> = []
   aboutToAppear(): void {
-    this.httpGetToken_axios()
+    this.ChatArray = (router.getParams() as Array<Message> )['chatArray']
+    this.httpGetToken_axios_beta()
   }
 
   build() {
@@ -41,6 +43,10 @@ export struct AINote {
       CustomNavBar({
         title: 'AI笔记',
         showRightIcon: false,
+        onClickBack:()=>{
+          //TODO
+          //console.log('GOT_onClickBack_Response')//debug
+        }
       })
       AINote_content({
         Text:$Text,
@@ -61,7 +67,31 @@ export struct AINote {
     .backgroundColor('#353242')
   }
 
-  httpGetToken_axios(){
+    // request(){
+    //    httpGetToken_axios('0c2aef874ee6de79','c68185c59c2197017eaad9ca1ecd7c1e')
+    //      .then((value)=>{
+    //        this.tokenGot = value
+    //        console.log('GOT_token: '+this.tokenGot)
+    //      })
+    //        .then(()=>{
+    //          httpMarkdown_axios(this.ChatArray,'Markdown1').then((value)=>{
+    //            this.Text = value
+    //            console.log('GOT_Text: '+this.Text)
+    //          })
+    //        })
+    //          .then(()=>{
+    //            httpGetImg_axios(this.Text,this.tokenGot).then((value)=>{
+    //              this.ImageUrl = value
+    //              console.log('GOT_ImgUrl_content:'+this.ImageUrl)
+    //            })
+    //              .then(()=>{
+    //                this.isLoading = false
+    //                this.imageItems.push(this.ImageUrl)
+    //              })
+    //          })
+
+
+  httpGetToken_axios_beta(){
     axios({
       method: 'POST',
       url: "https://chatglm.cn/chatglm/assistant-api/v1/get_token",
@@ -111,6 +141,7 @@ export struct AINote {
       })
       .catch((error: BusinessError) => {
         console.error('Request failed:', error);
+        this.Text = '<Get null or undefined / 请求失败，请重试>'
       })
       .then(()=>{
         this.httpGetImg_axios(this.Text)
@@ -139,7 +170,7 @@ export struct AINote {
       .catch((err:BusinessError)=>{
         console.log('ERROR_GOT_TOKEN:'+this.tokenGot);
         console.log('ERROR_GOT_Text:'+this.Text)
-        console.log('GOT_ImgReqErr'+err.message)
+        console.log('GOT_ImgReqErr:'+err.message)
       })
   } //依据获取的Token和Markdown，请求图片
 }

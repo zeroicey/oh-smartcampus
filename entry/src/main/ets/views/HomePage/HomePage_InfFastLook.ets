@@ -1,6 +1,9 @@
 
 import router from '@ohos.router';
 import { it } from '@ohos/hypium';
+import axios, { AxiosResponse } from '@ohos/axios';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { TopicAtHome , DataItem} from '../../models/tempModel/Interface/TopicAtHome';
 
 interface  pointLine{
   province:string
@@ -28,7 +31,13 @@ export struct HomePage_InfFastLook{
       point:560,
       specialized:'math'
     },
-  ]
+  ]//mock
+  @State TopicArr:Array<DataItem> = []
+
+  aboutToAppear(): void {
+    this.httpGetNTopic_axios(8)
+  }
+
   build() {
     Column({ space: 20 }) { //zixunsukan
       Row() {
@@ -53,14 +62,25 @@ export struct HomePage_InfFastLook{
       Scroll() {
         Row() {
           List() {
-            ForEach(this.circle, (item: number, index: number) => {
+            ForEach(this.TopicArr, (item: DataItem, index: number) => {
               ListItem() {
                 Row() {
-                  Text('')
+                  Text(item.name)
                     .width(100)
                     .height(22)
                     .borderRadius(10)
                     .backgroundColor('#c7c4ff')
+                    .fontColor(Color.White)
+                    .fontWeight(FontWeight.Bolder)
+                    .fontSize(18)
+                    .onClick(()=>{
+                      router.pushUrl({
+                        url: 'pages/Note',
+                        params: {
+                          topicId: item.id
+                        }
+                      })
+                    })
                   Blank().width(10)
                 }
               }
@@ -123,6 +143,22 @@ export struct HomePage_InfFastLook{
       .width('90%')
     }
     .width('100%')
+  }
+
+  httpGetNTopic_axios(size:number){
+    axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8081/topic/findList',
+      params: {
+        size:size
+      }
+    })
+      .then((response: AxiosResponse<TopicAtHome>)=>{
+        this.TopicArr = response.data.data
+      })
+      .catch((error:BusinessError)=>{
+        console.log(error.message)
+      })
   }
 }
 

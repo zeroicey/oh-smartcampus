@@ -1,17 +1,24 @@
-interface CQItem {
-  value: string;
-  key: string;
-}
+import { chatResponseData } from "./Chat";
+import { QuestionAnswer } from "./ChatQandA";
 
-export interface ResponseData {
+
+interface ResponseData {
   moduleName: string;
   moduleType: string;
   totalPoints: number;
-  model: string;
   query: string;
+  model: string;
   tokens: number;
-  cqList: CQItem[];
-  cqResult: string;
-  contextTotalLen: number;
+  limit: number;
+  searchMode:string;
+  searchUsingRerank:boolean;
+  quoteList: QuestionAnswer[];
+  extensionModel: string;
+  extensionResult: string;
   runningTime: number;
+}
+
+export interface AiChatResponse {
+  rsponse:ResponseData[]
+  data:chatResponseData
 }
