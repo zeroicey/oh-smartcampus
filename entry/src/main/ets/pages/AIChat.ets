@@ -1,24 +1,21 @@
-
 //引用库方法
 import { image } from '@kit.ImageKit';
-import { curves,router} from '@kit.ArkUI';
-import {SpinKit,SpinType} from '@pura/spinkit'
+import { curves, router } from '@kit.ArkUI';
+import { SpinKit, SpinType } from '@pura/spinkit';
 import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
 //数据模型
 import { Message } from 'ets/models/tempModel/DataModel/Message';
-import { DataSet } from 'ets/models/tempModel/DataModel/DataSet'
-import { TopicAI } from 'ets/models/tempModel/DataModel/TopicAI'
+import { DataSet } from 'ets/models/tempModel/DataModel/DataSet';
+import { TopicAI } from 'ets/models/tempModel/DataModel/TopicAI';
 //接口
-import { chatData,chatResponseData } from 'ets/models/tempModel/Interface/Chat';
+import { chatData, chatResponseData } from 'ets/models/tempModel/Interface/Chat';
 
-import { UserItem } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/User_Item'
-import { AI_Item } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/AI_item';//AI聊天项
-import { TypeIn_box } from 'ets/commons/components/AIComponent/AI_chat/TypeIn_box'//底部输入框
-import { OperateBox } from 'ets/commons/components/AIComponent/AI_chat/Operate_box'//底部操作框
-import { KeepAIChat,KeepAIChatResponse } from '../models/tempModel/Interface/KeepAIChat';
-import { GetToken } from '../models/tempModel/DataModel/GetToken';
-import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
+import { UserItem } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/User_Item';
+import { AI_Item } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/AI_item'; //AI聊天项
+import { TypeIn_box } from 'ets/commons/components/AIComponent/AI_chat/TypeIn_box'; //底部输入框
+import { OperateBox } from 'ets/commons/components/AIComponent/AI_chat/Operate_box'; //底部操作框
+import { KeepAIChat, KeepAIChatResponse } from '../models/tempModel/Interface/KeepAIChat';
 import { CustomNavBar } from '../commons/components';
 
 
@@ -29,36 +26,36 @@ import { CustomNavBar } from '../commons/components';
 @Entry
 @Component
 export struct Chat {
-
   @State firstMessage: TopicAI = (router.getParams() as Record<number, Object>)['item'] as TopicAI
   //@State firstMessage: TopicAI = new TopicAI(1, 'java', 'java', 'avator', '1', 'java', 'java', 1)//Mock
-  @State firstText: string = this.firstMessage.title//话题的ai介绍
-  @State time: string = new Date().toLocaleString()//get//debug//这里目前引用当前时间
-  @State Array: Array<Message> = []//渲染对象数组
-  @State message: string = ''//输入框输入的内容
-  @State AccessToken: string = ''//token
+  @State firstText: string = this.firstMessage.title //话题的ai介绍
+  @State time: string = new Date().toLocaleString() //get//debug//这里目前引用当前时间
+  @State Array: Array<Message> = [] //渲染对象数组
+  @State message: string = '' //输入框输入的内容
+  @State AccessToken: string = '' //token
   // @State markdownReturn: string = ''//返回的markdown生成结果
   @StorageLink('userAvatar')
-  pic:Resource|image.PixelMap = $rawfile('other/Mock/Enpty.png')//get
+  pic: Resource | image.PixelMap = $rawfile('other/Mock/Enpty.png') //get
   //隐藏控制
   @State isVisible_head: boolean = false
   @State isVisible_CheckBox: boolean = true
-  @State textAuto:boolean = false
-  @State checkCount: number = 0//勾选框勾选计数
-  @State chatArray: Array<Message> = []//勾选对象数组
-  @State onClickUpload:number=1//点击上传
-  @State allchecked: boolean = false//checkbox全选
+  @State textAuto: boolean = false
+  @State checkCount: number = 0 //勾选框勾选计数
+  @State chatArray: Array<Message> = [] //勾选对象数组
+  @State onClickUpload: number = 1 //点击上传
+  @State allchecked: boolean = false //checkbox全选
   //动画
-  @State head_height:number = 0
-  @State tail_height:number = 200
-  @State Tail_height:number = 0
+  @State head_height: number = 0
+  @State tail_height: number = 200
+  @State Tail_height: number = 0
   //滚动到最下
   private scrollerForScroll: Scroller = new Scroller()
+
   //ai对话回答等待加载
   //@State lastItemRole:string|undefined = this.Array[this.Array.length - 1].role//判断最后一位的角色
 
   aboutToAppear(): void {
-    this.onClickUpload=1
+    this.onClickUpload = 1
   }
 
   // //标题头动画：出现
@@ -86,6 +83,7 @@ export struct Chat {
   aboutToDisappear(): void {
     //this.httpMarkdownCrater_axios()
   }
+
   build() {
     Stack() {
       Column() {
@@ -186,14 +184,15 @@ export struct Chat {
           .width('100%')
           .padding({ top: 12, bottom: 12 })
           .onClick(() => {
-            this.head_height = 0//头部移动距离
+            this.head_height = 0 //头部移动距离
             //this.animation_head_disappear()//头部隐藏动画
             this.chatArray = [] //清空对象数组
-            this.isVisible_head = true//隐藏头部
-            if (this.isVisible_CheckBox === false)
-              this.isVisible_CheckBox = true//隐藏勾选框
+            this.isVisible_head = true //隐藏头部
+            if (this.isVisible_CheckBox === false) {
+              this.isVisible_CheckBox = true
+            } //隐藏勾选框
             this.onClickUpload = 1
-            this.animation_Tail_appear()//输入框出现动画
+            this.animation_Tail_appear() //输入框出现动画
           })
         }
         .width("85%")
@@ -216,7 +215,7 @@ export struct Chat {
               })
             }
             .margin({
-              top:this.Tail_height
+              top: this.Tail_height
             })
           } else {
             Column() {
@@ -232,7 +231,7 @@ export struct Chat {
               })
             }
             .margin({
-              top:this.Tail_height
+              top: this.Tail_height
             })
           }
         }
@@ -250,7 +249,8 @@ export struct Chat {
         TransitionEffect.translate({ y: 1000 })
           .animation({ curve: curves.springMotion(0.6, 0.8) })
       )
-      if(this.onClickUpload!=1) {
+
+      if (this.onClickUpload != 1) {
         //UploadWindow()
       }
     }
@@ -261,30 +261,25 @@ export struct Chat {
     // })
   }
 
-
-
-
   //转场效果
   pageTransition() {
     // PageTransitionEnter({duration:600})
     //   .slide(SlideEffect.Bottom)//侧划入
-    PageTransitionExit({ duration:600 })
-      // .slide(SlideEffect.START)//侧划入
+    PageTransitionExit({ duration: 600 })// .slide(SlideEffect.START)//侧划入
       .slide(SlideEffect.Bottom)//侧划入
       .opacity(0)
-      .scale({x:0,y:0})//缩放
+      .scale({ x: 0, y: 0 }) //缩放
   }
 
-
-  httpData_axios(message:string): void {
-    console.log('GOT_message:  '+message)//
+  httpData_axios(message: string): void {
+    console.log('GOT_message:  ' + message) //
     let obj: chatData = {
-      chatId:'sbsbsbsbsbsb',
+      chatId: 'sbsbsbsbsbsb',
       stream: false,
       detail: false,
       messages: [new Message('user', message)]
     } as chatData
-    console.log('GOT_RUN_HERE1')//
+    console.log('GOT_RUN_HERE1') //
     axios({
       method: 'POST',
       url: "http://117.72.36.183:3000/api/v1/chat/completions",
@@ -301,42 +296,40 @@ export struct Chat {
         console.error('Request failed:', error);
       })
   }
-  async httpKeepChat_axios(type:number){
-    let Obj:Array<Message> = []
-    if(type==1){
-      Obj = this.chatArray//选择聊天记录
-    } else if(type == 2) {
-      Obj = this.Array//所有聊天记录
+
+  async httpKeepChat_axios(type: number) {
+    let Obj: Array<Message> = []
+    if (type == 1) {
+      Obj = this.chatArray //选择聊天记录
+    } else if (type == 2) {
+      Obj = this.Array //所有聊天记录
     }
     axios({
       method: 'POST',
       url: "http://117.72.36.183:3000/api/v1/chat/completions",
       data: {
-        name:'heiye',
-        type:1,
-        DataSet:new DataSet(
-          '',//id
-          '',//uid
-          1,//topicId
+        name: 'heiye',
+        type: 1,
+        DataSet: new DataSet(
+          '', //id
+          '', //uid
+          1, //topicId
           Obj
         )
       } as KeepAIChat,
       headers: {
-        'Authorization':'Bearer' + this.AccessToken
+        'Authorization': 'Bearer' + this.AccessToken
       }
     })
       .then((response: AxiosResponse<KeepAIChatResponse>) => {
         //TODO
-        console.log('word:  '+response.data.word)
-        console.log('img:  '+response.data.img)
-    })
+        console.log('word:  ' + response.data.word)
+        console.log('img:  ' + response.data.img)
+      })
       .catch((error: BusinessError) => {
         console.error('Request failed:', error);
       })
   }
-
-
-
 }
 
 

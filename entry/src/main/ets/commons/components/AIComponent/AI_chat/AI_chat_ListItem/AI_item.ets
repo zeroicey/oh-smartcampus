@@ -2,6 +2,7 @@
 import { Message } from 'ets/models/tempModel/DataModel/Message'
 //import { html2md } from '@luvi/html2md'
 import { lvMarkdownIn, lvText, lvTitle } from '@luvi/lv-markdown-in'
+import { router } from '@kit.ArkUI'
 
 //lvText.setTextColor('#ffffff')
 lvText.setTextSize(20)
@@ -42,20 +43,20 @@ export struct AI_Item {
         .borderRadius(100)
         .margin({ right: 8 })
         .onAppear(() => {
-          this.inputTxt(50, '-' + this.item.content)//debug
+          this.inputTxt(50, '-' + this.item.content) //debug
           this.extraMessageflag++
         })
 
       Column() {
-        lvMarkdownIn({ text: this.currentTxt })//this.item.content
+        lvMarkdownIn({ text: this.currentTxt }) //this.item.content
         //lvMarkdownIn({ text: this.item.content})//debug
         if (this.extraMessageflag == 1) {
-          Column({space:5}) {
+          Column({ space: 5 }) {
             Divider()
               .width('100%')
               .borderWidth(0.3)
               .borderColor('#353341')
-            Row(){
+            Row() {
               Blank().width(10)
               // Image($rawfile('icon/pdf.png'))
               //   .width(15)
@@ -64,7 +65,7 @@ export struct AI_Item {
                 .fontSize(15)
                 .fontWeight(FontWeight.Bold)
                 .fontColor(Color.White)
-                .onClick(()=>{
+                .onClick(() => {
 
                 })
             }
@@ -112,7 +113,8 @@ export struct AI_Item {
             //     .borderRadius(20)
             // }
             .align(Alignment.Start)
-            Row(){
+
+            Row() {
               Row() {
                 Blank().width(10)
                 Image($rawfile('icon/GoAwnser.png'))
@@ -124,6 +126,14 @@ export struct AI_Item {
                   .fontColor(Color.White)
                   .align(Alignment.Center)
                   .fontWeight(FontWeight.Bold)
+                  .onClick(() => {
+                    router.pushUrl({
+                      url: 'pages/Answer',
+                      params: {
+                        topicContext: this.AITopic
+                      }
+                    })
+                  })
               }
               .align(Alignment.Center)
               .width('100%')
@@ -183,7 +193,7 @@ export struct AI_Item {
   }
 
   inputTxt(step: number, text: string): void {
-    let targetTxtArray = splitAndExtract(text);//分割字符串
+    let targetTxtArray = splitAndExtract(text); //分割字符串
     //let targetTxtArray = text.split('')
     if (this.intervalId != -1) {
       clearInterval(this.intervalId)

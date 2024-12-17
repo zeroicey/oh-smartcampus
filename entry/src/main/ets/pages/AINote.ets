@@ -1,17 +1,15 @@
-import {SpinKit,SpinType} from '@pura/spinkit'
 
 import axios, { AxiosResponse } from '@ohos/axios';
-import { GetToken, TokenRequest } from 'ets/models/tempModel/DataModel/GetToken'
+import { GetToken, TokenRequest } from 'ets/models/tempModel/DataModel/GetToken';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { AINote_head } from 'ets/views/AINote/AINote_head'
-import { AINote_foot } from 'ets/views/AINote/AINote_foot'
-import { AINote_content } from 'ets/views/AINote/AINote_content'
-import {  ResponseMindMapData,mindMapPostData } from '../models/tempModel/DataModel/Mindmap';
+import { AINote_foot } from 'ets/views/AINote/AINote_foot';
+import { AINote_content } from 'ets/views/AINote/AINote_content';
+import { mindMapPostData, ResponseMindMapData } from '../models/tempModel/DataModel/Mindmap';
 import { router } from '@kit.ArkUI';
 import { Message } from '../models/tempModel/DataModel/Message';
 import { chatData } from '../models/tempModel/Interface/Chat';
 import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
-import { lvMarkdownIn, lvText, lvTitle } from '@luvi/lv-markdown-in'
+import { lvText, lvTitle } from '@luvi/lv-markdown-in';
 import { CustomNavBar } from '../commons/components';
 
 lvText.setTextSize(20)
@@ -20,38 +18,38 @@ lvTitle.setLevel2Title(23)
 lvText.setTextColor('#ffffff')
 
 
-
 @Entry
 @Component
 export struct AINote {
-  @State isLoading:boolean = true
-  @State Text:string = ' wait for response...'//markdown
-  @State ChatArray:Array<Message> = (router.getParams() as Array<Message> )['chatArray']
-  @State TargetAI_topic:string = 'TOPIC'
-  @State ImageUrl:string = ''//url
-  @State tokenGot:string = ''
-  @State finishFlag:boolean = false
+  @State isLoading: boolean = true
+  @State Text: string = ' wait for response...' //markdown
+  @State ChatArray: Array<Message> = (router.getParams() as Array<Message>)['chatArray']
+  @State TargetAI_topic: string = 'TOPIC'
+  @State ImageUrl: string = '' //url
+  @State tokenGot: string = ''
+  @State finishFlag: boolean = false
+
   aboutToAppear(): void {
     this.httpGetToken_axios()
   }
 
   build() {
-    Column(){
+    Column() {
       //AINote_head()
       CustomNavBar({
         title: 'AI笔记',
         showRightIcon: false,
       })
       AINote_content({
-        Text:$Text,
-        TargetAI_topic:$TargetAI_topic,
-        isLoading:$isLoading,
-        ImageUrl:$ImageUrl,
-        finishFlag:$finishFlag
+        Text: $Text,
+        TargetAI_topic: $TargetAI_topic,
+        isLoading: $isLoading,
+        ImageUrl: $ImageUrl,
+        finishFlag: $finishFlag
       })
       AINote_foot({
-        url:this.ImageUrl,
-        finishFlag:this.finishFlag
+        url: this.ImageUrl,
+        finishFlag: this.finishFlag
       })
     }
     .width("100%")
@@ -60,7 +58,7 @@ export struct AINote {
     .backgroundColor('#353242')
   }
 
-  httpGetToken_axios(){
+  httpGetToken_axios() {
     axios({
       method: 'POST',
       url: "https://chatglm.cn/chatglm/assistant-api/v1/get_token",
@@ -81,27 +79,28 @@ export struct AINote {
       .catch((error: BusinessError) => {
         console.log('Request failed:', error)
       })
-      .then(()=>{
+      .then(() => {
         this.httpMarkdown_axios(this.ChatArray)
       })
   } //获取Token
-  httpMarkdown_axios( message:Array<Message> ){
+
+  httpMarkdown_axios(message: Array<Message>) {
     axios({
       method: 'POST',
       url: "http://117.72.36.183:3000/api/v1/chat/completions",
       data: {
-        chatId:'Markdown1',
-        stream:false,
-        detail:false,
-        messages:message
+        chatId: 'Markdown1',
+        stream: false,
+        detail: false,
+        messages: message
       } as chatData,
       headers: {
-        'Authorization':'Bearer fastgpt-jvyZtwZ4IpClMwUwAnUuOM3UE6PvM1mRlG2FYT3UDe3morn8Tsvv0h0nV',
+        'Authorization': 'Bearer fastgpt-jvyZtwZ4IpClMwUwAnUuOM3UE6PvM1mRlG2FYT3UDe3morn8Tsvv0h0nV',
         'Content-Type': 'application/json'
       }
     })
       .then((response: AxiosResponse<markdownResponse>) => {
-        if(response.data.choices[0].message.content==null||response.data.choices[0].message.content==undefined){
+        if (response.data.choices[0].message.content == null || response.data.choices[0].message.content == undefined) {
           this.Text = '<Get null or undefined / 请求失败，请重试>'
         } else {
           this.Text = trimKnownBackticks(response.data.choices[0].message.content)
@@ -111,38 +110,41 @@ export struct AINote {
       .catch((error: BusinessError) => {
         console.error('Request failed:', error);
       })
-      .then(()=>{
+      .then(() => {
         this.httpGetImg_axios(this.Text)
       })
 
   } //请求生成Markdown
-  httpGetImg_axios(text:string) {
+
+  httpGetImg_axios(text: string) {
     //console.log('GOT_token: '+await getToken())
     axios({
       method: 'POST',
       url: 'https://chatglm.cn/chatglm/assistant-api/v1/stream_sync',
-      data:{
-        assistant_id:"671cede7c216fe0625154b75",
-        prompt:text
+      data: {
+        assistant_id: "671cede7c216fe0625154b75",
+        prompt: text
       } as mindMapPostData,
       headers: {
-        'Authorization':'Bearer ' + this.tokenGot
+        'Authorization': 'Bearer ' + this.tokenGot
       }
     })
       .then((response: AxiosResponse<ResponseMindMapData>) => {
 
         this.ImageUrl = extractUrlFromJsonString(response.data.result.output[1].content[0].content)
-        console.log('GOT_ImgUrl_content:'+this.ImageUrl)
+        console.log('GOT_ImgUrl_content:' + this.ImageUrl)
         this.isLoading = false
       })
-      .catch((err:BusinessError)=>{
-        console.log('ERROR_GOT_TOKEN:'+this.tokenGot);
-        console.log('ERROR_GOT_Text:'+this.Text)
-        console.log('GOT_ImgReqErr'+err.message)
+      .catch((err: BusinessError) => {
+        console.log('ERROR_GOT_TOKEN:' + this.tokenGot);
+        console.log('ERROR_GOT_Text:' + this.Text)
+        console.log('GOT_ImgReqErr' + err.message)
       })
   } //依据获取的Token和Markdown，请求图片
 }
-interface urlObj{ url:string } //提取url用的临时对象
+
+interface urlObj { url: string } //提取url用的临时对象
+
 function trimKnownBackticks(str: string): string {
   // 定义正则表达式，匹配开头的三个反引号后跟换行符、markdown 和另一个换行符
   const startPattern = /^```\s*markdown\s*\n/;
@@ -151,11 +153,12 @@ function trimKnownBackticks(str: string): string {
   // 使用正则表达式替换方法去除指定的开头和结尾部分
   return str.replace(startPattern, '').replace(endPattern, '');
 } //去除markdown中的多余信息
+
 function extractUrlFromJsonString(jsonString: string): string {
   try {
     // 尝试解析 JSON 字符串
     const jsonObject: urlObj = JSON.parse(jsonString);
-    console.log('GOT_JsonObj_url:'+jsonObject.url)
+    console.log('GOT_JsonObj_url:' + jsonObject.url)
     // 检查 'url' 属性是否存在并且不是空值
     if (jsonObject.url) {
       return jsonObject.url;

@@ -4,8 +4,9 @@ import { httpReq, logger } from '../commons/utils'
 import { ISubject } from '../models'
 
 interface IRouterParam {
-  chapterId: number
-  name: string
+  chapterId?: number
+  name?: string
+  topicContext?: string
 }
 
 @Entry
@@ -18,7 +19,7 @@ struct Answer {
   // 控制半模态框
   @State isShow: boolean = false
   // 题库名
-  @State title: string = ''
+  @State title: string | null = ''
   // 选中的答案
   @State activeNum: number = -1
   // 用户选择的答案
@@ -33,21 +34,34 @@ struct Answer {
     customStyle: true
   })
 
-  // 获取题目数据
-  async getSubjectData(params: IRouterParam) {
+  // 根据字段或去对应题目
+  async getTextSubjectData(params: IRouterParam) {
     try {
       this.dialog.open()
       this.subjectList = await httpReq.request<ISubject[]>({
-        url: `/question/getQuestionByChapterId/${params.chapterId}`,
+        url: '/question/getQuestionByCircleContext',
+        params: {
+          topicContext: params.topicContext
+        }
       })
       this.item = this.subjectList[0]
-      promptAction.showToast({ message: '请求成功' })
-      logger.info(JSON.stringify(this.subjectList))
       this.dialog.close()
     } catch (err) {
       this.dialog.close()
     }
+  }
 
+  // 根据章节获取题目数据
+  async getChapterSubjectData(params: IRouterParam) {
+    this.dialog.open()
+    this.subjectList = await httpReq.request<ISubject[]>({
+      //${params.topicContext}
+      url: `/question/getQuestionByChapterId/${params.chapterId}`,
+    })
+    this.item = this.subjectList[0]
+    promptAction.showToast({ message: '请求成功' })
+    logger.info(JSON.stringify(this.subjectList))
+    this.dialog.close()
   }
 
   // 切换题目
@@ -65,16 +79,24 @@ struct Answer {
   }
 
   aboutToAppear(): void {
-    // 获取跳转页面传过来的章节id
+    // 获取跳转页面传过来的章节id或者对话页面跳转过来的字段
     const params = router.getParams() as IRouterParam
-    this.title = params.name
-    this.getSubjectData(params)
+    promptAction.showToast({ message: JSON.stringify(params) })
+    if (params.name) {
+      this.title = params.name
+    }
+    // 判断是章节题目还是字段查询题目
+    if (params.name) {
+      this.getChapterSubjectData(params)
+    } else {
+      this.getTextSubjectData(params)
+    }
   }
 
   build() {
     Column() {
       Row() {
-        CustomNavBar({ title: this.title, showRightIcon: false })
+        CustomNavBar({ title: this.title ? this.title : '类似题目', showRightIcon: false })
           .width('80%')
         Text(`${this.subjectIndex + 1}/${this.subjectList.length}`)
           .layoutWeight(1)
