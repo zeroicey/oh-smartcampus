@@ -130,7 +130,8 @@ export struct AI_Item {
                     router.pushUrl({
                       url: 'pages/Answer',
                       params: {
-                        topicContext: this.AITopic
+                        // TODO  这里要修改
+                        topicContext: '数据通路'
                       }
                     })
                   })
