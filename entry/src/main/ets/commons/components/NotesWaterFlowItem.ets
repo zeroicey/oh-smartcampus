@@ -1,9 +1,9 @@
-import { IAllPublisherNotes } from '../../models'
+import { Rows } from '../../models'
 
 @Entry
 @Component
 export struct NotesWaterFlowItem {
-  @Prop item: IAllPublisherNotes = {} as IAllPublisherNotes
+  @Prop item: Rows = {} as Rows
 
   build() {
     Column() {
@@ -24,11 +24,12 @@ export struct NotesWaterFlowItem {
             .fontColor(Color.White)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
           Row() {
-            Image(this.item.user.avatar)
+            Image(this.item.creatorAvatar)
               .width(20)
               .borderRadius(10)
+              .aspectRatio(1)
               .margin({ right: 3 })
-            Text(this.item.user.name)
+            Text(this.item.creatorName)
               .fontSize(10)
               .fontWeight(700)
               .fontColor(Color.White)
@@ -39,7 +40,7 @@ export struct NotesWaterFlowItem {
               ImageSpan($rawfile('icon/userLike.png'))
                 .width(15)
                 .margin({ right: 3 })
-              Span('' + this.item.user.praise)
+              Span('0')
                 .fontSize(10)
                 .fontWeight(700)
                 .fontColor('rgb(127, 127, 127)')
@@ -60,7 +61,7 @@ export struct NotesWaterFlowItem {
       }
       .borderRadius(20)
       .width('100%')
-      .backgroundImage(this.item.pictures[0])
+      .backgroundImage(this.item.picture)
       .backgroundImageSize(ImageSize.Cover)
     }
   }

@@ -69,21 +69,69 @@ export interface ITopic {
   name: string;
 }
 
-export interface IAllPublisherNotes extends IContext {
-  circleId: string;
-  user: IPublisher
+// export interface IAllPublisherNotes extends IContext {
+//   circleId: string;
+//   user: IPublisher
+//   /**
+//    * 创建时间
+//    */
+//   createTime: string;
+//
+//   // 单个笔记id
+//   id: string;
+//
+//   /**
+//    * 话题完整对象，话题Id同时也是AI的Id，会通过他来跳转AI
+//    */
+//   topic: ITopic;
+// }
+/**
+ * 数据
+ */
+export interface IAllPublisherNotes {
   /**
-   * 创建时间
+   * 页码
    */
-  createTime: string;
+  page: number;
+  /**
+   * 条数
+   */
+  pageSize: number;
+  /**
+   * 内容
+   */
+  rows: Rows[];
+  /**
+   * 总的数据条目
+   */
+  total: number;
+}
 
-  // 单个笔记id
+export interface Rows {
+  /**
+   * 作者头像
+   */
+  creatorAvatar: string;
+  /**
+   * 作者ID
+   */
+  creatorId: string;
+  /**
+   * 作者昵称
+   */
+  creatorName: string;
+  /**
+   * 笔记ID
+   */
   id: string;
-
   /**
-   * 话题完整对象，话题Id同时也是AI的Id，会通过他来跳转AI
+   * 封面
    */
-  topic: ITopic;
+  picture: string;
+  /**
+   * 标题
+   */
+  title: string;
 }
 
 export interface IAllCircle {

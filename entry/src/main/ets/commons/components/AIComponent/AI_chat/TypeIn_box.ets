@@ -15,6 +15,8 @@ import { QuestionAnswer } from '../../../../models/tempModel/Interface/ChatQandA
 
 @Component
 export struct TypeIn_box {
+  @StorageProp('bottomHeight')
+  bottomHeight: number = 0
   @Link isVisible_CheckBox: boolean
   @Link Array: Array<Message>
   @Link message: string
@@ -48,6 +50,7 @@ export struct TypeIn_box {
         })
     }
     .backgroundColor('#9893b1')
+    .padding({ bottom: this.bottomHeight })
     .borderRadius(30)
     .width('100%')
     .height('100%')
