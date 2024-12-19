@@ -131,32 +131,22 @@ struct Answer {
 
         // 如果用户做出选择答案就显示出来
         if (this.activeNum != -1) {
-          Column({ space: 30 }) {
-            Divider()
-              .width('100%')
-              .height(1)
-              .backgroundColor('rgb(255, 153, 150)')
-
-            // 答案
-            Row({ space: 50 }) {
-              Text(`标准答案：${this.item.answer}`)
-                .TextStyle()
-              Text(`你的答案：${this.userChoose.split('.')[0]}`)
-                .TextStyle()
-            }
+          Divider()
             .width('100%')
-            .justifyContent(FlexAlign.Center)
+            .height(1)
+            .backgroundColor('rgb(255, 153, 150)')
 
-            Text('查看解析')
-              .TextStyle()
-              .onClick(() => {
-                this.isShow = true
-              })
-
-          }
-          .width('100%')
+          Text('查看答案')
+            .TextStyle()
+            .width(200)
+            .height(50)
+            .borderRadius(30)
+            .textAlign(TextAlign.Center)
+            .backgroundColor('rgb(76, 206, 167)')
+            .onClick(() => {
+              this.isShow = true
+            })
         }
-
       }
       .width('100%')
       .padding({ left: 30, right: 30 })
@@ -220,44 +210,58 @@ struct Answer {
   // 答案解析半模态框
   @Builder
   AnswerBuilder(explanation: string) {
-    Tabs({ controller: this.tabController }) {
-      ForEach(this.tabBarList, (item: string, index: number) => {
-        TabContent() {
-          Column() {
-            Text(explanation)
-              .width('100%')
-              .fontColor(Color.White)
-          }
-          .width('100%')
-          .height('100%')
-          .justifyContent(FlexAlign.Start)
-        }.tabBar(
-          SubTabBarStyle.of(item.toString())// 直接使用字符串有些限制, 例如不能设置他对应的一些自定义样式.
-            .indicator({
-              color: 'rgb(55, 238, 183)', // 下划线颜色
-              height: 2, // 下划线高度
-              width: 40, // 下划线宽度, 100%则和文本宽度一致, 但这个下划线宽度可以超过100%, 可以根据需求自己设置
-              borderRadius: 2, // 下划线圆角半径
-              marginTop: 9, // 下划线与文字间距
-            })
-            .selectedMode(SelectedMode.INDICATOR)// 设置下划线, 固定写法
-            .labelStyle({
-              // 设置字体样式
-              font: { size: '17fp', weight: '700' }, // 字体大小, 我们无法控制选中和未选中不同状态下的字体大小
-              unselectedColor: Color.White, // 未选中字体颜色
-              selectedColor: 'rgb(55, 238, 183)'  // 选中字体颜色
-            })
-        )
-        .padding({
-          left: 15,
-          right: 15,
-          top: 15,
-          bottom: 15
+    Column() {
+      // 答案
+      Row({ space: 50 }) {
+        Text(`标准答案：${this.item.answer}`)
+          .TextStyle()
+        Text(`你的答案：${this.userChoose.split('.')[0]}`)
+          .TextStyle()
+      }
+      .width('100%')
+      .margin({ top: 30 })
+      .justifyContent(FlexAlign.Center)
+
+      Tabs({ controller: this.tabController }) {
+        ForEach(this.tabBarList, (item: string, index: number) => {
+          TabContent() {
+            Column() {
+              Text(explanation)
+                .width('100%')
+                .fontColor(Color.White)
+            }
+            .width('100%')
+            .height('100%')
+            .justifyContent(FlexAlign.Start)
+          }.tabBar(
+            SubTabBarStyle.of(item.toString())// 直接使用字符串有些限制, 例如不能设置他对应的一些自定义样式.
+              .indicator({
+                color: 'rgb(55, 238, 183)', // 下划线颜色
+                height: 2, // 下划线高度
+                width: 40, // 下划线宽度, 100%则和文本宽度一致, 但这个下划线宽度可以超过100%, 可以根据需求自己设置
+                borderRadius: 2, // 下划线圆角半径
+                marginTop: 9, // 下划线与文字间距
+              })
+              .selectedMode(SelectedMode.INDICATOR)// 设置下划线, 固定写法
+              .labelStyle({
+                // 设置字体样式
+                font: { size: '17fp', weight: '700' }, // 字体大小, 我们无法控制选中和未选中不同状态下的字体大小
+                unselectedColor: Color.White, // 未选中字体颜色
+                selectedColor: 'rgb(55, 238, 183)'  // 选中字体颜色
+              })
+          )
+          .padding({
+            left: 15,
+            right: 15,
+            top: 15,
+            bottom: 15
+          })
         })
-      })
+      }
+      .width('100%')
     }
-    .width('100%')
     .backgroundColor('rgb(53, 50, 66)')
+
   }
 }
 

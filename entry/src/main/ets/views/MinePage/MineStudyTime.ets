@@ -1,5 +1,8 @@
 @Component
 export struct MineStudyTime {
+  @Prop studyTime: string
+  @Prop attendance: number
+
   build() {
     Row() {
       Column({ space: 12 }) {
@@ -12,14 +15,14 @@ export struct MineStudyTime {
         }
 
         Text() {
-          Span('138')
+          Span('--')
             .fontWeight(700)
             .fontColor(Color.Black)
             .fontSize(20)
           Span('小时')
             .fontWeight(600)
             .fontColor(Color.White)
-          Span('43')
+          Span('--')
             .fontWeight(700)
             .fontColor(Color.Black)
             .fontSize(24)
@@ -31,13 +34,13 @@ export struct MineStudyTime {
       .height(90)
       .width(150)
       .padding(10)
-      .backgroundColor('rgb(184, 181, 246)')
+      .backgroundColor('rgb(184, 171, 239)')
       .borderRadius(30)
       .justifyContent(FlexAlign.Center)
 
       Column() {
         Text() {
-          Span('连续打卡天数')
+          Span('已连续打卡')
             .fontWeight(900)
             .fontColor(Color.White)
           ImageSpan($rawfile('icon/clockIn.png'))
@@ -45,7 +48,7 @@ export struct MineStudyTime {
         }
 
         Text() {
-          Span('23')
+          Span('--')
             .fontWeight(700)
             .fontColor(Color.Black)
             .fontSize(48)
@@ -57,7 +60,7 @@ export struct MineStudyTime {
       .height(90)
       .width(150)
       .padding(10)
-      .backgroundColor('rgb(184, 181, 246)')
+      .backgroundColor('rgb(184, 171, 239)')
       .borderRadius(30)
       .justifyContent(FlexAlign.SpaceAround)
     }

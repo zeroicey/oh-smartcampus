@@ -53,7 +53,7 @@ struct ShareNotes {
 
   async getPublisherData(params: ICircleIdParams) {
     this.publisherData = await httpReq.request<IPublisherData>({
-      url: '/circle/queryById',
+      url: '/note/queryById',
       params
     })
     logger.info('res--', JSON.stringify(this.publisherData))

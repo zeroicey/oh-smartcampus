@@ -22,7 +22,7 @@ export struct CommentReply {
           Blank()
           if (this.showRightIcon) {
             Column() {
-              Image(this.praiseFlag ? $rawfile('icon/like_Selected.png') : $rawfile('icon/userLike.png'))
+              Image(this.praiseFlag ? $rawfile('icon/like_Selected.png') : $rawfile('icon/like.png'))
                 .width(24)
               Text('24')
                 .fontSize(14)

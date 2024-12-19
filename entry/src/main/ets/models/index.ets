@@ -1,3 +1,19 @@
+// 笔记WaterFlow组件枚举
+export enum WaterFlowType {
+  message = 0, //资讯
+  circle = 1, //知识圈
+  myNotes = 2, //发布的笔记
+  collection = 3, //收藏的笔记
+  draft = 4 //草稿
+}
+
+// 输入框枚举
+export enum ITextType {
+  name = 'name',
+  email = 'email',
+  password = 'password'
+}
+
 // 用户信息
 export interface User {
   address?: string;
@@ -13,20 +29,13 @@ export interface User {
   uid: string;
 }
 
-// 笔记WaterFlow组件枚举
-export enum WaterFlowType {
-  message = 0, //资讯
-  circle = 1, //知识圈
-  myNotes = 2, //发布的笔记
-  collection = 3, //收藏的笔记
-  draft = 4 //草稿
-}
-
-// 输入框枚举
-export enum ITextType {
-  name = 'name',
-  email = 'email',
-  password = 'password'
+// 个人中心信息
+export interface IInformation {
+  attendance: number; //签到数
+  brightTotal: number; //获亮数
+  likeTotal: number; //获赞数
+  noteTotal: number; //发过的笔记数
+  studyTime: string; //学习时长
 }
 
 export interface TextType {
@@ -69,38 +78,23 @@ export interface ITopic {
   name: string;
 }
 
-// export interface IAllPublisherNotes extends IContext {
-//   circleId: string;
-//   user: IPublisher
-//   /**
-//    * 创建时间
-//    */
-//   createTime: string;
-//
-//   // 单个笔记id
-//   id: string;
-//
-//   /**
-//    * 话题完整对象，话题Id同时也是AI的Id，会通过他来跳转AI
-//    */
-//   topic: ITopic;
-// }
-/**
- * 数据
- */
+// 单个话题下的所有笔记
 export interface IAllPublisherNotes {
   /**
    * 页码
    */
   page: number;
+
   /**
    * 条数
    */
   pageSize: number;
+
   /**
    * 内容
    */
   rows: Rows[];
+
   /**
    * 总的数据条目
    */
@@ -112,22 +106,27 @@ export interface Rows {
    * 作者头像
    */
   creatorAvatar: string;
+
   /**
    * 作者ID
    */
   creatorId: string;
+
   /**
    * 作者昵称
    */
   creatorName: string;
+
   /**
    * 笔记ID
    */
   id: string;
+
   /**
    * 封面
    */
   picture: string;
+
   /**
    * 标题
    */

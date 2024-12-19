@@ -84,30 +84,10 @@ struct BrushProblem {
   @Builder
   ChapterBuilder(item: IChapter) {
     Column({ space: 6 }) {
-      Row({ space: 11 }) {
-        Text(item.name)
-          .fontSize(24)
-          .fontColor(Color.White)
-          .fontWeight(700)
-        Divider()
-          .vertical(true)
-          .width(3)
-          .height(20)
-          .borderRadius(5)
-          .backgroundColor('rgb(55, 238, 183)')
-        Text(`1274人练习`)
-          .fontSize(11)
-          .fontColor('rgb(225, 225, 225)')
-        Text('未完成')
-          .fontWeight(900)
-          .fontSize(11)
-          .fontColor(Color.White)
-          .width(54)
-          .height(25)
-          .borderRadius(7)
-          .backgroundColor('rgb(160, 163, 175)')
-          .textAlign(TextAlign.Center)
-      }
+      Text(item.name)
+        .fontSize(24)
+        .fontColor(Color.White)
+        .fontWeight(700)
 
       Row({ space: 8 }) {
         Text(`共${item.questionNum}题`)
@@ -131,14 +111,25 @@ struct BrushProblem {
         Text(`练习时间 10-17 23:31`)
           .fontSize(11)
           .fontColor(Color.White)
+        Blank()
+        Text('未完成')
+          .fontWeight(900)
+          .fontSize(11)
+          .fontColor(Color.White)
+          .width(54)
+          .height(25)
+          .borderRadius(7)
+          .backgroundColor('rgb(160, 163, 175)')
+          .textAlign(TextAlign.Center)
       }
+      .width('100%')
     }
     .width('100%')
     .padding({
       right: 12,
       top: 16,
       left: 16,
-      bottom: 18
+      bottom: 15
     })
     .borderRadius(30)
     .backgroundColor('rgb(145, 135, 202)')
