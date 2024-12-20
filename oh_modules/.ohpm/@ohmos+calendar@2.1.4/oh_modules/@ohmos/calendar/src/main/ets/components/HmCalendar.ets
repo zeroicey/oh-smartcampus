@@ -213,11 +213,11 @@ export struct HmCalendar {
               //.fontColor($r('app.color.hm_calendar_valid'))
               .fontWeight(FontWeight.Bolder)
             Blank().width(30)
-            this.btnBuilder($r('app.media.ic_public_arrow_left'), () => {
+            this.btnBuilder($r('app.media.month_before'), () => {
               this.prevMonth()
             })
             Blank().width(10)
-            this.btnBuilder($r('app.media.ic_public_arrow_right'), () => {
+            this.btnBuilder($r('app.media.month_after'), () => {
               this.nextMonth()
             })
             //Blank()

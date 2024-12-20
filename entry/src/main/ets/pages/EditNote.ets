@@ -47,18 +47,14 @@ export struct EditNote {
 
   build() {
     Column(){
-      //EditNote_head()
-      //.backgroundColor(Color.Pink)
       CustomNavBar({
         title: '编辑笔记',
         showRightIcon: false,
       })
-
       Scroll(){
         Column() {
           EditNote_imgArr({
             imageItems:$imageItems
-            //AIPictureUrl:$AIPictureUrl
           })
           EditNote_edit({
             Text:$Text,
@@ -70,8 +66,8 @@ export struct EditNote {
           Blank().height('51%')
           Row(){
             Button(' 删除 ')
-              .backgroundColor('#ff9996')
-              .width(50)
+              .backgroundColor('#d4c2ed')
+              .width(80)
               .height('30')
               .fontSize(20)
               .onClick(()=>{
@@ -90,19 +86,14 @@ export struct EditNote {
           this.onClickFlag=3
           this.animation_button()
         })
-        //.backgroundColor(Color.Pink)
       }
       .height('75%')
       .width('100%')
-      //.backgroundColor(Color.Gray)
-
       EditNote_dealButton({
         buttonWidth1:$buttonWidth1,
         buttonWidth2:$buttonWidth2,
         onClickFlag:$onClickFlag,
       })
-
-
     }
     .backgroundColor('#353242')
   }

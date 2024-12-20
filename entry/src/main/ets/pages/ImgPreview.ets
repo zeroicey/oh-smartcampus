@@ -2,7 +2,6 @@ import { ImagePreviewOption } from '@xwf/image_preview'
 import { ImagePreview } from '@xwf/image_preview'
 import { promptAction, router } from '@kit.ArkUI'
 
-
 export function pushImagePreview(option:ImagePreviewOption) {
   router.pushUrl({
     url: 'pages/ImgPreview',

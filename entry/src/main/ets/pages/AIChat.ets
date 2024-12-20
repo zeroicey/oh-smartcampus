@@ -22,16 +22,17 @@ import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
 import { CustomNavBar } from '../commons/components';
 import { QuestionAnswer } from 'ets/models/tempModel/Interface/ChatQandA'
 import { httpChat_axios_v1 } from '../views/HttpRequests';
+import { AIChatNavBar } from '../commons/components/AIComponent/AI_chat/AIChatNavBar';
+
 
 //import { UploadWindow } from 'ets/components/AI_chat/Upload_window'//上传窗口组件
 //import { chatData ,DataSet,returnData} from 'ets/model/ChatData';
-
 //数据测试：给我一串简单的java代码
 @Entry
 @Component
 export struct Chat {
 
-  @State firstMessage: TopicAI = new TopicAI(1, 'java', 'java', 'avator', '1', 'java', 'java', 1)
+  @State firstMessage: TopicAI = new TopicAI(1, '数据通路', '数据通路', 'avator', '1', 'java', 'java', 1)
   //@State firstMessage: TopicAI = new TopicAI(1, 'java', 'java', 'avator', '1', 'java', 'java', 1)//Mock
   @State firstText: string = this.firstMessage.title//话题的ai介绍
   @State time: string = new Date().toLocaleString()//get//debug//这里目前引用当前时间
@@ -60,24 +61,9 @@ export struct Chat {
   //@State lastItemRole:string|undefined = this.Array[this.Array.length - 1].role//判断最后一位的角色
 
   aboutToAppear(): void {
-    this.firstMessage = (router.getParams() as Record<number, Object>)['item'] as TopicAI
+   // this.firstMessage = (router.getParams() as Record<number, Object>)['item'] as TopicAI//debug
     this.onClickUpload=1
   }
-
-  // //标题头动画：出现
-  // animation_head_appear(): void {
-  //   animateTo({ duration: 500, curve: Curve.Smooth }, () => {
-  //     this.head_height = 0
-  //   })
-  // }
-  //
-  // //标题头动画：消失
-  // animation_head_disappear(): void {
-  //   animateTo({ duration: 500, curve: Curve.Smooth }, () => {
-  //     this.head_height = -400
-  //   })
-  // }
-
 
   //底部动画：出现
   animation_Tail_appear(): void {
@@ -93,9 +79,9 @@ export struct Chat {
     Stack() {
       Column() {
         //GotToken({ token: $AccessToken })
-        CustomNavBar({
+        AIChatNavBar({
           title: this.firstMessage.title,
-          showRightIcon: true,
+          leftIcon: $rawfile('icon/backIcon.png'),
           rightIcon: $rawfile('icon/DealAIChat.png'),
           onclick: () => {
             this.tail_height = 200
@@ -103,6 +89,16 @@ export struct Chat {
             this.isVisible_CheckBox = !this.isVisible_CheckBox
             this.isVisible_head = true
             this.animation_Tail_appear()
+          },
+          onClickV2:()=>{
+            //console.log('点击了GO—TO—CHAT—History')
+            router.pushUrl({
+              url: 'pages/ChatHistory',
+              params: {
+                item: this.firstMessage.title,
+                ShowMod: 1
+              }
+            })
           }
         })
 

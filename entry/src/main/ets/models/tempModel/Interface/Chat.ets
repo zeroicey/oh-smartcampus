@@ -19,7 +19,7 @@ export interface chatResponseData {
 
 }
 
-class Usage {
+export class Usage {
   prompt_tokens: number;
   completion_tokens: number;
   total_tokens: number;
@@ -31,7 +31,7 @@ class Usage {
   }
 }
 
-class Choice {
+export class Choice {
   message: Message;
   finish_reason: string;
   index: number;

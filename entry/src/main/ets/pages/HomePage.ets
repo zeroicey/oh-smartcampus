@@ -1,8 +1,4 @@
-import { HomePage_head } from '../views/HomePage/HomePage_head';
-import { HomePage_sign } from '../views/HomePage/HomePage_sign';
-import { HomePage_hotCircle } from '../views/HomePage/HomePage_hotCircle';
-import { HomePage_InfFastLook } from '../views/HomePage/HomePage_InfFastLook';
-import { HomePage_sidebar } from '../views/HomePage/HomePage_sideBar';
+import { HomePage_head, HomePage_hotCircle, HomePage_InfFastLook,HomePage_sidebar,HomePage_sign,HomePage_GoToAI } from "../views/HomePage";
 
 export class week {
   day: number
@@ -18,16 +14,15 @@ export class week {
   }
 }
 
-
-
 @Entry
 @Component
 export struct HomePage {
   @State isShowSideBar: boolean = false
   @State sideBarWidth: number = 0
   @State opcityAll: number = 1
-  @State userName: string = 'Mr.Ass'
-  @State userText: string = 'My name is Mr.Ass'
+  @State Icon: ResourceStr = $rawfile('other/Mock/Enpty.png')
+  @State userName: string = '断网了哦'
+  @State userText: string = '没有网哦，不知道座右铭是什么（。。？）~'
   @State week: Array<week> = [
     new week(7, false, false, ''),
     new week(1, false, false, ''),
@@ -40,9 +35,8 @@ export struct HomePage {
   @State circle: Array<number> = [1, 2, 3, 4] //debug
   @State provinceCountLine: Array<string> = [] //debug
 
-  //@State dayBKcolor:Array<string> = ['#8d87f2','#cac7ff','#ffffff']
-
   aboutToAppear(): void {
+    //this.Icon = //TODO
     this.week[new Date().getDay()].isToday = true
     colorDraw(this.week)
   }
@@ -70,6 +64,8 @@ export struct HomePage {
               circle: $circle
             })
 
+            HomePage_GoToAI()
+
             HomePage_InfFastLook({
               provinceCountLine: $provinceCountLine,
               circle: $circle
@@ -83,13 +79,13 @@ export struct HomePage {
       .height('100%')
       .opacity(this.opcityAll)
       .scrollBar(BarState.Off)
-
       //stack2
       HomePage_sidebar({
         isShowSideBar: $isShowSideBar,
         sideBarWidth: $sideBarWidth,
         userName: $userName,
         opcityAll: $opcityAll,
+        Icon: this.Icon
       })
     }
   }

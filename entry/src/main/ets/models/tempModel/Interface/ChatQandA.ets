@@ -14,7 +14,7 @@ export interface QuestionAnswer {
   score:scoreItem[]
 }
 
-interface scoreItem{
+export interface scoreItem{
   type:string
   value:number
   index:number

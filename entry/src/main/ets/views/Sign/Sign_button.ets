@@ -1,16 +1,19 @@
 import { HmCalendarSelectedDay } from '@ohmos/calendar'
 import axios,{ AxiosResponse } from '@ohos/axios'
 import { BusinessError } from '@kit.BasicServicesKit'
+import { promptAction } from '@kit.ArkUI'
 
 @Component
 export struct Sign_button {
-  @Link buttonMovewidth: number
-  @Link fireworkSize: number
+  @State buttonMovewidth: number = 0
+  @State fireworkSize: number = 0
   @Link signArr: Array<HmCalendarSelectedDay>
-  @Link clickFlag: number
+  @Link clickFlag: number//3跳弹窗，4失败
   @State reqFlag:boolean = false
+  @State signedDays:number = 0
+
   animation_button(): void {
-    animateTo({ duration: 1000, curve: Curve.Linear }, () => {
+    animateTo({ duration: 1000, curve: Curve.FastOutLinearIn }, () => {
       this.buttonMovewidth = 150
     })
   }
@@ -21,11 +24,15 @@ export struct Sign_button {
     })
   }
 
+  aboutToAppear(): void {
+    this.httpGotSignDays_axios()
+  }
+
   build() {
     Row() {
       Row() {
           Row() {
-            if(this.clickFlag != 1) {
+            if(this.clickFlag != 1&&this.clickFlag != 4) {
               Row() {
                 Image($rawfile('icon/firework.png'))
                   .width(this.fireworkSize)
@@ -41,14 +48,15 @@ export struct Sign_button {
               .height(60)
               .borderWidth(5)
               .borderColor('#37e2cc')
-            } else {
-              Text(' 长按打卡 ')
+            } else if(this.clickFlag == 1 || this.clickFlag == 4 ){
+              Text(' 长按打卡  ')
                 .fontColor(Color.White)
                 .fontSize(35)
                 .height('100%')
                 .fontWeight(FontWeight.Bold)
                 .backgroundColor(Color.Transparent)
             }
+
           }
           .height(60)
           .backgroundColor(Color.Transparent)
@@ -56,43 +64,49 @@ export struct Sign_button {
           .borderColor('#37e2cc')
           .width(160)
           .borderRadius(50)
-          .gesture(
-            LongPressGesture({ repeat: true }).onAction((event: GestureEvent) => {
-              if (event.repeat) {
+          .gesture(LongPressGesture().onAction(() => {
                 this.clickFlag=2
                 this.animation_button()
-              }
-            })
-              .onActionEnd(() => {
+                promptAction.showToast({ message: "正在上传打卡信息" ,duration: 2000 })
+            }).onActionEnd(() => {
                 this.animation_firework()
-                this.signArr.push({ date: new Date().toLocaleDateString() })
                 Sleep(600).then(()=>{
-
                   this.httpSign_axios()//进行签到操作
-
                 })
-              })
-          )
+            }))
         }
-
     }
     .height('10%')
   }
+
   httpSign_axios(){
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081/taskList/press',
-    })
-      .then((response: AxiosResponse)=>{
+      url: 'http://127.0.0.1:8081/taskList/press',//get
+    }).then((response: AxiosResponse)=>{
+      this.signArr.push({ date: new Date().toLocaleDateString() })
       this.clickFlag = response.data
-        this.clickFlag=3
-    })
-    .catch((error:BusinessError)=>{
-      this.clickFlag=4
+      this.clickFlag=3
+    }).catch((error:BusinessError)=>{
+      this.fireworkSize = 0
+      this.buttonMovewidth = 0
+      this.clickFlag=4//3跳弹窗4失败
       console.log(error.message)
     })
-  } //上传打卡数据
+  }
+
+  httpGotSignDays_axios(){
+    axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8081/taskList/day',//get
+    }).then((response: AxiosResponse)=>{
+      this.signedDays = response.data
+    }).catch((error:BusinessError)=>{
+      console.log(error.message)
+    })
+  }
 }
+
 const Sleep = (ms: number)=> {
   return new Promise<void>(resolve=>setTimeout(resolve, ms))
 }

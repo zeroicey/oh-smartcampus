@@ -25,7 +25,7 @@ export struct HomePage_head {
 
   build() {
     Row({ space: 5 }) { //头栏
-      Image($rawfile('other/Mock/me.png'))//头像
+      Image($rawfile('other/Mock/Enpty.png'))//头像
         .height(50)
         .width(50)
         .borderRadius(15)

@@ -40,14 +40,15 @@ export struct AINote {
   build() {
     Column(){
       //AINote_head()
-      CustomNavBar({
-        title: 'AI笔记',
-        showRightIcon: false,
-        onClickBack:()=>{
-          //TODO
-          //console.log('GOT_onClickBack_Response')//debug
-        }
-      })
+        CustomNavBar({
+          title: 'AI笔记',
+          showRightIcon: false,
+          onClickBack:()=>{
+            //TODO
+            //console.log('GOT_onClickBack_Response')//debug
+          }
+        })
+
       AINote_content({
         Text:$Text,
         TargetAI_topic:$TargetAI_topic,

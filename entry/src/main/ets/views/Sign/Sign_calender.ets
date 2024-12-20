@@ -1,4 +1,6 @@
 import { HmCalendar,HmCalendarType,HmCalendarSelectedDay} from '@ohmos/calendar'
+import axios, { AxiosResponse } from '@ohos/axios'
+import { BusinessError } from '@kit.BasicServicesKit'
 
 @Component
 export struct Sign_calender{
@@ -6,6 +8,11 @@ export struct Sign_calender{
   @Link today:HmCalendarSelectedDay
   // @Link month:string
   // @Link year:string
+
+  aboutToAppear(): void {
+    this.httpGotSignMonthHistory_axios()
+  }
+
   build() {
     Scroll(){
       Column(){
@@ -32,5 +39,19 @@ export struct Sign_calender{
     .borderRadius(25)
     .width('85%')
     .height('25%')
+  }
+  httpGotSignMonthHistory_axios(){
+    axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8081/find',//get
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ',//token
+      }
+    }).then((response: AxiosResponse<Array<HmCalendarSelectedDay>>)=>{
+        this.signArr = response.data
+    }).catch((error:BusinessError)=>{
+        console.log(error.message)
+    })
   }
 }

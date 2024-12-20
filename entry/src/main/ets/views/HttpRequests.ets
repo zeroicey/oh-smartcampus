@@ -21,9 +21,10 @@ interface urlObj{ url:string } //提取url用的临时对象
 //共用参数
 export const token :string = ''
 
+
 //接口函数
 //对话接口函数 //v1
-export async function httpChat_axios_v1(message:string,chatId:string):Promise<Message>{
+export async function httpChat_axios_v1(message:string,chatId:string):Promise<Message> {
   //console.log('GOT_message:  '+message)//
   obj.chatId = chatId
   obj.messages = [new Message('user', message)]
@@ -47,6 +48,7 @@ export async function httpChat_axios_v1(message:string,chatId:string):Promise<Me
 export async function httpChat_axios_v2(message:string,chatId:string): Promise<Array<QuestionAnswer>>{
   //console.log('GOT_message:  '+message)//debug
   obj.chatId = chatId
+  obj.detail = true
   obj.messages = [new Message('user', message)]
   try {
     const response: AxiosResponse<AiChatResponse> = await axios({
@@ -179,6 +181,8 @@ export async function httpGetImg_axios(text:string,token:string):Promise<string>
     return ''
   }
 }
+
+
 
 //依赖处理方法
 //消除markdown代码中的多余信息

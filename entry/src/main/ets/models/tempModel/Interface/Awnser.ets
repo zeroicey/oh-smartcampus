@@ -1,5 +1,6 @@
-import { chatResponseData } from "./Chat";
+import { chatResponseData, Choice, Usage } from "./Chat";
 import { QuestionAnswer } from "./ChatQandA";
+
 
 
 interface ResponseData {
@@ -20,5 +21,9 @@ interface ResponseData {
 
 export interface AiChatResponse {
   rsponse:ResponseData[]
-  data:chatResponseData
+  id: string;
+  model: string;
+  usage: Usage;
+  choices: Choice[];
 }
+

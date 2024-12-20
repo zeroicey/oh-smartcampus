@@ -1,3 +1,4 @@
+import { router } from "@kit.ArkUI"
 
 
 @Component
@@ -6,13 +7,16 @@ export struct HomePage_sidebar{
   @Link sideBarWidth: number
   @Link userName: string
   @Link opcityAll: number
+  @Prop Icon: ResourceStr = $rawfile('other/Mock/Enpty.png')
+  @State subjectArr:Array<number> = [1,2,3,4]//debug获取章节
+
 
   sidebar_Animation(): void {
     let aimNumBar=0
     let aimNumOpa=1
     if(this.sideBarWidth==0){
       aimNumBar=250
-      aimNumOpa=0.6
+      aimNumOpa=0.3
     } else {
       aimNumOpa=1
     }
@@ -22,61 +26,106 @@ export struct HomePage_sidebar{
     })
   }
 
+  @Builder
+  SideBarButton(text:string,pageUrl:string,id:number){
+    Text('    '+text)
+      .width('80%')
+      .fontColor('#9b9b9b')
+      .height(45)
+      .backgroundColor('#5e5e5e')
+      .borderRadius(20)
+      .margin({right:30})
+      .onClick(()=>{
+        router.pushUrl({
+          url: 'pages/'+pageUrl,
+          params: {
+            subjectId:id//debug
+          }
+        })
+      })
+}
+  @Builder
+  ButtonNotice(text:string,Img:string){
+    Blank().height(5)
+    Row(){
+      Text(' '+text)
+        .fontColor('#9b9b9b')
+        .width('60%')
+
+      Blank().width('30%')
+      Image($rawfile(Img))
+        .width('10%')
+    }
+    .width('80%')
+    .margin({right:30})
+  }
+  @Builder
+  Head(){
+    Row({ space: 5 }) { //头栏
+      Image($rawfile('other/Mock/Enpty.png'))//头像
+        .height(45)
+        .width(45)
+        .borderRadius(15)
+        .onClick(() => {
+          this.isShowSideBar = !this.isShowSideBar
+          this.sidebar_Animation()
+        })
+      Column({ space: 5}) {
+        Text('Hello,' + this.userName)
+          .fontSize(20)
+          .fontWeight(FontWeight.Bolder)
+          .fontColor(Color.White)
+          .textAlign(TextAlign.Start)
+          .width('100%')
+        Text(this.userName)
+          .fontSize(12)
+          .fontWeight(FontWeight.Bolder)
+          .fontColor(Color.White)
+          .textAlign(TextAlign.Start)
+          .width('100%')
+      }
+      .width('64%')
+    }
+  }
+
   build() {
     Row() {
-      Column({space:20}) {
+      Column({space:10}) {
         Blank().height('10%')
-        Image($rawfile('other/Mock/me.png'))
-          .width(100)
-          .height(100)
-          .borderRadius(100)
-
-        Text(this.userName)
-          .fontColor(Color.White)
-          .fontSize(30)
-          .fontWeight(FontWeight.Bolder)
-
-        Row(){}
-        .width('70%')
-        .height(40)
-        .backgroundColor('#c4c4c4')
-        .borderRadius(20)
-        Row(){}
-        .width('70%')
-        .height(40)
-        .backgroundColor('#c4c4c4')
-        .borderRadius(20)
-        Row(){}
-        .width('70%')
-        .height(40)
-        .backgroundColor('#c4c4c4')
-        .borderRadius(20)
-        Row(){}
-        .width('70%')
-        .height(40)
-        .backgroundColor('#c4c4c4')
-        .borderRadius(20)
-        Row(){}
-        .width('70%')
-        .height(40)
-        .backgroundColor('#c4c4c4')
-        .borderRadius(20)
-        Blank().height('5%')
-        Row(){}
-        .width('50%')
-        .height(50)
-        .backgroundColor('#c4c4c4')
-        .borderRadius(30)
-        .margin({right:30})
+        this.Head()
+        this.ButtonNotice('AI对话记录','icon/ChatHistory.png')
+        this.SideBarButton('点击进入对话记录','ChatHistory',2)
+        this.ButtonNotice('笔记编辑','icon/NoteEdit.png')
+        this.SideBarButton('点击进入笔记编辑','EditNote',0)
+        this.ButtonNotice('每日一练','icon/EverydayTask.png')
+        List({space:10}){
+          ForEach(this.subjectArr, (item: number, index: number) => {
+            ListItem() {
+              this.SideBarButton(item.toString(), 'BrushProblem',3)// text & url
+            }.width('90%')
+          })
+        }
+        Blank().height(0)
+        Stack() {
+          Image($rawfile('icon/GotoUserCenter.png'))
+            .width('50%')
+            .height(30)
+            .margin({ right: 90 })
+          Text('      个人中心')
+            .fontSize(20)
+            .fontColor(Color.White)
+            .fontWeight(FontWeight.Bolder)
+            .textAlign(TextAlign.Start)
+            .height(30)
+            .width('100%')
+        }
       }
       .height('100%')
       .width(this.sideBarWidth)
       .backgroundImage($rawfile('other/card/SideBar.png'))
       .backgroundImageSize(ImageSize.Contain)
       .backgroundImagePosition(Alignment.Start)
-      //.backgroundColor(Color.Blue)
-      .margin({ left: 0 })
-      Column(){}
+      Column(){}//空白位置
       .width('30%')
       .height('100%')
       .onClick(()=>{

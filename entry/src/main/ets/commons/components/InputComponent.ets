@@ -11,7 +11,6 @@ interface EmailParam {
 export struct InputComponent {
   @Prop title: string
   @Prop type: ITextType = ITextType.name
-  // 邮箱图标类型
   @Prop emailType: number = 0
   @Prop placeholder: string
   @Link value: string
@@ -19,9 +18,7 @@ export struct InputComponent {
   @State waitTime: number = 3
   regEmail: RegExp =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  onclick = () => {
-
-  }
+  onclick = () => {}
 
   async getEmailNum() {
     try {

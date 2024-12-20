@@ -6,6 +6,7 @@ import { sourceDialog } from '../dialog/sourceDialog'
 import { QuestionAnswer } from '../../../../../models/tempModel/Interface/ChatQandA'
 import { router } from '@kit.ArkUI'
 
+
 //lvText.setTextColor('#ffffff')
 lvText.setTextSize(20)
 //lvTitle.setLevelTitleColor('#ffa3e5e5')
@@ -73,7 +74,6 @@ export struct AI_Item {
                 .fontSize(15)
                 .fontWeight(FontWeight.Bold)
                 .fontColor(Color.White)
-
             }
             .width('100%')
             .height(25)
@@ -139,7 +139,7 @@ export struct AI_Item {
                       url: 'pages/Answer',
                       params: {
                         // TODO  这里要修改
-                        topicContext: '数据通路'
+                        topicContext: this.AITopic
                       }
                     })
                   })

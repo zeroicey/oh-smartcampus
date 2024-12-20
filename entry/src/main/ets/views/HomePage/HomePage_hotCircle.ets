@@ -7,41 +7,46 @@ import { router } from "@kit.ArkUI";
 export struct HomePage_hotCircle {
   @Link circle: number[]
   @State CircleArr: circleItem[] = []
+
   build() {
-    Column({ space: 5 }) { //hot circle
-      Text('热门圈子')
-        .fontColor(Color.White)
-        .fontSize(20)
-        .fontWeight(FontWeight.Bold)
-        .width('90%')
-
-      Row() {
-        Blank().width(10)
-        ForEach(this.CircleArr, (item: circleItem, index: number) => {
-          Column() {
-            Image(item.avatar)
-              .height(50)
-              .width(50)
-              .borderRadius(50)
-              .onClick(()=>{
-                router.pushUrl({
-                  url: 'pages/InCircleContent',
-                  params: {
-                    circledId: item.circledId
-                  }
+    Stack() {
+      Image($rawfile('icon/hotCircleCard.png'))
+        .width('100%')
+        .height('15%')
+      Column({ space: 5 }) { //hot circle
+        Text('热门圈子')
+          .fontColor(Color.White)
+          .fontSize(20)
+          .fontWeight(FontWeight.Bolder)
+          .width('90%')
+        Row() {
+          if (this.CircleArr.length == 0) {Text('热门圈子出问题了？是不是没网?( \'ㅅ\' )').fontColor(Color.White)}
+          Blank().width(10)
+          ForEach(this.CircleArr, (item: circleItem, index: number) => {
+            Column() {
+              Image(item.avatar)
+                .height(50)
+                .width(50)
+                .borderRadius(50)
+                .onClick(() => {
+                  router.pushUrl({
+                    url: 'pages/InCircleContent',
+                    params: {
+                      circledId: item.circledId
+                    }
+                  })
                 })
-              })
-          }
+            }
 
-          Blank().width(30)
-        })
+            Blank().width(30)
+          })
+        }
+        .width('90%')
       }
-      .width('90%')
+      .borderRadius(25)
+      .width('100%')
+      .height('13%')
     }
-    .borderRadius(25)
-    .width('100%')
-    .height('13%')
-    .backgroundColor('#ffc1c1')
   }
 
   httpGetCircle_axios(){

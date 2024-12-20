@@ -14,7 +14,7 @@ interface  pointLine{
 @Component
 export struct HomePage_InfFastLook{
   @Link circle:number[]
-  @Link provinceCountLine:Array<string>//
+  @Link provinceCountLine:Array<string>
   @State MockData:Array<pointLine> = [
     {
       province:'广东省',
@@ -61,6 +61,7 @@ export struct HomePage_InfFastLook{
 
       Scroll() {
         Row() {
+          if(this.TopicArr.length==0){Text('咨询好像也跑路了( ﾟдﾟ)').fontColor(Color.Gray)}
           List() {
             ForEach(this.TopicArr, (item: DataItem, index: number) => {
               ListItem() {
@@ -99,37 +100,64 @@ export struct HomePage_InfFastLook{
         ForEach(this.MockData, (item: pointLine, index: number) => {
           Column({ space: 10 }) {
             Row() {
-              Row({space:10}){
-                Text(item.province)
-                  .fontSize(32)
-                  .fontWeight(FontWeight.Bolder)
-                  .fontColor(Color.White)
-                  .textAlign(TextAlign.Center)
-                  .width('45%')
-                Text('|')
-                  .fontSize(55)
-                  .fontWeight(FontWeight.Lighter)
-                  .width('10%')
-                  .textAlign(TextAlign.Center)
-                Column({space:10}) {
-                  Text(item.specialized)
-                    .fontSize(25)
-                    .fontWeight(FontWeight.Bolder)
-                    .fontColor(Color.White)
-                  Text(item.point.toString())
-                    .fontSize(30)
-                    .fontWeight(FontWeight.Bolder)
-                    .fontColor('#37e2cc')
+              Image($rawfile('other/Mock/me.png'))
+                .height('100%')
+                .width('40%')
+                .borderRadius({
+                  topLeft: 30,
+                  bottomLeft: 30
+                })
+              Column() {
+                Column({space:5}){
+                  Text('xuexiao')
+                    .fontSize(23)
+                    .width('100%')
+                    .textAlign(TextAlign.Start)
+                  Text('shangfeng'+'--'+'leibie')
+                    .fontSize(15)
+                    .width('100%')
+                    .fontColor(Color.Gray)
+                    .textAlign(TextAlign.Start)
+                  Blank().height(20)
+                  Row({space:5}){
+                    Text('  '+'label_1'+'  ')
+                      .fontSize(10)
+                      .height(15)
+                      .width('auto')
+                      .borderRadius(10)
+                      .backgroundColor('#c7c4ff')
+                      .textAlign(TextAlign.Center)
+                      .align(Alignment.Start)
+                    Text('  '+'label__2'+'  ')
+                      .fontSize(10)
+                      .height(15)
+                      .width('auto')
+                      .borderRadius(10)
+                      .backgroundColor('#c7c4ff')
+                      .textAlign(TextAlign.Center)
+                      .align(Alignment.Start)
+                    Text('  '+'label___3'+'  ')
+                      .fontSize(10)
+                      .height(15)
+                      .width('auto')
+                      .borderRadius(10)
+                      .backgroundColor('#c7c4ff')
+                      .textAlign(TextAlign.Center)
+                      .align(Alignment.Start)
+                  }
+                  .width('100%')
                 }
-                .width('45%')
+                .height('80%')
+                .width('90%')
+                .margin({top:15})
               }
-              .width('90%')
-              .height('90%')
+              .height('100%')
+              .width('60%')
             }
-            .backgroundColor('#8d87f2')
+            .backgroundColor(Color.White)
             .width('100%')
-            .height(80)
-            .borderRadius(20)
+            .height(120)
+            .borderRadius(30)
             .onClick(()=>{
               router.pushUrl({
                 url: 'pages/AIChat'
@@ -140,7 +168,7 @@ export struct HomePage_InfFastLook{
         })
       }
       //.backgroundColor(Color.Pink)
-      .width('90%')
+      .width('100%')
     }
     .width('100%')
   }

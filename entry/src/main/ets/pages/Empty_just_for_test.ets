@@ -1,13 +1,24 @@
+import { sourceDialog } from "../commons/components/AIComponent/AI_chat/dialog/sourceDialog"
+import { QuestionAnswer } from "../models/tempModel/Interface/ChatQandA"
 
 
 @Entry
 @Component
 export struct Empty_just_for_test {
+  @State SourceArr:QuestionAnswer[] = []
+  controller:CustomDialogController=new CustomDialogController({
+    builder:sourceDialog({
+      souArr: this.SourceArr
+    })
+  })
   build() {
     Column() {
-      Image('https://sfile.chatglm.cn/markmap/84f8ea3c-286e-42f8-b7eb-32768ea39145.png')
+      Image($rawfile('icon/backIcon.png'))
         .height(200)
         .width(200)
+        .onClick(()=>{
+          this.controller.open()
+        })
     }
     .width('100%')
     .height('100%')

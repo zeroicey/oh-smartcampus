@@ -1,27 +1,20 @@
 import { promptAction } from '@kit.ArkUI';
-import { Sign_calender } from '../views/Sign/Sign_calender';
 import { HmCalendarSelectedDay } from '@ohmos/calendar';
-import { Sign_button } from '../views/Sign/Sign_button';
-import { Sign_LearningProgress } from '../views/Sign/Sign_LearningProgress';
-import { SignDialog } from '../views/Sign/SignDialog';
 import { CustomNavBar } from '../commons/components';
 import axios ,{ AxiosResponse }from '@ohos/axios';
 import { SignData } from '../models/tempModel/Interface/SignData';
-
+import { SignDialog,Sign_LearningProgress,Sign_calender,Sign_button } from '../views/Sign/index';
 interface date { date:string }
-
 
 @Entry
 @Component
 struct Sign {
   // @State year: string = new Date().getFullYear().toString()
   // @State month: string = new Date().getMonth().toString()
-  @State DateArray: Array<date> = [ { date: '2024-12-01'} ]//get
+  @State DateArray: Array<date> = []//get from server
   @State signArr: Array<HmCalendarSelectedDay> = this.DateArray
   @State today: HmCalendarSelectedDay = { date: new Date().toLocaleDateString() }
   @State clickFlag: number = 1
-  @State buttonMovewidth: number = 0
-  @State fireworkSize: number = 0
   @State aniNum: number = 0
   @State ConsecutiveCheckIn :number = 2//get
   @State signedDay:number = 4//get
@@ -49,14 +42,14 @@ struct Sign {
       })
 
       Sign_button({
-        buttonMovewidth: $buttonMovewidth,
-        fireworkSize: $fireworkSize,
         signArr: $signArr,
         clickFlag: $clickFlag
+        //TODO 打卡记录统计数据
       })
 
       Sign_LearningProgress({
         aniNum: $aniNum
+        //TODO 学习数据统计图表数据
       })
 
       if(this.clickFlag==3){
@@ -65,7 +58,7 @@ struct Sign {
         })
       } else if(this.clickFlag==4){
         Blank().height(0).onAppear(()=>{
-          promptAction.showToast({ message: "输入内容不可为空" })
+          promptAction.showToast({ message: "网络错误，打卡失败" ,duration: 2000 })
         })
       }
 
