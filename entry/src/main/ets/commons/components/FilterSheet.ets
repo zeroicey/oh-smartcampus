@@ -10,18 +10,29 @@ export struct FilterSheet {
   // 选中颜色
   @Prop activeIndex: number = -1
   @Prop list: ITopic[] | null
+  @Link isShow: boolean
   onclick = (index: number) => {
 
   }
 
   build() {
     Column() {
-      Text(this.title)
-        .fontSize(24)
-        .fontWeight(700)
-        .fontColor(Color.White)
-        .width('100%')
-        .margin({ bottom: 19, top: 40 })
+      Row() {
+        Text(this.title)
+          .fontSize(24)
+          .fontWeight(700)
+          .fontColor(Color.White)
+        Text('关闭')
+          .fontWeight(500)
+          .fontColor(Color.White)
+          .onClick(() => {
+            this.isShow = false
+          })
+      }
+      .width('100%')
+      .margin({ bottom: 19, top: 40 })
+      .justifyContent(FlexAlign.SpaceBetween)
+
       Scroll() {
         Column() {
           Flex({ wrap: FlexWrap.Wrap }) {

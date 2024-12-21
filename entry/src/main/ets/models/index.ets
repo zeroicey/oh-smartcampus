@@ -158,6 +158,9 @@ export interface IChapter {
   id: number; //章节id
   name: string; //章节名称
   questionNum: number; //题目数量
+  completed: boolean; //是否完成
+  lastTime: number | null; //最近练习时间
+  totalStudyTime: number; //练习时间
 }
 
 // 每个章节对应的题目

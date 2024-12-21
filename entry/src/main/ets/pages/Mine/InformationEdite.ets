@@ -109,6 +109,7 @@ export struct InformationEdite {
     await httpReq.request<null, IUpdateInfoParams>({
       url: '/user/update/info',
       method: 'post',
+      // TODO header请求头
       headers: {
         'uid': this.user.uid
       },

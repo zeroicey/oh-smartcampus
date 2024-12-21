@@ -1,12 +1,5 @@
 import { tracking } from '../commons/utils';
-import {
-  HomePage_GoToAI,
-  HomePage_head,
-  HomePage_hotCircle,
-  HomePage_InfFastLook,
-  HomePage_sidebar,
-  HomePage_sign
-} from '../views/HomePage';
+import {HomePage_GoToAI,HomePage_head,HomePage_hotCircle,HomePage_InfFastLook,HomePage_sidebar,HomePage_sign} from '../views/HomePage';
 
 export class week {
   day: number

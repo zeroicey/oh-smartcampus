@@ -1,4 +1,3 @@
-import { IPublisher } from '../../models'
 
 @Component
 export struct SNInput {

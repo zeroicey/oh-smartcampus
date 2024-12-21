@@ -129,7 +129,7 @@ export struct InCircleContent {
               this.isShow = true
             })
         }
-        .width(40)
+        .width(60)
         .height(50)
         .justifyContent(FlexAlign.Center)
         .backgroundColor('rgb(53, 50, 66)')
@@ -174,6 +174,7 @@ export struct InCircleContent {
   FilterSheetBuilder() {
     FilterSheet({
       title: '频道',
+      isShow: this.isShow,
       activeIndex: this.activeIndex,
       list: this.topicList,
       onclick: (index: number) => {

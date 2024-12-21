@@ -1,15 +1,17 @@
-import { CustomNavBar, FilterSheet, HcLoadingDialog } from '../commons/components'
+import { CustomNavBar, HcLoadingDialog } from '../commons/components'
 import { promptAction, router } from '@kit.ArkUI'
 import { httpReq } from '../commons/utils'
 import { IChapter } from '../models'
+
+interface IRouterParams {
+  subjectId: number
+}
 
 @Entry
 @Component
 struct BrushProblem {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
-  // 是否显示半模态框
-  @State isShow: boolean = false
   @State chapterList: IChapter[] = []
   // 加载弹窗
   dialog: CustomDialogController = new CustomDialogController({
@@ -18,15 +20,15 @@ struct BrushProblem {
   })
 
   // 获取章节数据
-  async getChapterData() {
+  async getChapterData(id: string) {
     try {
       this.dialog.open()
       this.chapterList = await httpReq.request<IChapter[]>({
         url: '/question/getChapterBySubjectId',
         params: {
-          // TODO
+          // TODO header请求头
           uid: '10008',
-          id: '1'
+          id: id
         }
       })
       promptAction.showToast({ message: '请求成功' })
@@ -37,19 +39,26 @@ struct BrushProblem {
     }
   }
 
+  // 时间转化
+  changeDate(time: number) {
+    const date = new Date(time)
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const hour = date.getHours()
+    const min = date.getMinutes()
+    return `${month}-${day} ${hour}:${min}`
+  }
+
   aboutToAppear(): void {
-    this.getChapterData()
+    const params = router.getParams() as IRouterParams
+    // TODO 给下面的函数subjectId
+    this.getChapterData('1')
   }
 
   build() {
     Column({ space: 25 }) {
       // 导航栏
-      CustomNavBar({
-        title: '考点选择', rightIcon: $rawfile('icon/more.png'),
-        onclick: () => {
-          this.isShow = true
-        }
-      })
+      CustomNavBar({ title: '考点选择', showRightIcon: false })
       Scroll() {
         Column({ space: 20 }) {
           // 试卷以及试题按钮
@@ -69,7 +78,6 @@ struct BrushProblem {
               }
             })
           }
-          .bindSheet($$this.isShow, this.FilterSheetBuilder)
         }
         .width('100%')
       }
@@ -104,7 +112,7 @@ struct BrushProblem {
           .height(11)
           .borderRadius(5)
           .backgroundColor('rgb(55, 238, 183)')
-        Text(`已用1min`)
+        Text(`已用${item.totalStudyTime}min`)
           .fontSize(11)
           .fontColor(Color.White)
         Divider()
@@ -113,18 +121,18 @@ struct BrushProblem {
           .height(11)
           .borderRadius(5)
           .backgroundColor('rgb(55, 238, 183)')
-        Text(`练习时间 10-17 23:31`)
+        Text(item.lastTime ? this.changeDate(item.lastTime) : '暂无记录')
           .fontSize(11)
           .fontColor(Color.White)
         Blank()
-        Text('未完成')
+        Text(item.completed ? '已完成' : '未完成')
           .fontWeight(900)
           .fontSize(11)
           .fontColor(Color.White)
           .width(54)
           .height(25)
           .borderRadius(7)
-          .backgroundColor('rgb(160, 163, 175)')
+          .backgroundColor(item.completed ? 'rgb(55, 226, 204)' : 'rgb(160, 163, 175)')
           .textAlign(TextAlign.Center)
       }
       .width('100%')
@@ -148,18 +156,6 @@ struct BrushProblem {
           name: item.name
         }
       })
-    })
-  }
-
-  // 半模态框
-  @Builder
-  FilterSheetBuilder() {
-    FilterSheet({
-      onclick: () => {
-        router.pushUrl({
-          url: 'pages/Answer'
-        })
-      }
     })
   }
 }

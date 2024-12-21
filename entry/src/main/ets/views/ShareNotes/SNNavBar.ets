@@ -3,68 +3,60 @@ import { promptAction } from '@kit.ArkUI';
 import { IPublisherData } from '../../models';
 
 export interface PraiseOrCollectParam {
-  /**
-   * 笔记 ID
-   */
-  noteId: string;
+  noteId: string; //笔记id
 }
 
 @Component
 export struct SNNavBar {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
+  // 用来控制是否显示
   @Link isSend: boolean
+  //笔记id
   @Prop noteId: string
-  // TODO
-  // 是否点赞
+  // 发布者所有内容
   @Prop publisherData: IPublisherData
   // 防抖计时器Id
   @State timeId: number = -1
 
   // 点赞/取消点赞请求
   praise() {
-    try {
-      this.publisherData.isLike = !this.publisherData.isLike
-      clearTimeout(this.timeId)
-      this.timeId = setTimeout(async () => {
-        await httpReq.request<null, PraiseOrCollectParam>({
-          url: this.publisherData.isLike ? '/note/like' : '/note/unlike',
-          method: 'post',
-          headers: {
-            "uid": "1000001"
-          },
-          data: {
-            noteId: this.noteId
-          }
-        })
-        promptAction.showToast({ message: this.publisherData.isLike ? '点赞成功' : '取消成功' })
-      }, 500)
-    } catch (err) {
-      promptAction.showToast({ message: '请求失败' })
-    }
+    this.publisherData.isLike = !this.publisherData.isLike
+    clearTimeout(this.timeId)
+    this.timeId = setTimeout(async () => {
+      await httpReq.request<null, PraiseOrCollectParam>({
+        url: this.publisherData.isLike ? '/note/like' : '/note/unlike',
+        method: 'post',
+        // TODO header请求头
+        headers: {
+          "uid": "1000001"
+        },
+        data: {
+          noteId: this.noteId
+        }
+      })
+      promptAction.showToast({ message: this.publisherData.isLike ? '点赞成功' : '取消成功' })
+    }, 500)
   }
 
   // 收藏/取消收藏 1是收藏，0是取消收藏
   collect() {
-    try {
-      this.publisherData.isCollect = !this.publisherData.isCollect
-      clearTimeout(this.timeId)
-      this.timeId = setTimeout(async () => {
-        await httpReq.request<null, PraiseOrCollectParam>({
-          url: this.publisherData.isCollect ? '/note/collect' : '/note/uncollect',
-          method: 'post',
-          headers: {
-            "uid": "1000001"
-          },
-          data: {
-            noteId: this.noteId
-          }
-        })
-        promptAction.showToast({ message: this.publisherData.isCollect ? '收藏成功' : '取消成功' })
-      }, 500)
-    } catch (err) {
-      promptAction.showToast({ message: '请求失败' })
-    }
+    this.publisherData.isCollect = !this.publisherData.isCollect
+    clearTimeout(this.timeId)
+    this.timeId = setTimeout(async () => {
+      await httpReq.request<null, PraiseOrCollectParam>({
+        url: this.publisherData.isCollect ? '/note/collect' : '/note/uncollect',
+        method: 'post',
+        // TODO header请求头
+        headers: {
+          "uid": "1000001"
+        },
+        data: {
+          noteId: this.noteId
+        }
+      })
+      promptAction.showToast({ message: this.publisherData.isCollect ? '收藏成功' : '取消成功' })
+    }, 500)
   }
 
   build() {

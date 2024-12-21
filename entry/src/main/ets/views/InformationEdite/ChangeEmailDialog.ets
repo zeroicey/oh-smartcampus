@@ -46,6 +46,7 @@ export struct ChangeEmailDialog {
       await httpReq.request<null, IChangeEmail>({
         url: '/user/update/email',
         method: 'post',
+        // TODO header请求头
         headers: {
           'uid': this.user.uid
         },

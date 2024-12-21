@@ -29,6 +29,8 @@ export struct KnowledgeSpherePage {
       name: 'nihao'
     }
   ]
+  @State isRefreshing: boolean = false
+  @State refreshId: number = -1
   @Prop
   @Watch('changeIndex')
   activeIndex: number = 0
@@ -65,6 +67,7 @@ export struct KnowledgeSpherePage {
     this.circleList = await httpReq.request<IAllCircle[]>({
       url: '/circle/findAll'
     })
+    this.isRefreshing = false
   }
 
   aboutToAppear(): void {
@@ -72,58 +75,70 @@ export struct KnowledgeSpherePage {
   }
 
   build() {
-    Scroll() {
-      Column() {
-        Grid() {
-          ForEach(this.circleList, (item: IAllCircle, index: number) => {
-            GridItem() {
-              Column() {
-                Text(item.circleId)
-              }
-              .width(130)
-              .height(130)
-              .borderRadius(30)
-              .backgroundColor(index == 0 || index == 3 ? 'rgb(202, 193, 255)' : 'rgb(255, 193, 193)')
-              .onClick(() => {
-                router.pushUrl({
-                  url: 'pages/InCircleContent',
-                  params: {
-                    circleId: item.circleId
-                  }
+    Refresh({ refreshing: this.isRefreshing }) {
+      Scroll() {
+        Column() {
+          Grid() {
+            ForEach(this.circleList, (item: IAllCircle, index: number) => {
+              GridItem() {
+                Column() {
+                  // Text(item.circleId)
+                }
+                .width('100%')
+                .height(130)
+                .borderRadius(30)
+                .backgroundImage(index == 0 || index == 3 ? $rawfile('other/circleBg1.png') :
+                $rawfile('other/circleBg2.png'))
+                .backgroundImageSize(ImageSize.Cover)
+                .backgroundColor(index == 0 || index == 3 ? 'rgb(202, 193, 255)' : 'rgb(255, 193, 193)')
+                .onClick(() => {
+                  router.pushUrl({
+                    url: 'pages/InCircleContent',
+                    params: {
+                      circleId: item.circleId
+                    }
+                  })
                 })
-              })
-            }
+              }
+            })
+          }
+          .width('100%')
+          .height(280)
+          .columnsTemplate('1fr 1fr')
+          .rowsTemplate('1fr 1fr')
+          .rowsGap(15)
+          .columnsGap(15)
+          .margin({ bottom: 40 })
+          .rotate({ angle: this.angleNumber })
+          .scale({ x: this.scaleX, y: this.scaleY })
+          .onAppear(() => {
+            this.changeIndex()
           })
-        }
-        .width(280)
-        .height(280)
-        .columnsTemplate('1fr 1fr')
-        .rowsTemplate('1fr 1fr')
-        .rowsGap(15)
-        .columnsGap(15)
-        .margin({ bottom: 40 })
-        .rotate({ angle: this.angleNumber })
-        .scale({ x: this.scaleX, y: this.scaleY })
-        .onAppear(() => {
-          this.changeIndex()
-        })
 
-        if (this.isShow) {
-          Text('今日资讯')
-            .fontSize(18)
-            .fontWeight(500)
-            .fontColor(Color.White)
-            .margin({ bottom: 15 })
-            .width('100%')
-            .translate({ y: this.translateY })
-          NotesWaterFlow({ flowType: WaterFlowType.message })
-            .translate({ y: this.translateY })
-        }
+          if (this.isShow) {
+            Text('今日资讯')
+              .fontSize(18)
+              .fontWeight(500)
+              .fontColor(Color.White)
+              .margin({ bottom: 15 })
+              .width('100%')
+              .translate({ y: this.translateY })
+            NotesWaterFlow({ flowType: WaterFlowType.message })
+              .translate({ y: this.translateY })
+          }
 
+        }
       }
+      .width('100%')
+      .height('100%')
+      .padding({ left: 30, right: 30 })
     }
-    .width('100%')
-    .height('100%')
-    .padding({ left: 30, right: 30 })
+    .onRefreshing(() => {
+      this.isRefreshing = true
+      clearTimeout(this.refreshId)
+      this.refreshId = setTimeout(() => {
+        this.getCircleList()
+      }, 500)
+    })
   }
 }

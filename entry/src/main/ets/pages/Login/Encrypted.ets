@@ -25,6 +25,7 @@ struct Encrypted {
     customStyle: true
   })
 
+  // 校验验证码
   async verify() {
     if (this.email == '' || !this.regEmail.test(this.email)) {
       promptAction.showToast({ message: this.email == '' ? '邮箱不能为空' : '邮箱格式不对' })
@@ -34,8 +35,6 @@ struct Encrypted {
       promptAction.showToast({ message: this.emailNum == '' ? '验证码不正确' : '验证码格式不对' })
       return
     }
-    // TODO
-    // 校验验证码
     try {
       this.dialog.open()
       await httpReq.request<null, IVerifyParams>({

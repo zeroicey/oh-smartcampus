@@ -27,7 +27,7 @@ struct ShareNotes {
   async getPublisherData(params: ICircleIdParams) {
     this.publisherData = await httpReq.request<IPublisherData>({
       url: '/note/queryById',
-      // TODO
+      // TODO header请求头
       headers: {
         "uid": "1000001"
       },

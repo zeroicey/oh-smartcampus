@@ -24,27 +24,28 @@ export struct roseChart {
   //@Prop isContentVisible: boolean = true//中心标题内容
   //@Prop isLegendVisible: boolean = false//图例
   @State spec: Record<string, string | ESObject> = {
-  'color':['#ff89af','#f0cc18','#f69a18'],
-  'type': 'rose',
-  'data': {
-    values: this.dataValue
-  },
-  "outerRadius": 0.8,
-  "innerRadius": 0.2,
-  "categoryField": "type",
-  "valueField": "value",
-  "seriesField": "type",
-  'legends': {
-    "interactive":false
-  },
-  'label': {
-    'visible': true,
-    'layout': ({
-      'tangentConstraint': false
-    }) as ESObject
-  },
+    'color': ['#ff89af', '#f0cc18', '#f69a18'],
+    'type': 'rose',
+    'data': {
+      values: this.dataValue
+    },
+    "outerRadius": 0.8,
+    "innerRadius": 0.2,
+    "categoryField": "type",
+    "valueField": "value",
+    "seriesField": "type",
+    'legends': {
+      "interactive": false
+    },
+    'label': {
+      'visible': true,
+      'layout': ({
+        'tangentConstraint': false
+      }) as ESObject
+    },
 
-};
+  };
+
   // @State spec: Record<string, string | ESObject> = {
   //   'type': 'rose',
   //   'data': {

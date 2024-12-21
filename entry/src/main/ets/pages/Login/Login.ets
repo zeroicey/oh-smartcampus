@@ -48,13 +48,7 @@ struct Login {
       promptAction.showToast({ message: '请先勾选协议' })
       return
     }
-    // TODO
     this.isLoading = true
-    // setTimeout(() => {
-    //   this.isLoading = false
-    //   promptAction.showToast({ message: '登陆成功' })
-    //   router.back()
-    // }, 1000)
     try {
       this.isLoading = true
       const user = await httpReq.request<User, ILoginParams>({
@@ -104,40 +98,29 @@ struct Login {
       .width('100%')
       .margin({ bottom: 20 })
 
-      Row({ space: 5 }) {
-        //TODO
-        Checkbox()
-          .width(16)
-          .shape(CheckBoxShape.ROUNDED_SQUARE)
-          .unselectedColor('rgb(55, 226, 204)')
-          .selectedColor('rgb(55, 226, 204)')
-          .mark({
-            strokeColor: Color.Black,
-            strokeWidth: 3
-          })
-          .select(this.isAgree)
-          .onChange((val) => {
-            this.isAgree = val
-          })
-        Text('记住密码')
+      Row() {
+        Text('注册账户')
+          .fontColor('rgb(55, 226, 204)')
           .fontWeight(600)
-          .fontColor(Color.White)
-          .fontSize(14)
+          .onClick(() => {
+            router.pushUrl({
+              url: 'pages/Login/Registration'
+            })
+          })
+
+        Text('忘记密码？')
+          .fontWeight(600)
+          .fontColor('rgb(55, 226, 204)')
+          .textAlign(TextAlign.End)
+          .onClick(() => {
+            router.pushUrl({
+              url: 'pages/Login/Encrypted'
+            })
+          })
       }
       .width('100%')
-      .justifyContent(FlexAlign.Start)
-      .margin({ bottom: 12 })
+      .justifyContent(FlexAlign.SpaceBetween)
 
-      Text('忘记密码？')
-        .fontWeight(600)
-        .fontColor('rgb(55, 226, 204)')
-        .width('100%')
-        .textAlign(TextAlign.Center)
-        .onClick(() => {
-          router.pushUrl({
-            url: 'pages/Login/Encrypted'
-          })
-        })
       Blank()
       Button() {
         Row() {
@@ -163,21 +146,28 @@ struct Login {
       })
       .margin({ bottom: 25 })
 
-      Text() {
-        Span('没有账户？')
-          .fontWeight(700)
-          .fontColor(Color.White)
-        Span('注册')
-          .fontColor('rgb(55, 226, 204)')
-          .fontWeight(700)
-          .onClick(() => {
-            router.pushUrl({
-              url: 'pages/Login/Registration'
-            })
+      // 隐私协议
+      Row({ space: 5 }) {
+        Checkbox()
+          .width(16)
+          .shape(CheckBoxShape.ROUNDED_SQUARE)
+          .unselectedColor('rgb(55, 226, 204)')
+          .selectedColor('rgb(55, 226, 204)')
+          .mark({
+            strokeColor: Color.Black,
+            strokeWidth: 3
           })
+          .select(this.isAgree)
+          .onChange((val) => {
+            this.isAgree = val
+          })
+        Text('已阅读并同意隐私协议和隐私政策')
+          .fontWeight(600)
+          .fontColor(Color.White)
+          .fontSize(14)
       }
-      .textAlign(TextAlign.Center)
-
+      .width('100%')
+      .justifyContent(FlexAlign.Center)
     }
     .width('100%')
     .height('100%')

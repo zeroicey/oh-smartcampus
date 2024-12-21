@@ -32,6 +32,7 @@ export struct MinePage {
     try {
       this.infomation = await httpReq.request<IInformation>({
         url: '/user/findById',
+        // TODO header请求头
         headers: {
           "uid": '1000001'
         }
@@ -199,8 +200,6 @@ export struct MinePage {
             })
           }
           .width('100%')
-          .backgroundImage($rawfile('other/analyzeBtnBackground.png'))
-          .backgroundImageSize(ImageSize.Cover)
           .padding({ left: 30, right: 30 })
         }
         .bindSheet($$this.isShow, this.BindSheetBuilder(this.sheetTitle), { showClose: false })
@@ -210,6 +209,7 @@ export struct MinePage {
       .padding({ top: 10 })
       .margin({ bottom: 10 })
       .scrollBar(BarState.Off)
+      .align(Alignment.Top)
     }
     .onRefreshing(() => {
       if (!this.user.token) {

@@ -11,7 +11,7 @@ export class MyDataSource<T> extends BasicDataSource<T> {
     if (index < 0 || index > this.dataArray.length - 1) {
       throw new RangeError('index范围异常');
     }
-    console.info('获取元素, 当前索引为: ', index);
+    // console.info('获取元素, 当前索引为: ', index);
     return this.dataArray[index];
   }
 
