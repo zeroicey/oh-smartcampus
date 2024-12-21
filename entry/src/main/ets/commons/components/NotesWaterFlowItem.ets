@@ -6,7 +6,12 @@ export struct NotesWaterFlowItem {
   @Prop item: Rows = {} as Rows
 
   build() {
-    Column() {
+    Stack() {
+      Image(this.item.picture || $rawfile('other/defaultNote.png'))
+        .alt($rawfile('other/defaultNote.png'))
+        .width('100%')
+        .borderRadius(20)
+        .aspectRatio(1)
       Column() {
         Column() {
 
@@ -24,26 +29,29 @@ export struct NotesWaterFlowItem {
             .fontColor(Color.White)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
           Row() {
-            Image(this.item.creatorAvatar)
+            Image(this.item.creatorAvatar || $rawfile('other/ic_mine_avatar.svg'))
+              .alt($rawfile('other/ic_mine_avatar.svg'))
               .width(20)
               .borderRadius(10)
               .aspectRatio(1)
               .margin({ right: 3 })
             Text(this.item.creatorName)
-              .fontSize(10)
+              .fontSize(14)
               .fontWeight(700)
               .fontColor(Color.White)
 
             Blank()
 
-            Text() {
-              ImageSpan($rawfile('icon/userLike.png'))
-                .width(15)
-                .margin({ right: 3 })
-              Span('0')
-                .fontSize(10)
-                .fontWeight(700)
-                .fontColor('rgb(127, 127, 127)')
+            if (this.item.likeTotal) {
+              Text() {
+                ImageSpan($rawfile('icon/like.png'))
+                  .width(15)
+                  .margin({ right: 3 })
+                Span(`${this.item.likeTotal}`)
+                  .fontSize(14)
+                  .fontWeight(700)
+                  .fontColor(Color.White)
+              }
             }
           }
           .width('100%')
@@ -61,7 +69,7 @@ export struct NotesWaterFlowItem {
       }
       .borderRadius(20)
       .width('100%')
-      .backgroundImage(this.item.picture)
+      .backgroundImage(this.item.picture || $rawfile('other/defaultNote.png'))
       .backgroundImageSize(ImageSize.Cover)
     }
   }

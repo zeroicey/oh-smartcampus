@@ -1,4 +1,12 @@
-import { HomePage_head, HomePage_hotCircle, HomePage_InfFastLook,HomePage_sidebar,HomePage_sign,HomePage_GoToAI } from "../views/HomePage";
+import { tracking } from '../commons/utils';
+import {
+  HomePage_GoToAI,
+  HomePage_head,
+  HomePage_hotCircle,
+  HomePage_InfFastLook,
+  HomePage_sidebar,
+  HomePage_sign
+} from '../views/HomePage';
 
 export class week {
   day: number
@@ -36,6 +44,8 @@ export struct HomePage {
   @State provinceCountLine: Array<string> = [] //debug
 
   aboutToAppear(): void {
+    // 被动上报埋点数据
+    tracking.report(true)
     //this.Icon = //TODO
     this.week[new Date().getDay()].isToday = true
     colorDraw(this.week)
@@ -79,6 +89,7 @@ export struct HomePage {
       .height('100%')
       .opacity(this.opcityAll)
       .scrollBar(BarState.Off)
+
       //stack2
       HomePage_sidebar({
         isShowSideBar: $isShowSideBar,

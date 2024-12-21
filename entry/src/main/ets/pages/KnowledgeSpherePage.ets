@@ -109,6 +109,13 @@ export struct KnowledgeSpherePage {
         })
 
         if (this.isShow) {
+          Text('今日资讯')
+            .fontSize(18)
+            .fontWeight(500)
+            .fontColor(Color.White)
+            .margin({ bottom: 15 })
+            .width('100%')
+            .translate({ y: this.translateY })
           NotesWaterFlow({ flowType: WaterFlowType.message })
             .translate({ y: this.translateY })
         }

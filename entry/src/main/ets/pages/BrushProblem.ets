@@ -22,7 +22,12 @@ struct BrushProblem {
     try {
       this.dialog.open()
       this.chapterList = await httpReq.request<IChapter[]>({
-        url: '/question/getChapterBySubjectId/1'
+        url: '/question/getChapterBySubjectId',
+        params: {
+          // TODO
+          uid: '10008',
+          id: '1'
+        }
       })
       promptAction.showToast({ message: '请求成功' })
       this.dialog.close()

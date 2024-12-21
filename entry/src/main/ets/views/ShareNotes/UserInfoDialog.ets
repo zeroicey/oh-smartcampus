@@ -3,7 +3,7 @@ import { IPublisher } from '../../models'
 @CustomDialog
 export struct UserInfoDialog {
   controller: CustomDialogController
-  @Prop publisher: IPublisher
+  @Prop publisher: IPublisher = {} as IPublisher
 
   build() {
     Stack() {
@@ -19,7 +19,8 @@ export struct UserInfoDialog {
 
       Column() {
         Stack({ alignContent: Alignment.Bottom }) {
-          Image(this.publisher.avatar)
+          Image(this.publisher.avatar ||
+          $rawfile('other/ic_mine_avatar.svg'))// .alt($rawfile('other/ic_mine_avatar.svg'))
             .width(142)
             .border({
               color: 'rgb(141, 135, 242)',
@@ -66,7 +67,7 @@ export struct UserInfoDialog {
             }
 
             Column() {
-              Text('' + this.publisher.referral)
+              Text('' + this.publisher.brightTotal)
                 .fontColor('rgb(97, 217, 201)')
                 .fontSize(24)
                 .fontWeight(900)
@@ -77,7 +78,7 @@ export struct UserInfoDialog {
             }
 
             Column() {
-              Text('' + this.publisher.praise)
+              Text('' + this.publisher.likeTotal)
                 .fontColor('rgb(97, 217, 201)')
                 .fontSize(24)
                 .fontWeight(900)

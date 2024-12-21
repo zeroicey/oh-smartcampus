@@ -1,5 +1,5 @@
 import { SNInput, SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
-import { router } from '@kit.ArkUI';
+import { promptAction, router } from '@kit.ArkUI';
 import { IPublisher, IPublisherData } from '../models';
 import { httpReq, logger } from '../commons/utils';
 import { ICircleIdParams } from '../commons/components';
@@ -10,35 +10,7 @@ import { ICircleIdParams } from '../commons/components';
 struct ShareNotes {
   @StorageProp('topHeight')
   topHeight: number = 0
-  @State publisherData: IPublisherData = {
-    circleId: '1',
-    pictures: [
-      'https://tse2-mm.cn.bing.net/th/id/OIP-C.5ASZMDn60QmoRWwJhfAs9AHaHa?rs=1&pid=ImgDetMain',
-      'https://bpic.588ku.com/element_origin_min_pic/19/04/09/c2927d488f5166168b85288b186333b5.jpg',
-      'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
-      'https://bpic.588ku.com/element_pic/23/04/25/1ff048e85ae0147376033edab9307568.png',
-      'https://img95.699pic.com/element/40159/7630.png_300.png'
-    ],
-    title: "我最帅",
-    word: "文字描述666",
-    createTime: null,
-    id: '36467884384555459937',
-    topic: {
-      id: 1,
-      name: "绪论",
-      attractTitle: "这是一个营销号标题"
-    },
-    user: {
-      uid: '1000001',
-      name: '黑夜',
-      avatar: 'https://pic1.zhimg.com/v2-e5962333059d0dc857301394d30f396d_r.jpg?source=1940ef5c',
-      introduction: '我是百变小樱，不是百变酒精assfasafaafafafaf',
-      studyProgress: 0,
-      attendance: 0,
-      referral: 0,
-      praise: 0
-    }
-  } as IPublisherData
+  @State publisherData: IPublisherData = {} as IPublisherData
   @State publisher: IPublisher = {} as IPublisher
   @State isSend: boolean = false
   // 笔记所属知识圈id
@@ -51,13 +23,32 @@ struct ShareNotes {
     maskColor: '#4dcfcccc',
   })
 
+  // 获取发布者笔记内容
   async getPublisherData(params: ICircleIdParams) {
     this.publisherData = await httpReq.request<IPublisherData>({
       url: '/note/queryById',
+      // TODO
+      headers: {
+        "uid": "1000001"
+      },
       params
     })
     logger.info('res--', JSON.stringify(this.publisherData))
-    this.publisher = this.publisherData.user
+  }
+
+  // 发布者弹窗内容
+  async getPublisher() {
+    try {
+      this.publisher = await httpReq.request<IPublisher>({
+        url: '/user/findUserDetailById',
+        params: {
+          uid: this.publisherData.creatorId
+        }
+      })
+      this.UserInfoDialog.open()
+    } catch (err) {
+      promptAction.showToast({ message: '请求失败' })
+    }
   }
 
   aboutToAppear(): void {
@@ -77,9 +68,11 @@ struct ShareNotes {
           .onClick(() => {
             router.back()
           })
-        this.UserTitleBuilder()
-        Blank()
-        this.ChargingBtnBuilder()
+        if (this.publisherData.creatorAvatar) {
+          this.UserTitleBuilder()
+          Blank()
+          this.ChargingBtnBuilder()
+        }
       }
       .width('100%')
       .padding({ left: 30, right: 30, top: this.topHeight })
@@ -88,9 +81,10 @@ struct ShareNotes {
         Column() {
           // 轮播图
           Swiper() {
-            ForEach(this.publisherData.pictures, (item: string) => {
+            ForEach(this.publisherData.pictures || [$rawfile('other/defaultNote.png')], (item: string) => {
               Column() {
                 Image(item)
+                  .alt($rawfile('other/defaultNote.png'))
                   .width('100%')
                   .height(390)
                   .borderRadius(20)
@@ -121,22 +115,23 @@ struct ShareNotes {
               .width('100%')
 
             Text(this.publisherData.word)
-              .fontSize(20)
-              .fontWeight(900)
+              .fontSize(14)
               .fontColor(Color.White)
               .width('100%')
-            Row() {
-              Image($rawfile('icon/aiIcon.png'))
-                .width(28)
-              Text('这里是话题')
-                .fontSize(20)
-                .fontWeight(900)
-                .fontColor('#98F4E9')
-                .width('100%')
+            if (this.publisherData.creatorAvatar) {
+              Row() {
+                Image($rawfile('icon/aiIcon.png'))
+                  .width(28)
+                Text('这里是话题')
+                  .fontSize(20)
+                  .fontWeight(900)
+                  .fontColor('#98F4E9')
+                  .width('100%')
+              }
+              .onClick(() => {
+                // TODO
+              })
             }
-            .onClick(() => {
-              // TODO
-            })
 
             Divider()
               .width('100%')
@@ -163,7 +158,7 @@ struct ShareNotes {
         SNInput({ isSend: this.isSend })
       } else {
         // 底部点赞
-        SNNavBar({ isSend: this.isSend, noteId: this.noteId })
+        SNNavBar({ isSend: this.isSend, noteId: this.noteId, publisherData: this.publisherData })
       }
     }
     .width('100%')
@@ -174,13 +169,14 @@ struct ShareNotes {
   @Builder
   UserTitleBuilder() {
     Row({ space: 10 }) {
-      Image(this.publisher.avatar)
+      Image(this.publisherData.creatorAvatar || $rawfile('other/ic_mine_avatar.svg'))
+        .alt($rawfile('other/ic_mine_avatar.svg'))
         .width(50)
         .borderRadius(25)
         .onClick(() => {
-          this.UserInfoDialog.open()
+          this.getPublisher()
         })
-      Text(this.publisher.name)
+      Text(this.publisherData.creatorName)
         .fontSize(24)
         .fontColor(Color.White)
         .fontWeight(700)

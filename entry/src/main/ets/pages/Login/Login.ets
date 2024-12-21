@@ -1,7 +1,7 @@
 import { InputComponent } from '../../commons/components';
 import { ITextType, User } from '../../models';
 import { promptAction, router } from '@kit.ArkUI';
-import { auth, httpReq } from '../../commons/utils';
+import { auth, httpReq, tracking } from '../../commons/utils';
 
 interface ILoginParams {
   email?: null | string;
@@ -69,6 +69,8 @@ struct Login {
       this.isLoading = false
       // 存储用户数据
       auth.setUser(user)
+      // 被动上报埋点数据
+      tracking.report(true)
       promptAction.showToast({ message: '登陆成功' })
       router.back()
     } catch (err) {

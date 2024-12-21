@@ -10,7 +10,7 @@ export struct FilterSheet {
   // 选中颜色
   @Prop activeIndex: number = -1
   @Prop list: ITopic[] | null
-  onclick = (index:number) => {
+  onclick = (index: number) => {
 
   }
 
@@ -27,10 +27,13 @@ export struct FilterSheet {
           Flex({ wrap: FlexWrap.Wrap }) {
             ForEach(this.list || Array.from({ length: 10 }), (item: ITopic | null, index: number) => {
               Text(item?.name || index.toString())
+                .maxLines(1)
+                .textOverflow({ overflow: TextOverflow.Ellipsis })
                 .height(40)
-                .constraintSize({ minWidth: 60 })
+                .constraintSize({ minWidth: 60, maxWidth: 150 })
                 .borderRadius(20)
-                .backgroundColor(this.activeIndex == index ? Color.Pink : Color.White)
+                .fontColor(this.activeIndex == index ? Color.White : Color.Black)
+                .backgroundColor(this.activeIndex == index ? '#B8ABEF' : Color.White)
                 .textAlign(TextAlign.Center)
                 .margin({ right: 14, bottom: 15 })
                 .padding({ left: 10, right: 10 })

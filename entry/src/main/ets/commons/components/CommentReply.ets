@@ -37,12 +37,10 @@ export struct CommentReply {
         .width('100%')
         .height(40)
 
-        Text('这里hyauisdhiudhiahaiso;aisd;ia说了一大段不知道在说什么的话这里说了一大段不知道在说什么的话这里说了一大段不知道在说什么的话\n' +
-          '这里说了一大段不知道在说什么的话这里说了一大段不知道在说什么的话')
+        Text('这里hyauisdhiudhiahaiso;aisd;ia说了一大段不知道在说什么的话这里说了一大段不知道在说什么的话这里说了一大段不知道在说什么的话这里说了一大段不知道在说什么的话这里说了一大段不知道在说什么的话')
           .width('100%')
           .margin({ bottom: 18 })
-          .fontSize(16)
-          .fontWeight(900)
+          .fontSize(14)
           .fontColor('rgb(241, 241, 241)')
       }
       .layoutWeight(1)

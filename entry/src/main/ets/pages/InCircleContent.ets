@@ -154,10 +154,12 @@ export struct InCircleContent {
   @Builder
   tabBarBuilder(item: ITopic, index: number) {
     Text(item.name)
-      .fontColor(Color.Black)
+      .maxLines(1)
+      .textOverflow({ overflow: TextOverflow.Ellipsis })
+      .fontColor(this.activeIndex == index ? Color.White : Color.Black)
       .height(34)
-      .constraintSize({ minWidth: 80 })
-      .backgroundColor(this.activeIndex == index ? Color.Pink : Color.White)
+      .constraintSize({ minWidth: 60, maxWidth: 150 })
+      .backgroundColor(this.activeIndex == index ? '#B8ABEF' : Color.White)
       .borderRadius(20)
       .margin({ right: 10 })
       .textAlign(TextAlign.Center)

@@ -33,7 +33,7 @@ struct Index {
     {
       icon: $rawfile('icon/KnowledgeSphere.png'),
       activeIcon: $rawfile('icon/KnowledgeSphere_Selected.png'),
-      name: '知识圈'
+      name: '知识'
     },
     {
       icon: $rawfile('icon/Mine.png'),
@@ -49,6 +49,7 @@ struct Index {
     Row({ space: 4 }) {
       Image(this.activeIndex == index ? item.activeIcon : item.icon)
         .width(20)
+        .aspectRatio(1)
       if (this.activeIndex == index) {
         Text(item.name)
           .fontSize(18)

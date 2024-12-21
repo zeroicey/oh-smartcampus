@@ -1,6 +1,6 @@
 import { CustomNavBar, HcLoadingDialog } from '../commons/components'
 import { promptAction, router } from '@kit.ArkUI'
-import { httpReq, logger } from '../commons/utils'
+import { httpReq, logger, tracking } from '../commons/utils'
 import { ISubject } from '../models'
 
 interface IRouterParam {
@@ -29,6 +29,8 @@ struct Answer {
   // 单个题目的选项
   @State item: ISubject = {} as ISubject
   @State subjectIndex: number = 0
+  // 开始的时间戳
+  startTime: number = 0
   dialog: CustomDialogController = new CustomDialogController({
     builder: HcLoadingDialog(),
     customStyle: true
@@ -76,6 +78,11 @@ struct Answer {
     this.subjectIndex = index
     this.item = this.subjectList[this.subjectIndex]
     this.activeNum = -1
+    logger.info(this.item.id.toString(), this.userChoose)
+    // 记录当前题目的结束时间
+    tracking.record(Number(this.item.chapterId), this.startTime, Date.now(), this.item.id, this.userChoose)
+    // 让刚做完题目的结束时间等于下一题的开始时间
+    this.startTime = Date.now()
   }
 
   aboutToAppear(): void {
@@ -91,6 +98,18 @@ struct Answer {
     } else {
       this.getTextSubjectData(params)
     }
+  }
+
+  onPageShow(): void {
+    // 用户一进入答题页获取开始时间戳
+    this.startTime = Date.now()
+  }
+
+  onPageHide(): void {
+    // 1.用户点进去之后又出来的埋点信息
+    tracking.record(Number(this.item.chapterId), this.startTime, Date.now(), this.item.id, this.userChoose)
+    // 提交埋点数据
+    tracking.report()
   }
 
   build() {
@@ -203,7 +222,7 @@ struct Answer {
       .backgroundColor(index == this.activeNum ? '#FF9996' : Color.Black)
       .onClick(() => {
         this.activeNum = index
-        this.userChoose = items
+        this.userChoose = items.split('.')[0]
       })
   }
 
@@ -215,7 +234,7 @@ struct Answer {
       Row({ space: 50 }) {
         Text(`标准答案：${this.item.answer}`)
           .TextStyle()
-        Text(`你的答案：${this.userChoose.split('.')[0]}`)
+        Text(`你的答案：${this.userChoose}`)
           .TextStyle()
       }
       .width('100%')

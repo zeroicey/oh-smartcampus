@@ -178,6 +178,12 @@ export struct MinePage {
                 this.user.token += 'xx'
                 auth.setUser(this.user)
               })
+            Button('跳转刷题章节')
+              .onClick(() => {
+                router.pushUrl({
+                  url: 'pages/BrushProblem'
+                })
+              })
 
             roseChart({
               dataValue: [
