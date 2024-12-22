@@ -1,11 +1,12 @@
 import curves from "@ohos.curves"
 @CustomDialog
 export struct SignDialog {
-  @Link ConsecutiveCheckIn:number
+  @Link ConsecutiveCheckIn_month:number
+  @Link ConsecutiveCheckIn_all:number
   @Link signedDay:number
   @Link rewardOfToday:number
   @Link LearningPercentage:number
-  @State leftoverDays:number=getDaysInCurrentMonth()-this.ConsecutiveCheckIn
+  @State leftoverDays:number=getDaysInCurrentMonth()-this.ConsecutiveCheckIn_month
   @State doScale: ScaleOptions = { x: 1, y: 1 }
   controller:CustomDialogController
   startAnimation() {
@@ -22,7 +23,7 @@ export struct SignDialog {
   build() {
     Column({ space: 20}){
       Row({space:20}){
-        Text('  '+this.ConsecutiveCheckIn.toString()+'连签  ')
+        Text('  '+this.ConsecutiveCheckIn_month.toString()+'连签  ')
           .fontColor(Color.White)
           .fontSize(25)
           .fontWeight(FontWeight.Bolder)
@@ -85,7 +86,7 @@ export struct SignDialog {
             }
             .width('33.3%')
             Column({space:10}){
-              Text(this.ConsecutiveCheckIn.toString())
+              Text(this.ConsecutiveCheckIn_all.toString())
                 .width('100%')
                 .textAlign(TextAlign.Center)
                 .fontColor(Color.White)

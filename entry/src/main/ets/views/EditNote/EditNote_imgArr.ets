@@ -1,9 +1,12 @@
 
 import { LengthMetrics } from '@kit.ArkUI';
 import { pushImagePreview } from 'ets/pages/ImgPreview'
+
+
 @Component
 export struct EditNote_imgArr {
   @Link imageItems:Array<string>
+
   //@Link AIPictureUrl:string
 
   build() {
@@ -42,6 +45,11 @@ export struct EditNote_imgArr {
                 .width(50)
                 .height(50)
                 .margin({top:25})
+                .onClick(()=>{
+
+                  //TODO 打开图片选择器添加图片
+                })
+
             }
             .width(100)
             .height(100)

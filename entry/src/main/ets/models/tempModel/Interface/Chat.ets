@@ -44,3 +44,9 @@ export class Choice {
 }
 
 
+export interface keepChatHistory{
+  uid: string;
+  topicId: string;
+  messages: Message[];
+}
+

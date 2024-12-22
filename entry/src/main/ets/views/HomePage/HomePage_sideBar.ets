@@ -1,4 +1,7 @@
 import { router } from "@kit.ArkUI"
+import axios, { AxiosResponse } from "@ohos/axios"
+import { courseItem, courseResponse } from "../../models/tempModel/Interface/GetCourse"
+import { BusinessError } from "@kit.BasicServicesKit"
 
 
 @Component
@@ -8,8 +11,7 @@ export struct HomePage_sidebar{
   @Link userName: string
   @Link opcityAll: number
   @Prop Icon: ResourceStr = $rawfile('other/Mock/Enpty.png')
-  @State subjectArr:Array<number> = [1,2,3,4]//debug获取章节
-
+  @State subjectArr:Array<courseItem> = []//debug获取章节
 
   sidebar_Animation(): void {
     let aimNumBar=0
@@ -26,8 +28,7 @@ export struct HomePage_sidebar{
     })
   }
 
-  @Builder
-  SideBarButton(text:string,pageUrl:string,id:number){
+  @Builder SideBarButton(text:string,pageUrl:string,id:number){
     Text('    '+text)
       .width('80%')
       .fontColor('#9b9b9b')
@@ -44,8 +45,7 @@ export struct HomePage_sidebar{
         })
       })
 }
-  @Builder
-  ButtonNotice(text:string,Img:string){
+  @Builder ButtonNotice(text:string,Img:string){
     Blank().height(5)
     Row(){
       Text(' '+text)
@@ -59,8 +59,7 @@ export struct HomePage_sidebar{
     .width('80%')
     .margin({right:30})
   }
-  @Builder
-  Head(){
+  @Builder Head(){
     Row({ space: 5 }) { //头栏
       Image($rawfile('other/Mock/Enpty.png'))//头像
         .height(45)
@@ -88,6 +87,9 @@ export struct HomePage_sidebar{
     }
   }
 
+  aboutToAppear(): void {
+    this.httpGotCourse_axios('')//TODO 这里填token
+  }
   build() {
     Row() {
       Column({space:10}) {
@@ -139,5 +141,20 @@ export struct HomePage_sidebar{
     .width('100%')
     //.margin({right:250})
     .visibility(this.isShowSideBar?Visibility.Visible:Visibility.Hidden)
+  }
+
+  httpGotCourse_axios(token:string){
+    axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8081'+'/question/getAllSubject',//get
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+token
+      }
+    }).then((response: AxiosResponse<courseResponse>)=>{
+      this.subjectArr = response.data.data
+    }).catch((error:BusinessError)=>{
+      console.log(error.message)
+    })
   }
 }

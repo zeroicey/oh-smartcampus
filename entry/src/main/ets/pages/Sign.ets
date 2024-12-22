@@ -2,8 +2,9 @@ import { promptAction } from '@kit.ArkUI';
 import { HmCalendarSelectedDay } from '@ohmos/calendar';
 import { CustomNavBar } from '../commons/components';
 import axios ,{ AxiosResponse }from '@ohos/axios';
-import { SignData } from '../models/tempModel/Interface/SignData';
+import { SignData, SignedDay } from '../models/tempModel/Interface/SignData';
 import { SignDialog,Sign_LearningProgress,Sign_calender,Sign_button } from '../views/Sign/index';
+import { BusinessError } from '@kit.BasicServicesKit'
 interface date { date:string }
 
 @Entry
@@ -16,18 +17,25 @@ struct Sign {
   @State today: HmCalendarSelectedDay = { date: new Date().toLocaleDateString() }
   @State clickFlag: number = 1
   @State aniNum: number = 0
-  @State ConsecutiveCheckIn :number = 2//get
-  @State signedDay:number = 4//get
-  @State rewardOfToday:number = 6//get
-  @State LearningPercentage:number = 8//get
+  @State ConsecutiveCheckIn_month:number = -1//get//连续签到天数
+  @State ConsecutiveCheckIn_all:number = -1
+  @State signedDay:number = 4//get//已签到天数
+  @State rewardOfToday:string = '0'//get//今日奖励
+  @State LearningPercentage:number = 8//get//今日学习百分比
   controller:CustomDialogController=new CustomDialogController({
     builder: SignDialog({
-      ConsecutiveCheckIn:$ConsecutiveCheckIn,
+      ConsecutiveCheckIn_month:$ConsecutiveCheckIn_month,
+      ConsecutiveCheckIn_all:$ConsecutiveCheckIn_all,
       signedDay:$signedDay,
       rewardOfToday:$rewardOfToday,
       LearningPercentage:$LearningPercentage
     })
   })
+
+  aboutToAppear(): void {
+    this.httpSignData_axios('debug_here_Empty')//uid
+  }
+
   build() {
     Column() {
 
@@ -67,18 +75,50 @@ struct Sign {
     .width('100%')
     .backgroundColor('#353242')
   }
-  httpSignData_axios(){
+  httpSignData_axios(uid:string){//每日打卡
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081/taskList/day',
+      url: ' http://127.0.0.1:8081/dayLog'+'find',
+      params: {
+        'date': time_now()
+      },
       headers:{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ', //token
-        'uid': '1000001'
+        'uid': uid
       }
     })
       .then((response: AxiosResponse<SignData>)=>{
-        this.signedDay = response.data.data
+        this.rewardOfToday = response.data.data.gotPoints//获得的分数
+    }).catch((error:BusinessError)=>{
+      console.log(error.message)
     })
   }
+  httpSignContinuousSignMonthDays_axios(){//获取月连续签到的天数
+    axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8081/taskList'+'/getMDay',//get
+    }).then((response: AxiosResponse<SignedDay>)=>{
+      this.ConsecutiveCheckIn_month = response.data.data
+    }).catch((error:BusinessError)=>{
+      console.log(error.message)
+    })
+  }
+  httpSignContinuousSignAllDays_axios(){//获取总连续签到的天数
+    axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:8081/taskList'+'/getDay',//get
+    }).then((response: AxiosResponse<SignedDay>)=>{
+      this.ConsecutiveCheckIn_all = response.data.data
+    }).catch((error:BusinessError)=>{
+      console.log(error.message)
+    })
+  }
+}
+
+function time_now(): string{
+  const now = new Date();
+  //YYYY-MM-DD HH:MM:SS
+  const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+  return formattedDate;
 }

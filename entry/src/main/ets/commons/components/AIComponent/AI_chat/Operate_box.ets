@@ -1,5 +1,6 @@
 import router from '@ohos.router';
 import { Message } from 'ets/models/tempModel/DataModel/Message';
+import { httpKeepChatHistory_axios } from '../../../../views/HttpRequests';
 
 @Component
 export struct OperateBox {
@@ -45,7 +46,7 @@ export struct OperateBox {
       }
       .onClick(() => {
         if (this.checkCount >= 2) {
-          router.pushUrl({
+          router.replaceUrl({
             url: 'pages/AINote',
             params: {
               chatArray: this.chatArray
@@ -69,8 +70,8 @@ export struct OperateBox {
               console.info('showDialog cancel');
             }
           })
-
         }
+        httpKeepChatHistory_axios('uid','topicId','token',this.ChatAIObj)
       })
 
 

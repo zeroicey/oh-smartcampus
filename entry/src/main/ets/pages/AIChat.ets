@@ -10,7 +10,7 @@ import { Message } from 'ets/models/tempModel/DataModel/Message';
 import { DataSet } from 'ets/models/tempModel/DataModel/DataSet'
 import { TopicAI } from 'ets/models/tempModel/DataModel/TopicAI'
 //接口
-import { chatData,chatResponseData } from 'ets/models/tempModel/Interface/Chat';
+import { chatData,chatResponseData, keepChatHistory } from 'ets/models/tempModel/Interface/Chat';
 
 import { UserItem } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/User_Item'
 import { AI_Item } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/AI_item';//AI聊天项
@@ -21,7 +21,7 @@ import { GetToken } from '../models/tempModel/DataModel/GetToken';
 import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
 import { CustomNavBar } from '../commons/components';
 import { QuestionAnswer } from 'ets/models/tempModel/Interface/ChatQandA'
-import { httpChat_axios_v1 } from '../views/HttpRequests';
+import { httpChat_axios_v1, httpKeepChatHistory_axios } from '../views/HttpRequests';
 import { AIChatNavBar } from '../commons/components/AIComponent/AI_chat/AIChatNavBar';
 
 
@@ -65,6 +65,8 @@ export struct Chat {
     this.onClickUpload=1
   }
 
+
+
   //底部动画：出现
   animation_Tail_appear(): void {
     animateTo({ duration: 500, curve: Curve.Smooth }, () => {
@@ -99,6 +101,9 @@ export struct Chat {
                 ShowMod: 1
               }
             })
+          },
+          onClickBack: () => {
+            httpKeepChatHistory_axios('uid','topicId','token',this.Array)//debug
           }
         })
 
@@ -253,7 +258,6 @@ export struct Chat {
       }
     }
   }
-
   //转场效果
   pageTransition() {
     // PageTransitionEnter({duration:600})

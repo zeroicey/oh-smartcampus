@@ -1,6 +1,6 @@
 import router from '@ohos.router';
 import { CustomNavBar } from '../commons/components';
-
+import { SendNoteData } from '../models/tempModel/Interface/SendNote';
 import { EditNote_dealButton } from '../views/EditNote/EditNote_dealButton';
 import { EditNote_edit } from '../views/EditNote/EditNote_edit';
 import { EditNote_imgArr } from '../views/EditNote/EditNote_imgArr';
@@ -8,6 +8,10 @@ import { EditNote_imgArr } from '../views/EditNote/EditNote_imgArr';
 @Entry
 @Component
 export struct EditNote {
+  @State token:string=''
+  @State topicId:string=''
+  @State circleId:string=''
+  @State uid:string=''
   @State AIPictureUrl:string=''
   @State UserName:string='MR.ASS'
   @State Topic: string = ''
@@ -19,6 +23,8 @@ export struct EditNote {
   @State onClickFlag:number=1
   @State url:string=''
   @State imageItems:string[] = []
+  @State updateFlag:boolean = false
+  @State EditData:SendNoteData = {} as SendNoteData
   animation_button(): void {
     if(this.onClickFlag==1){
       animateTo({ duration: 500, curve: Curve.Smooth }, () => {
@@ -54,14 +60,14 @@ export struct EditNote {
       Scroll(){
         Column() {
           EditNote_imgArr({
-            imageItems:$imageItems
+            imageItems:$imageItems,
           })
           EditNote_edit({
             Text:$Text,
             Topic:$Topic,
             DATE:$DATE,
             UserName:$UserName,
-            TargetAI_topic:$TargetAI_topic
+            TargetAI_topic:$TargetAI_topic,
           })
           Blank().height('51%')
           Row(){
@@ -71,7 +77,7 @@ export struct EditNote {
               .height('30')
               .fontSize(20)
               .onClick(()=>{
-                //TODO
+                //TODO  删除接口等待完善
                 //delete
               })
             Text('<  END')
@@ -93,6 +99,14 @@ export struct EditNote {
         buttonWidth1:$buttonWidth1,
         buttonWidth2:$buttonWidth2,
         onClickFlag:$onClickFlag,
+        topicId:$topicId,
+        circleId:$circleId,
+        uid:$uid,
+        pictures:$imageItems,
+        title:$Topic,
+        word:$Text,
+        token:$token,
+        //updateFlag:this.updateFlag
       })
     }
     .backgroundColor('#353242')

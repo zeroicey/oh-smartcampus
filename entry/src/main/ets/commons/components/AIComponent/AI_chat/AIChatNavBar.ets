@@ -14,7 +14,7 @@ export struct AIChatNavBar {
   //邮编第二个图标
   @Prop rightIconV2: ResourceStr = $rawfile('icon/MonthChatSearch.png')
   onclick = () => {}
-  //onClickBack = () => {}
+  onClickBack = () => {}
   onClickV2 = () => {}
 
   build() {
@@ -23,7 +23,7 @@ export struct AIChatNavBar {
           .width(30)
           .margin({ right: 20 })
           .onClick(() => {
-            //this.onClickBack()
+            this.onClickBack()
             router.back()
           })
       Text(this.title)
