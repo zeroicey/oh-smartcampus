@@ -1,6 +1,6 @@
 import { User } from '../../models'
 import { router } from '@kit.ArkUI'
-import { logger } from '../../commons/utils'
+import { auth, logger } from '../../commons/utils'
 
 @Component
 export struct Avatar {
@@ -18,8 +18,10 @@ export struct Avatar {
         .aspectRatio(1)
         .borderRadius(40)
         .onClick(() => {
-          router.pushUrl({
-            url: 'pages/Mine/InformationEdite'
+          auth.CheckAuth(() => {
+            router.pushUrl({
+              url: 'pages/Mine/InformationEdite'
+            })
           })
         })
       if (this.user.token) {

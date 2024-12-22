@@ -178,7 +178,7 @@ export struct NotesWaterFlow {
       logger.info(this.res.pageSize.toString())
     }
     // 将获取到的数组内容放入新数组当中
-    this.list.push(...this.res.rows)
+    // this.list.push(...this.res.rows)
     this.list.forEach((item: Rows) => {
       this.data.pushData(item)
     })

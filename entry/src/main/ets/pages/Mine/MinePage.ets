@@ -62,8 +62,10 @@ export struct MinePage {
             .justifyContent(FlexAlign.Center)
             .borderRadius(15)
             .onClick(() => {
-              router.pushUrl({
-                url: 'pages/Mine/InformationEdite'
+              auth.CheckAuth(() => {
+                router.pushUrl({
+                  url: 'pages/Mine/InformationEdite'
+                })
               })
             })
 

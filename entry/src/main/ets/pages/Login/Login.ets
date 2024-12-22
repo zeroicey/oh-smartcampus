@@ -1,7 +1,7 @@
 import { InputComponent } from '../../commons/components';
 import { ITextType, User } from '../../models';
 import { promptAction, router } from '@kit.ArkUI';
-import { auth, httpReq, tracking } from '../../commons/utils';
+import { auth, httpReq, logger } from '../../commons/utils';
 
 interface ILoginParams {
   email?: null | string;
@@ -63,10 +63,20 @@ struct Login {
       this.isLoading = false
       // 存储用户数据
       auth.setUser(user)
-      // 被动上报埋点数据
-      tracking.report(true)
       promptAction.showToast({ message: '登陆成功' })
-      router.back()
+      // 根据当前业务逻辑选择性跳转到某个页面
+      const params = router.getParams() as Record<string, string> //是为了将跳转前的参数传递下去
+      // 实在看不懂就来这里看传过来了啥参数
+      logger.info(JSON.stringify(params))
+      if (params?.return_url) {
+        // 回到用户想去的页面,同时replace是为了防止用户点击返回又重新回到登录页面
+        router.replaceUrl({
+          url: params.return_url,
+          params
+        })
+      } else {
+        router.back()
+      }
     } catch (err) {
       promptAction.showToast({ message: err.errorMsg })
     } finally {
