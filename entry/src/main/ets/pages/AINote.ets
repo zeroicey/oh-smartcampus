@@ -44,7 +44,7 @@ export struct AINote {
           title: 'AI笔记',
           showRightIcon: false,
           onClickBack:()=>{
-            //TODO
+            //TODO AI笔记的返回事件
             //console.log('GOT_onClickBack_Response')//debug
           }
         })

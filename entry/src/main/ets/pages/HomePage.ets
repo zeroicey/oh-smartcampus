@@ -39,7 +39,7 @@ export struct HomePage {
   aboutToAppear(): void {
     // 被动上报埋点数据
     tracking.report(true)
-    //this.Icon = //TODO
+    //this.Icon = //TODO 获取用户头像
     this.week[new Date().getDay()].isToday = true
     colorDraw(this.week)
   }

@@ -25,7 +25,8 @@ export struct Sign_button {
   }
 
   aboutToAppear(): void {
-    this.httpGotSignDays_axios()
+    //this.httpGotSignDays_axios()
+    this.httpSign_axios()//打卡动作
   }
 
   build() {
@@ -79,29 +80,18 @@ export struct Sign_button {
     .height('10%')
   }
 
-  httpSign_axios(){
+  httpSign_axios(){//打卡
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081/taskList/press',//get
-    }).then((response: AxiosResponse)=>{
+      url: 'http://127.0.0.1:8081/taskList'+'/press',//get
+    }).then(()=>{
       this.signArr.push({ date: new Date().toLocaleDateString() })
-      this.clickFlag = response.data
-      this.clickFlag=3
+      //this.clickFlag = response.data
+      this.clickFlag=3//跳弹窗
     }).catch((error:BusinessError)=>{
       this.fireworkSize = 0
       this.buttonMovewidth = 0
       this.clickFlag=4//3跳弹窗4失败
-      console.log(error.message)
-    })
-  }
-
-  httpGotSignDays_axios(){
-    axios({
-      method: 'GET',
-      url: 'http://127.0.0.1:8081/taskList/day',//get
-    }).then((response: AxiosResponse)=>{
-      this.signedDays = response.data
-    }).catch((error:BusinessError)=>{
       console.log(error.message)
     })
   }

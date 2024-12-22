@@ -7,6 +7,7 @@ export struct EditNote_edit{
   @Link TargetAI_topic: string
   @Link DATE:string
   @Link UserName:string
+
   //@Link AIPictureUrl:string
   build() {
     Column() {

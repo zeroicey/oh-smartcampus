@@ -43,7 +43,7 @@ export struct Note {
         title: '笔记',
         showRightIcon: false,
         onClickBack:()=>{
-          //TODO
+          //TODO 笔记编辑返回事件
           //console.log('GOT_onClickBack_Response')//debug
         }
       })

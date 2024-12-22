@@ -4,7 +4,7 @@ import { Message } from "../models/tempModel/DataModel/Message";
 import { DataSet } from "../models/tempModel/DataModel/DataSet";
 import { AiChatResponse } from "../models/tempModel/Interface/Awnser";
 import { QuestionAnswer } from "../models/tempModel/Interface/ChatQandA";
-import { chatData, chatResponseData } from "../models/tempModel/Interface/Chat";
+import { chatData, chatResponseData, keepChatHistory } from "../models/tempModel/Interface/Chat";
 import { GetToken, TokenRequest } from "../models/tempModel/DataModel/GetToken";
 import { markdownResponse } from "../models/tempModel/Interface/markdownReturn";
 import { mindMapPostData, ResponseMindMapData } from "../models/tempModel/DataModel/Mindmap";
@@ -181,7 +181,24 @@ export async function httpGetImg_axios(text:string,token:string):Promise<string>
     return ''
   }
 }
-
+//保存对话记录接口函数
+export function httpKeepChatHistory_axios(uid:string,topicId:string,token:string,MsgArray:Message[]){
+  axios({
+    method: 'POST',
+    url: 'http://127.0.0.1:8081'+'/chat/keepChatHistory',
+    data:{
+      uid:uid,
+      topicId:topicId,
+      messages:MsgArray
+    } as keepChatHistory,
+    headers:{
+      "Authorization":"Bearer"+token
+    }
+  })
+    .catch((error:BusinessError)=>{
+      console.log(error.message)
+    })
+}
 
 
 //依赖处理方法

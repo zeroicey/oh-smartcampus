@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { Message } from '../models/tempModel/DataModel/Message'
 import { IRouterParams } from '../models/tempModel/Interface/ParamChatHistory';
+import { GotChatHistoryData } from '../models/tempModel/Interface/GetChatHistory';
 
 @Entry
 @Component
@@ -31,7 +32,7 @@ export struct ChatHistory {
             .fontSize(18)
             .textAlign(TextAlign.Center)
             .onClick(()=>{
-              //TODO
+              //TODO 长按删除事件，等待接口完善
               //delete
             })
         }
@@ -110,31 +111,37 @@ export struct ChatHistory {
     .backgroundColor('#353242')
   }
 
-  axios_GotHistoryArray(): void {
-    axios({
-      method: 'GET',
-      url: "http://127.0.0.1:4523/m1/4414785-4059781-27bdace1/findList",
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((response: AxiosResponse<string>) => {
-      //TODO
-      //this.HistoryArray = response.data
-    }).catch((error: BusinessError) => {
-      console.error('Request failed:', error);
-    })
-  }
+  // axios_GotHistoryArray(): void {
+  //   axios({
+  //     method: 'GET',
+  //     url: "http://127.0.0.1:4523/m1/4414785-4059781-27bdace1/findList",
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }).then((response: AxiosResponse<string>) => {
+  //     //TODO  暂时搁置
+  //     //this.HistoryArray = response.data
+  //   }).catch((error: BusinessError) => {
+  //     console.error('Request failed:', error);
+  //   })
+  // }
 
-  axios_GotAllHistoryArray(): void {
+  axios_GotAllHistoryArray(page:number,size:number,uid:string,topicId:string,token:string): void {//获取全部历史
     axios({
-      method: 'GET',
-      url: "http://127.0.0.1:4523/m1/4414785-4059781-27bdace1/findList",
+      method: 'POST',
+      url: "http://127.0.0.1:8081/topic"+"/ai/history_list",
+      data: {
+        page:page,
+        size:size,
+        uid:uid,
+        topicId:topicId
+      } as GotChatHistoryData,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+token
       }
     }).then((response: AxiosResponse<string>) => {
-      //TODO
-      //this.HistoryArray = response.data
+
     }).catch((error: BusinessError)=>{
       console.log(error.name+' : '+error.message)
     })
