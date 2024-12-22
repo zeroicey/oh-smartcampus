@@ -47,8 +47,7 @@ export struct EditNote_imgArr {
                 .margin({top:25})
                 .onClick(()=>{
 
-                  //TODO
-                  //打开图片选择器添加图片
+                  //TODO 打开图片选择器添加图片
                 })
 
             }
