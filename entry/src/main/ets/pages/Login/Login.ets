@@ -2,6 +2,8 @@ import { InputComponent } from '../../commons/components';
 import { ITextType, User } from '../../models';
 import { promptAction, router } from '@kit.ArkUI';
 import { auth, httpReq, logger } from '../../commons/utils';
+import { emitter } from '@kit.BasicServicesKit';
+import { LOGIN_EVENT } from '../../commons/constants';
 
 interface ILoginParams {
   email?: null | string;
@@ -63,6 +65,8 @@ struct Login {
       this.isLoading = false
       // 存储用户数据
       auth.setUser(user)
+      // 通知个人中心触发下拉刷新
+      emitter.emit(LOGIN_EVENT)
       promptAction.showToast({ message: '登陆成功' })
       // 根据当前业务逻辑选择性跳转到某个页面
       const params = router.getParams() as Record<string, string> //是为了将跳转前的参数传递下去

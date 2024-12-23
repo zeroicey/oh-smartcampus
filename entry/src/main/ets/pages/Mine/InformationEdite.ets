@@ -80,7 +80,7 @@ export struct InformationEdite {
       formData.append('file', `internal://cache/${newFile.name}`)
       // 提交头像文件
       this.user.avatar = await httpReq.request<string>({
-        url: '/file/upload',
+        url: '/file/upload/image',
         method: 'post',
         data: formData,
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -109,10 +109,6 @@ export struct InformationEdite {
     await httpReq.request<null, IUpdateInfoParams>({
       url: '/user/update/info',
       method: 'post',
-      // TODO header请求头
-      headers: {
-        'uid': this.user.uid
-      },
       data: this.user
     })
     // 在更新本地数据

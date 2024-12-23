@@ -1,9 +1,10 @@
-import { Rows } from '../../models'
+import { Rows, WaterFlowType } from '../../models'
 
 @Entry
 @Component
 export struct NotesWaterFlowItem {
   @Prop item: Rows = {} as Rows
+  @Prop flowType: WaterFlowType = WaterFlowType.message
 
   build() {
     Stack() {
@@ -42,7 +43,7 @@ export struct NotesWaterFlowItem {
 
             Blank()
 
-            if (this.item.likeTotal) {
+            if (this.flowType != WaterFlowType.draft) {
               Text() {
                 ImageSpan($rawfile('icon/like.png'))
                   .width(15)

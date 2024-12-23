@@ -3,8 +3,9 @@ import { NotesWaterFlow, roseChart } from '../../commons/components'
 import { BarChart, valueObjects_bar } from '../../commons/components/BarChart'
 import { auth, httpReq, logger, UserInfo } from '../../commons/utils'
 import { IInformation, User, WaterFlowType } from '../../models'
-import { Avatar } from '../../views/MinePage/Avatar'
-import { MineStudyTime } from '../../views/MinePage/MineStudyTime'
+import { Avatar, NoteInfomation, NoteServe } from '../../views/MinePage'
+import { emitter } from '@kit.BasicServicesKit'
+import { LOGIN_EVENT } from '../../commons/constants'
 
 @Component
 export struct MinePage {
@@ -12,13 +13,19 @@ export struct MinePage {
   bottomHeight: number = 0
   @StorageProp(UserInfo)
   user: User = {} as User
+  // 个人中心页上半部分用户数据
   @State infomation: IInformation = {} as IInformation
+  // 半模态框显隐
   @State isShow: boolean = false
+  // 半模态框标题
   @State sheetTitle: string = ''
   // 半模态框种类
   @State sheetType: WaterFlowType = WaterFlowType.myNotes
+  // 防抖id
   @State timeId: number = -1
+  // 是否下拉刷新
   @State isRefreshing: boolean = false
+  // 线形图数组
   @State BarArr: Array<valueObjects_bar> = [
     { type: 'oxygen', time: '2024-12-01', value: 46 },
     { type: 'silicon', time: '2024-12-02', value: 27 },
@@ -32,10 +39,6 @@ export struct MinePage {
     try {
       this.infomation = await httpReq.request<IInformation>({
         url: '/user/findById',
-        // TODO header请求头
-        headers: {
-          "uid": '1000001'
-        }
       })
       logger.info(JSON.stringify(this.infomation))
     } catch (err) {
@@ -43,73 +46,56 @@ export struct MinePage {
     }
   }
 
+  // 开启下拉窗
+  noteServe(title: string, flowType: WaterFlowType) {
+    this.isShow = true
+    this.sheetTitle = title
+    this.sheetType = flowType
+  }
+
   aboutToAppear(): void {
     this.getInfomation()
+    // 触发 LOGIN_EVENT 更新数据
+    emitter.on(LOGIN_EVENT, () => {
+      this.getInfomation()
+    })
   }
 
   build() {
     Refresh({ refreshing: $$this.isRefreshing }) {
       Scroll() {
-        Column() {
-          Column({ space: 15 }) {
-            Row() {
-              Image($rawfile('icon/Setting.png'))
-                .width(15)
-            }
-            .width(30)
-            .height(30)
-            .backgroundColor('rgb(184, 171, 239)')
-            .justifyContent(FlexAlign.Center)
-            .borderRadius(15)
-            .onClick(() => {
-              auth.CheckAuth(() => {
-                router.pushUrl({
-                  url: 'pages/Mine/InformationEdite'
-                })
-              })
-            })
+        Column({ space: 36 }) {
+          Column({ space: 30 }) {
 
             // 用户头像区域
             Avatar({ user: this.user })
 
-            // 用户获赞信息
-            Grid() {
-              ForEach(Array.from({ length: 3 }), (item: null, index: number) => {
-                GridItem() {
-                  Column() {
-                    Text(this.user.token ? index == 0 ? `${this.infomation.likeTotal} ` :
-                      index == 1 ? `${this.infomation.brightTotal} ` : `${this.infomation.noteTotal} ` : '--')
-                      .fontSize(36)
-                      .fontWeight(900)
-                      .fontColor('rgb(255, 124, 120)')
-                    Text(index == 0 ? '获赞数' : index == 1 ? '获亮数' : '发过笔记')
-                      .fontWeight(700)
-                      .fontColor('rgb(99, 95, 113)')
-                  }
-                  .padding(15)
-                }
-                .border({
-                  color: 'rgb(165, 165, 165)',
-                  width: { right: index != 2 ? 1 : 0 }
-                })
+            // 用户笔记类数据
+            NoteInfomation({ item: this.infomation })
+
+            // 笔记服务
+            Row() {
+              NoteServe({ icon: $rawfile('icon/sentNote.png') })
                 .onClick(() => {
-                  if (index == 2) {
-                    this.isShow = true
-                    this.sheetTitle = '发布过的笔记'
-                    this.sheetType = WaterFlowType.myNotes
-                  }
+                  auth.CheckAuth(() => {
+                    this.noteServe('已发笔记', WaterFlowType.myNotes)
+                  })
                 })
-              })
+              NoteServe({ icon: $rawfile('icon/collection2.png') })
+                .onClick(() => {
+                  auth.CheckAuth(() => {
+                    this.noteServe('我的收藏', WaterFlowType.collection)
+                  })
+                })
+              NoteServe({ icon: $rawfile('icon/draft.png') })
+                .onClick(() => {
+                  auth.CheckAuth(() => {
+                    this.noteServe('保存的笔记', WaterFlowType.draft)
+                  })
+                })
             }
             .width('100%')
-            .borderRadius(26)
-            .backgroundColor(Color.White)
-            .columnsTemplate('1fr 1fr 1fr')
-            .rowsTemplate('1fr')
-            .height(90)
-
-            // 学习时长
-            MineStudyTime({ studyTime: this.infomation.studyTime, attendance: this.infomation.attendance })
+            .justifyContent(FlexAlign.SpaceBetween)
           }
           .width('100%')
           .padding({ left: 30, right: 30 })
@@ -118,60 +104,18 @@ export struct MinePage {
 
           // 学习分析部分
           Column() {
-            Row() {
-              Column({ space: 10 }) {
-                Text('学习分析')
-                  .fontSize(14)
-                  .fontWeight(700)
-                  .fontColor('rgb(255, 153, 150)')
-                Image($rawfile('icon/PieChart.png'))
-                  .width(78)
-              }
-              .width(90)
-              .padding({ top: 13 })
-
-              // 收藏以及草稿按钮
-              Row({ space: 15 }) {
-                ForEach(Array.from({ length: 2 }), (item: null, index: number) => {
-                  // 收藏
-                  Column({ space: 5 }) {
-                    Row() {
-                      Image(index == 0 ? $rawfile('icon/collection2.png') : $rawfile('icon/draft.png'))
-                        .width(40)
-                    }
-                    .width('100%')
-                    .height(50)
-                    .backgroundColor('rgb(184, 171, 239)')
-                    .borderRadius(30)
-                    .justifyContent(FlexAlign.Center)
-                    .onClick(() => {
-                      this.isShow = true
-                      if (index == 0) {
-                        this.sheetTitle = '收藏'
-                        this.sheetType = WaterFlowType.collection
-                      } else {
-                        this.sheetTitle = '笔记保存'
-                        this.sheetType = WaterFlowType.draft
-                      }
-                    })
-
-                    Text(index == 0 ? '收藏' : '笔记保存')
-                      .fontSize(14)
-                      .fontWeight(700)
-                      .fontColor(Color.White)
-                  }
-                  .width(100)
-                  .height(70)
-                })
-              }
-              .layoutWeight(1)
-              .justifyContent(FlexAlign.End)
-              .height(110)
-              .alignItems(VerticalAlign.Top)
-            }
-            .width('100%')
-            .justifyContent(FlexAlign.SpaceBetween)
-
+            roseChart({
+              dataValue: [
+                { type: '学习', value: '23' },
+                { type: '休息', value: '50' },
+                { type: '运动', value: '27' },
+              ],
+              legendPosition: 'bottom'
+            })
+            // 条形统计图
+            BarChart({
+              dataValue: this.BarArr
+            })
             Button('清除用户数据')
               .onClick(() => {
                 auth.setUser({} as User)
@@ -187,22 +131,11 @@ export struct MinePage {
                   url: 'pages/BrushProblem'
                 })
               })
-
-            roseChart({
-              dataValue: [
-                { type: '学习', value: '23' },
-                { type: '休息', value: '50' },
-                { type: '运动', value: '27' },
-              ],
-              legendPosition: 'bottom'
-            })
-            // 条形统计图
-            BarChart({
-              dataValue: this.BarArr
-            })
           }
+          .backgroundColor(Color.White)
           .width('100%')
-          .padding({ left: 30, right: 30 })
+          .padding({ left: 30, right: 30, top: 58 })
+          .borderRadius({ topLeft: 50, topRight: 50 })
         }
         .bindSheet($$this.isShow, this.BindSheetBuilder(this.sheetTitle), { showClose: false })
       }

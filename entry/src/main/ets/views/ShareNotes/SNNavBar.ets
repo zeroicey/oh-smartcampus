@@ -27,10 +27,6 @@ export struct SNNavBar {
       await httpReq.request<null, PraiseOrCollectParam>({
         url: this.publisherData.isLike ? '/note/like' : '/note/unlike',
         method: 'post',
-        // TODO header请求头
-        headers: {
-          "uid": "1000001"
-        },
         data: {
           noteId: this.noteId
         }
@@ -47,10 +43,6 @@ export struct SNNavBar {
       await httpReq.request<null, PraiseOrCollectParam>({
         url: this.publisherData.isCollect ? '/note/collect' : '/note/uncollect',
         method: 'post',
-        // TODO header请求头
-        headers: {
-          "uid": "1000001"
-        },
         data: {
           noteId: this.noteId
         }

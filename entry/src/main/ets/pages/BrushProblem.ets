@@ -26,7 +26,7 @@ struct BrushProblem {
       this.chapterList = await httpReq.request<IChapter[]>({
         url: '/question/getChapterBySubjectId',
         params: {
-          // TODO header请求头
+          // TODO uid更改
           uid: '10008',
           id: id
         }
@@ -34,7 +34,6 @@ struct BrushProblem {
       promptAction.showToast({ message: '请求成功' })
       this.dialog.close()
     } catch (err) {
-      promptAction.showToast({ message: '请求失败' })
       this.dialog.close()
     }
   }

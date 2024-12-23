@@ -25,4 +25,8 @@ export class MyDataSource<T> extends BasicDataSource<T> {
     this.notifyDataAdd(this.dataArray.length - 1);
     // super.notifyDataAdd(this.dataSource.length - 1);
   }
+
+  public clearData(): T[] {
+    return this.dataArray = []
+  }
 }

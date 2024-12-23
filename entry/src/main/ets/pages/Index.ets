@@ -33,7 +33,7 @@ struct Index {
     {
       icon: $rawfile('icon/KnowledgeSphere.png'),
       activeIcon: $rawfile('icon/KnowledgeSphere_Selected.png'),
-      name: '知识'
+      name: '知识圈'
     },
     {
       icon: $rawfile('icon/Mine.png'),
@@ -71,7 +71,7 @@ struct Index {
           } else if (index == 1) {
             TopicListPage()
           } else if (index == 2) {
-            KnowledgeSpherePage({ activeIndex: this.activeIndex })
+            KnowledgeSpherePage()
           } else {
             MinePage()
           }

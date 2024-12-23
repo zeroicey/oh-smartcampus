@@ -1,4 +1,4 @@
-import { SNInput, SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
+import { NoteShareDialog, SNInput, SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
 import { promptAction, router } from '@kit.ArkUI';
 import { IPublisher, IPublisherData } from '../models';
 import { httpReq, logger } from '../commons/utils';
@@ -22,15 +22,17 @@ struct ShareNotes {
     customStyle: true,
     maskColor: '#4dcfcccc',
   })
+  // 设置分享弹窗
+  shareDialog = new CustomDialogController({
+    builder: NoteShareDialog({ item: this.publisherData }),
+    customStyle: true,
+    maskColor: '#4dcfcccc'
+  })
 
   // 获取发布者笔记内容
   async getPublisherData(params: ICircleIdParams) {
     this.publisherData = await httpReq.request<IPublisherData>({
       url: '/note/queryById',
-      // TODO header请求头
-      headers: {
-        "uid": "1000001"
-      },
       params
     })
     logger.info('res--', JSON.stringify(this.publisherData))
@@ -55,7 +57,6 @@ struct ShareNotes {
     const params = router.getParams() as ICircleIdParams
     this.getPublisherData(params)
     this.noteId = params.noteId
-    // promptAction.showToast({ message: JSON.stringify(params) })
   }
 
   build() {
@@ -199,6 +200,8 @@ struct ShareNotes {
         color: 'rgb(255, 153, 150)',
         width: 3
       })
-
+      .onClick(() => {
+        this.shareDialog.open()
+      })
   }
 }

@@ -15,58 +15,7 @@ export struct InCircleContent {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
   @State circleId: string = ''
-  @State topicList: ITopic[] = [
-    {
-      attractTitle: '探索宇宙的奥秘',
-      id: 1,
-      name: '天文学'
-    },
-    {
-      attractTitle: '未来科技的展望',
-      id: 2,
-      name: '科技前沿'
-    },
-    {
-      attractTitle: '金融市场的波动',
-      id: 3,
-      name: '财经动态'
-    },
-    {
-      attractTitle: '健康生活的秘诀',
-      id: 4,
-      name: '健康生活'
-    },
-    {
-      attractTitle: '艺术与文化的交融',
-      id: 5,
-      name: '艺术文化'
-    },
-    {
-      attractTitle: '旅行中的奇遇',
-      id: 6,
-      name: '旅游探险'
-    },
-    {
-      attractTitle: '美食的诱惑',
-      id: 7,
-      name: '美食天下'
-    },
-    {
-      attractTitle: '时尚潮流的风向',
-      id: 8,
-      name: '时尚潮流'
-    },
-    {
-      attractTitle: '心理与情绪的管理',
-      id: 9,
-      name: '心理健康'
-    },
-    {
-      attractTitle: '历史长河的回响',
-      id: 10,
-      name: '历史探索'
-    }
-  ]
+  @State topicList: ITopic[] = []
   @State activeIndex: number = 0
   @State isShow: boolean = false
   tabControl = new TabsController()
