@@ -4,10 +4,11 @@ import { ITextType, User } from '../../models'
 import { photoAccessHelper } from '@kit.MediaLibraryKit'
 import { fileIo } from '@kit.CoreFileKit'
 import { FormData } from '@ohos/axios'
-import { promptAction } from '@kit.ArkUI'
+import { promptAction, router } from '@kit.ArkUI'
 import { UICalendarPicker } from '@hw-agconnect/ui-calendar-picker'
 import { ChangeEmailDialog } from '../../views/InformationEdite/ChangeEmailDialog'
 import { image } from '@kit.ImageKit'
+import { MoreDialog } from '../../views/InformationEdite/MoreDialog'
 
 interface IUpdateInfoParams {
   name?: string
@@ -21,6 +22,8 @@ interface IUpdateInfoParams {
 export struct InformationEdite {
   @StorageProp('topHeight')
   topHeight: number = 0
+  @StorageProp('bottomHeight')
+  bottomHeight: number = 0
   @StorageProp(UserInfo)
   user: User = {} as User
   @State name: string = this.user.name
@@ -28,15 +31,30 @@ export struct InformationEdite {
   @State email: string = this.user.email
   @State gender: number = this.user.sex
   @State sign: string = this.user.introduction
+  // 用户名校验
   regName: RegExp = new RegExp('^[a-zA-Z0-9_]{4,20}$')
+  // 加载弹窗
   dialog: CustomDialogController = new CustomDialogController({
     builder: HcLoadingDialog({ message: '更新中请稍后...' }),
     customStyle: true
   })
+  // 换绑弹窗
   changeEmailDialog: CustomDialogController = new CustomDialogController({
     builder: ChangeEmailDialog({
       updateInfo: (newEmail: string) => {
         this.email = newEmail
+      }
+    }),
+    customStyle: true,
+    maskColor: '#4dcfcccc'
+  })
+  // 更多弹窗
+  MoreDialog: CustomDialogController = new CustomDialogController({
+    builder: MoreDialog({
+      onclick: () => {
+        auth.setUser({} as User)
+        this.MoreDialog.close()
+        router.back()
       }
     }),
     customStyle: true,
@@ -125,113 +143,133 @@ export struct InformationEdite {
           this.updateUserInfo()
         }
       })
-
-      Image(this.user.avatar || $rawfile('other/ic_mine_avatar.svg'))
-        .width(125)
-        .aspectRatio(1)
-        .borderRadius(50)
-        .margin({ bottom: 20, top: 24 })
-        .onClick(async () => {
-          await this.updateAvatar()
-          // 再提交用户数据给后台
-          await this.updateUserInfo()
-        })
-
-      Column() {
-        Divider()
-          .width('100%')
-          .height(2)
-          .backgroundColor('rgb(171, 171, 171)')
-          .margin({ bottom: 15 })
-
-        List({ space: 15 }) {
-          ListItem() {
-            InputComponent({ title: '名字', value: this.name })
-          }
-
-          ListItem() {
-            InputComponent({
-              title: '电子邮箱',
-              value: this.email,
-              type: ITextType.email,
-              emailType: 1,
-              onclick: () => {
-                this.changeEmailDialog.open()
-              }
+      Scroll() {
+        Column() {
+          Image(this.user.avatar || $rawfile('other/ic_mine_avatar.svg'))
+            .width(125)
+            .aspectRatio(1)
+            .borderRadius(50)
+            .margin({ bottom: 20, top: 24 })
+            .onClick(async () => {
+              await this.updateAvatar()
+              // 再提交用户数据给后台
+              await this.updateUserInfo()
             })
-          }
 
-          ListItem() {
-            Column({ space: 15 }) {
-              Text() {
-                Span('生日')
-                  .fontColor(Color.White)
-                  .fontWeight(600)
-                Span('*')
-                  .fontColor('rgb(242, 111, 56)')
-              }
+          Column() {
+            Divider()
               .width('100%')
+              .height(2)
+              .backgroundColor('rgb(171, 171, 171)')
+              .margin({ bottom: 15 })
 
-              Row() {
-                UICalendarPicker({
-                  onSelected: (date) => {
-                    const datee = date as Date
-                    const year = datee.getFullYear()
-                    const month = datee.getMonth() + 1
-                    const dates = datee.getDate()
-                    this.birth = `${year}-${month < 10 ? '0' + month : month}-${dates < 10 ? '0' + dates : dates}`
-                    logger.info(this.birth)
+            List({ space: 15 }) {
+              ListItem() {
+                InputComponent({ title: '名字', value: this.name })
+              }
+
+              ListItem() {
+                InputComponent({
+                  title: '电子邮箱',
+                  value: this.email,
+                  type: ITextType.email,
+                  emailType: 1,
+                  onclick: () => {
+                    this.changeEmailDialog.open()
                   }
-                }) {
-                  Text(this.birth || '请选择')
-                    .fontColor(Color.White)
-                    .width('100%')
+                })
+              }
+
+              ListItem() {
+                Column({ space: 15 }) {
+                  Text() {
+                    Span('生日')
+                      .fontColor(Color.White)
+                      .fontWeight(600)
+                    Span('*')
+                      .fontColor('rgb(242, 111, 56)')
+                  }
+                  .width('100%')
+
+                  Row() {
+                    UICalendarPicker({
+                      onSelected: (date) => {
+                        const datee = date as Date
+                        const year = datee.getFullYear()
+                        const month = datee.getMonth() + 1
+                        const dates = datee.getDate()
+                        this.birth = `${year}-${month < 10 ? '0' + month : month}-${dates < 10 ? '0' + dates : dates}`
+                        logger.info(this.birth)
+                      }
+                    }) {
+                      Text(this.birth || '请选择')
+                        .fontColor(Color.White)
+                        .width('100%')
+                    }
+                  }
+                  .width('100%')
+                  .height(50)
+                  .borderRadius(20)
+                  .backgroundColor('#141414')
+                  .padding({ left: 24 })
                 }
               }
-              .width('100%')
-              .height(50)
-              .borderRadius(20)
-              .backgroundColor('#141414')
-              .padding({ left: 24 })
-            }
-          }
 
-          ListItem() {
-            Column({ space: 15 }) {
-              Text() {
-                Span('性别')
-                  .fontColor(Color.White)
-                  .fontWeight(600)
-                Span('*')
-                  .fontColor('rgb(242, 111, 56)')
+              ListItem() {
+                Column({ space: 15 }) {
+                  Text() {
+                    Span('性别')
+                      .fontColor(Color.White)
+                      .fontWeight(600)
+                    Span('*')
+                      .fontColor('rgb(242, 111, 56)')
+                  }
+                  .width('100%')
+
+                  Row() {
+                    Text(this.gender == 0 ? '女' : '男')
+                      .fontColor(Color.White)
+                  }
+                  .width('100%')
+                  .height(50)
+                  .borderRadius(20)
+                  .backgroundColor('#141414')
+                  .padding({ left: 24 })
+                  .bindMenu(this.MenuBuilder)
+                }
               }
-              .width('100%')
 
-              Row() {
-                Text(this.gender == 0 ? '女' : '男')
-                  .fontColor(Color.White)
+              ListItem() {
+                InputComponent({ title: '个性签名', value: this.sign })
               }
-              .width('100%')
-              .height(50)
-              .borderRadius(20)
-              .backgroundColor('#141414')
-              .padding({ left: 24 })
-              .bindMenu(this.MenuBuilder)
             }
-          }
 
-          ListItem() {
-            InputComponent({ title: '个性签名', value: this.sign })
+            Row() {
+              Image($rawfile('icon/im_more.png'))
+                .width(34)
+            }
+            .width(100)
+            .height(50)
+            .borderRadius(30)
+            .backgroundColor('rgb(184, 171, 239)')
+            .justifyContent(FlexAlign.Center)
+            .margin({ top: 15 })
+            .onClick(() => {
+              this.MoreDialog.open()
+            })
           }
+          .width('100%')
+          .padding({ left: 40, right: 40 })
         }
       }
+      .layoutWeight(1)
       .width('100%')
-      .padding({ left: 40, right: 40 })
+      .align(Alignment.Top)
     }
     .width('100%')
     .height('100%')
     .backgroundColor('rgb(53, 50, 66)')
-    .padding({ top: 10 })
+    .padding({ top: 10, bottom: this.bottomHeight })
   }
 
   @Builder

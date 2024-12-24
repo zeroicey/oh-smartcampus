@@ -68,7 +68,7 @@ export struct MinePage {
           Column({ space: 30 }) {
 
             // 用户头像区域
-            Avatar({ user: this.user })
+            Avatar({ user: this.user, item: this.infomation })
 
             // 用户笔记类数据
             NoteInfomation({ item: this.infomation })
@@ -103,39 +103,45 @@ export struct MinePage {
           .margin({ bottom: 12 })
 
           // 学习分析部分
-          Column() {
-            roseChart({
-              dataValue: [
-                { type: '学习', value: '23' },
-                { type: '休息', value: '50' },
-                { type: '运动', value: '27' },
-              ],
-              legendPosition: 'bottom'
-            })
-            // 条形统计图
-            BarChart({
-              dataValue: this.BarArr
-            })
-            Button('清除用户数据')
-              .onClick(() => {
-                auth.setUser({} as User)
+          Stack({ alignContent: Alignment.Top }) {
+            Column() {
+              roseChart({
+                dataValue: [
+                  { type: '学习', value: '23' },
+                  { type: '休息', value: '50' },
+                  { type: '运动', value: '27' },
+                ],
+                legendPosition: 'bottom'
               })
-            Button('模拟token失效')
-              .onClick(() => {
-                this.user.token += 'xx'
-                auth.setUser(this.user)
+              // 条形统计图
+              BarChart({
+                dataValue: this.BarArr
               })
-            Button('跳转刷题章节')
-              .onClick(() => {
-                router.pushUrl({
-                  url: 'pages/BrushProblem'
+              Button('清除用户数据')
+                .onClick(() => {
+                  auth.setUser({} as User)
                 })
-              })
+              Button('模拟token失效')
+                .onClick(() => {
+                  this.user.token += 'xx'
+                  auth.setUser(this.user)
+                })
+              Button('跳转刷题章节')
+                .onClick(() => {
+                  router.pushUrl({
+                    url: 'pages/BrushProblem'
+                  })
+                })
+            }
+            .backgroundColor(Color.White)
+            .width('100%')
+            .padding({ left: 30, right: 30, top: 58 })
+            .borderRadius({ topLeft: 50, topRight: 50 })
+
+            Image($rawfile('other/analyzeBg.png'))
+              .width(123)
           }
-          .backgroundColor(Color.White)
-          .width('100%')
-          .padding({ left: 30, right: 30, top: 58 })
-          .borderRadius({ topLeft: 50, topRight: 50 })
+
         }
         .bindSheet($$this.isShow, this.BindSheetBuilder(this.sheetTitle), { showClose: false })
       }

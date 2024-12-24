@@ -59,6 +59,7 @@ export interface IPublisherData {
   topicId: string;
   topicName: string;
   word: string; //内容
+  isFollowingCreator: boolean //是否充电
 }
 
 // 笔记发布者信息

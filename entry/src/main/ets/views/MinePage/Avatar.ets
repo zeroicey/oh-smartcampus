@@ -28,7 +28,7 @@ export struct Avatar {
             })
           if (this.user.token) {
             Row({ space: 5 }) {
-              Text('学时：24.8h')
+              Text(`学时：${this.item.studyTime}h`)
                 .fontColor(Color.White)
                 .fontSize(12)
               Text(`签到：${this.item.attendance}天`)

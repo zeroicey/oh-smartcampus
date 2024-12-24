@@ -17,8 +17,8 @@ export struct NoteInfomation {
   build() {
     Row() {
       this.noteInfoBuilder({ count: this.item.likeTotal, title: '获赞数', icon: $rawfile('icon/mineLike.png') })
-      this.noteInfoBuilder({ count: this.item.likeTotal, title: '获亮数', icon: $rawfile('icon/mineLight.png') })
-      this.noteInfoBuilder({ count: this.item.likeTotal, title: '笔记数', icon: $rawfile('icon/mineNote.png') })
+      this.noteInfoBuilder({ count: this.item.brightTotal, title: '获亮数', icon: $rawfile('icon/mineLight.png') })
+      this.noteInfoBuilder({ count: this.item.noteTotal, title: '笔记数', icon: $rawfile('icon/mineNote.png') })
     }
     .width('100%')
     .justifyContent(FlexAlign.SpaceBetween)

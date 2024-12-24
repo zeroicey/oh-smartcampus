@@ -1,20 +1,23 @@
 import { NoteShareDialog, SNInput, SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
 import { promptAction, router } from '@kit.ArkUI';
-import { IPublisher, IPublisherData } from '../models';
-import { httpReq, logger } from '../commons/utils';
+import { IPublisher, IPublisherData, User } from '../models';
+import { httpReq, logger, UserInfo } from '../commons/utils';
 import { ICircleIdParams } from '../commons/components';
-
 
 @Entry
 @Component
 struct ShareNotes {
   @StorageProp('topHeight')
   topHeight: number = 0
+  @StorageProp(UserInfo)
+  user: User = {} as User
   @State publisherData: IPublisherData = {} as IPublisherData
   @State publisher: IPublisher = {} as IPublisher
   @State isSend: boolean = false
   // 笔记所属知识圈id
   @State circleId: string = ''
+  // 定时器id
+  @State timeId: number = -1
   // 笔记id
   @State noteId: string = ''
   UserInfoDialog = new CustomDialogController({
@@ -53,6 +56,29 @@ struct ShareNotes {
     }
   }
 
+  // 充电操作
+  charging() {
+    if (this.publisherData.isFollowingCreator) {
+      httpReq.request<null>({
+        url: '/relation/follow',
+        method: 'post',
+        data: {
+          followUserId: this.publisherData.creatorId
+        }
+      })
+    } else {
+      httpReq.request<null>({
+        url: '/relation/unfollow',
+        method: 'post',
+        data: {
+          unfollowUserId: this.publisherData.creatorId
+        }
+      })
+    }
+
+    promptAction.showToast({ message: this.publisherData ? '充电成功' : '取消成功' })
+  }
+
   aboutToAppear(): void {
     const params = router.getParams() as ICircleIdParams
     this.getPublisherData(params)
@@ -69,10 +95,23 @@ struct ShareNotes {
           .onClick(() => {
             router.back()
           })
-        if (this.publisherData.creatorAvatar) {
+        if (this.publisherData.creatorName) {
           this.UserTitleBuilder()
           Blank()
-          this.ChargingBtnBuilder()
+          if (this.user.uid != this.publisherData.creatorId) {
+            Image($rawfile(this.publisherData.isFollowingCreator ? 'other/Bright.png' : 'other/notBright.png'))
+              .borderRadius(20)
+              .width(87)
+              .onClick(() => {
+                logger.info('' + this.publisherData.isFollowingCreator)
+                this.publisherData.isFollowingCreator = !this.publisherData.isFollowingCreator
+                logger.info('' + this.publisherData.isFollowingCreator)
+                clearTimeout(this.timeId)
+                this.timeId = setTimeout(() => {
+                  this.charging()
+                }, 1000)
+              })
+          }
         }
       }
       .width('100%')
@@ -130,7 +169,7 @@ struct ShareNotes {
                   .width('100%')
               }
               .onClick(() => {
-                // TODO
+                // TODO 跳转到ai对话
               })
             }
 
@@ -183,25 +222,5 @@ struct ShareNotes {
         .fontWeight(700)
     }
     .height(50)
-  }
-
-  @Builder
-  ChargingBtnBuilder() {
-    Text('充电')
-      .fontSize(24)
-      .fontWeight(900)
-      .fontColor('rgb(255, 253, 154)')
-      .padding({
-        left: 10,
-        right: 10,
-      })
-      .borderRadius(20)
-      .border({
-        color: 'rgb(255, 153, 150)',
-        width: 3
-      })
-      .onClick(() => {
-        this.shareDialog.open()
-      })
   }
 }
