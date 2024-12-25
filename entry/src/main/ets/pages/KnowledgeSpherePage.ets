@@ -1,29 +1,12 @@
 import { router } from '@kit.ArkUI'
-import { HcSkeletonGrid, NotesWaterFlow } from '../commons/components'
+import { CircleGrid, HcSkeletonGrid, NotesWaterFlow } from '../commons/components'
 import { httpReq } from '../commons/utils'
 import { IAllCircle, WaterFlowType } from '../models'
 
 @Component
 export struct KnowledgeSpherePage {
   @State isSkeleton: boolean = false
-  @State circleList: IAllCircle[] = [
-    {
-      circleId: '1',
-      name: 'nihao'
-    },
-    {
-      circleId: '2',
-      name: 'nihao'
-    },
-    {
-      circleId: '3',
-      name: 'nihao'
-    },
-    {
-      circleId: '4',
-      name: 'nihao'
-    }
-  ]
+  @State circleList: IAllCircle[] = []
 
   async getCircleList() {
     this.isSkeleton = true
@@ -41,45 +24,29 @@ export struct KnowledgeSpherePage {
     Scroll() {
       Column({ space: 10 }) {
         Column() {
+          Text('知识圈')
+            .fontSize(36)
+            .fontColor(Color.White)
+            .margin({ bottom: 6, top: 14 })
           if (this.isSkeleton) {
             HcSkeletonGrid()
           } else {
-            Grid() {
-              ForEach(this.circleList, (item: IAllCircle, index: number) => {
-                GridItem() {
-                  Column({ space: 5 }) {
-                    Image($rawfile('other/caozuo.png'))
-                      .width(80)
-                      .height(80)
-                      .borderRadius(30)
-                      .alignSelf(ItemAlign.Start)
-                    Text(item.name)
-                      .width('100%')
-                      .textAlign(TextAlign.End)
-                      .fontSize(14)
-                  }
-                  .width('100%')
-                  .height(130)
-                  .borderRadius(30)
-                  .padding(15)
-                  .backgroundColor(Color.White)
-                  .onClick(() => {
-                    router.pushUrl({
-                      url: 'pages/InCircleContent',
-                      params: {
-                        circleId: item.circleId
-                      }
-                    })
+            Stack({ alignContent: Alignment.TopEnd }) {
+              Image($rawfile('other/dragonLogo.png'))
+                .width(58)
+                .translate({ y: '-80%' })
+              CircleGrid({
+                list: this.circleList,
+                onclick: (circleId: string) => {
+                  router.pushUrl({
+                    url: 'pages/InCircleContent',
+                    params: {
+                      circleId: circleId
+                    }
                   })
                 }
               })
             }
-            .width('100%')
-            .height(320)
-            .columnsTemplate('1fr 1fr')
-            .rowsTemplate('1fr 1fr')
-            .rowsGap(15)
-            .columnsGap(15)
           }
         }
         .width('100%')

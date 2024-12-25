@@ -15,7 +15,7 @@ export struct MoreDialog {
     { title: '意见反馈', icon: $rawfile('icon/feedback.png'), width: 52 },
     { title: '关于我们', icon: $rawfile('icon/aboutUs.png'), width: 52 },
   ]
-  onclick=()=>{
+  onclick = () => {
 
   }
 
@@ -71,5 +71,8 @@ export struct MoreDialog {
         .fontSize(12)
         .fontColor(Color.White)
     }
+    .onClick(() => {
+      this.onclick()
+    })
   }
 }

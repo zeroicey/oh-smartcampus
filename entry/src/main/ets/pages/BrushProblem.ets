@@ -83,13 +83,12 @@ struct BrushProblem {
       .layoutWeight(1)
       .width('100%')
       .align(Alignment.Top)
-      .padding({ bottom: this.bottomHeight, left: 30, right: 30 })
-
+      .padding({ left: 30, right: 30 })
     }
     .width('100%')
     .height('100%')
     .backgroundColor('rgb(53, 50, 66)')
-
+    .padding({ bottom: this.bottomHeight })
   }
 
   // 每个章节的数据

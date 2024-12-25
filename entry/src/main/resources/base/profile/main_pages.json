@@ -18,6 +18,7 @@
     "pages/BrushProblem",
     "pages/Answer",
     "pages/ChatHistory",
-    "pages/Note"
+    "pages/Note",
+    "pages/TopicList"
   ]
 }

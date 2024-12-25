@@ -1,10 +1,9 @@
 // 发布的所有笔记布局组件
 import { IAllPublisherNotes, Rows, WaterFlowType } from '../../models';
 import { MyDataSource } from '../../models/LazyForeachResource/MyDataSource';
-import { auth, httpReq, logger } from '../utils';
+import { auth, httpReq } from '../utils';
 import { HcSkeleton } from './HcSkeleton';
 import { NotesWaterFlowItem } from './NotesWaterFlowItem';
-import { promptAction } from '@kit.ArkUI';
 
 // 请求参数类型
 interface IInCircleContentRes {
@@ -15,7 +14,7 @@ interface IInCircleContentRes {
 }
 
 // 跳转页面参数类型
-export interface ICircleIdParams {
+export interface INoteIdParams {
   noteId: string
 }
 
@@ -73,21 +72,15 @@ export struct NotesWaterFlow {
   // 上滑加载逻辑
   async Loading(flowType: WaterFlowType) {
     if (flowType == WaterFlowType.message || flowType == WaterFlowType.circle) {
-      promptAction.showToast({ message: flowType.toString() })
       this.res = await this.getInCircleContent(flowType)
-      logger.info(JSON.stringify(this.res))
     } else {
-      promptAction.showToast({ message: flowType.toString() })
-      logger.info(this.page.toString())
       this.res = await this.getUserPublished(flowType)
-      logger.info(this.res.pageSize.toString())
     }
     if (this.res.rows) {
       // 将获取到的数组内容放入新数组当中
       this.res.rows.forEach((item: Rows) => {
         this.data.pushData(item)
       })
-      logger.info('length------', this.data.totalCount().toString())
       this.isLoading = false
       if (this.page >= Math.ceil(this.res.total / this.res.pageSize)) {
         this.isFinished = true
@@ -104,11 +97,9 @@ export struct NotesWaterFlow {
       this.page = 1
     }
     this.res = await this.getInCircleContent(this.flowType)
-    logger.info(JSON.stringify(this.res))
     // 根据返送返回的请求数据rows来判断是否是最后一页，不是的话page++
     if (this.res.rows.length >= 10) {
       this.page++
-      logger.info(this.page.toString())
     }
     this.data.clearData()
     this.res.rows.forEach((item: Rows) => {
@@ -150,7 +141,7 @@ export struct NotesWaterFlow {
                         url: 'pages/ShareNotes',
                         params: {
                           noteId: item.id,
-                        } as ICircleIdParams
+                        } as INoteIdParams
                       })
                     }
                   })

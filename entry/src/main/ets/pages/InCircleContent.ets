@@ -3,7 +3,7 @@ import { httpReq } from '../commons/utils'
 import { ITopic, WaterFlowType } from '../models'
 import { router } from '@kit.ArkUI'
 
-interface ICircleIdParam {
+export interface ICircleIdParam {
   circleId: string
 }
 

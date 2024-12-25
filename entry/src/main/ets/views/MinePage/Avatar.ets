@@ -77,7 +77,7 @@ export struct Avatar {
       .justifyContent(FlexAlign.SpaceBetween)
 
       Text(this.user.introduction)
-        .fontSize(24)
+        .fontSize(20)
         .fontWeight(700)
         .fontColor(Color.White)
         .width('100%')

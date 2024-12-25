@@ -52,6 +52,7 @@ export struct InformationEdite {
   MoreDialog: CustomDialogController = new CustomDialogController({
     builder: MoreDialog({
       onclick: () => {
+        promptAction.showToast({ message: '点击了' })
         auth.setUser({} as User)
         this.MoreDialog.close()
         router.back()

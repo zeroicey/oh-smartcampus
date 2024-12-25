@@ -152,6 +152,7 @@ export interface Rows {
 export interface IAllCircle {
   circleId: string
   name: string
+  avatar: string
 }
 
 // 根据科目id获取章节
@@ -187,4 +188,22 @@ export interface AnswerDetail {
   questionId: number; //题目id
   startTimestamp: number; //开始时间
   userAnswer: string | null; //用户答案
+}
+
+// 根据知识圈查询旗下话题AI
+export interface TopicAiList {
+  /**
+   * ID
+   */
+  id: number;
+
+  /**
+   * 简介
+   */
+  introduce: string;
+
+  /**
+   * 话题 AI 名称
+   */
+  name: string;
 }

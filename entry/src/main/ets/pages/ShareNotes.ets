@@ -2,7 +2,7 @@ import { NoteShareDialog, SNInput, SNList, SNNavBar, UserInfoDialog } from '../v
 import { promptAction, router } from '@kit.ArkUI';
 import { IPublisher, IPublisherData, User } from '../models';
 import { httpReq, logger, UserInfo } from '../commons/utils';
-import { ICircleIdParams } from '../commons/components';
+import { INoteIdParams } from '../commons/components';
 
 @Entry
 @Component
@@ -33,7 +33,7 @@ struct ShareNotes {
   })
 
   // 获取发布者笔记内容
-  async getPublisherData(params: ICircleIdParams) {
+  async getPublisherData(params: INoteIdParams) {
     this.publisherData = await httpReq.request<IPublisherData>({
       url: '/note/queryById',
       params
@@ -80,7 +80,7 @@ struct ShareNotes {
   }
 
   aboutToAppear(): void {
-    const params = router.getParams() as ICircleIdParams
+    const params = router.getParams() as INoteIdParams
     this.getPublisherData(params)
     this.noteId = params.noteId
   }

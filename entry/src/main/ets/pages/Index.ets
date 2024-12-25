@@ -1,8 +1,8 @@
 import { auth } from '../commons/utils/Auth';
+import { AIChatPage } from './AIChatPage';
 import { HomePage } from './HomePage';
 import { KnowledgeSpherePage } from './KnowledgeSpherePage';
 import { MinePage } from './Mine/MinePage';
-import { TopicListPage } from './TopicListPage';
 
 interface TabItem {
   icon: Resource;
@@ -69,7 +69,7 @@ struct Index {
           if (index == 0) {
             HomePage()
           } else if (index == 1) {
-            TopicListPage()
+            AIChatPage()
           } else if (index == 2) {
             KnowledgeSpherePage()
           } else {
@@ -77,6 +77,7 @@ struct Index {
           }
         }
         .tabBar(this.TabContent(item, index))
+        .padding({ bottom: 10 })
       })
     }
     .barPosition(BarPosition.End)

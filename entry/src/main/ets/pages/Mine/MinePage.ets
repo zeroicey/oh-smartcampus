@@ -1,7 +1,7 @@
 import { promptAction, router } from '@kit.ArkUI'
 import { NotesWaterFlow, roseChart } from '../../commons/components'
 import { BarChart, valueObjects_bar } from '../../commons/components/BarChart'
-import { auth, httpReq, logger, UserInfo } from '../../commons/utils'
+import { auth, httpReq, UserInfo } from '../../commons/utils'
 import { IInformation, User, WaterFlowType } from '../../models'
 import { Avatar, NoteInfomation, NoteServe } from '../../views/MinePage'
 import { emitter } from '@kit.BasicServicesKit'
@@ -36,11 +36,10 @@ export struct MinePage {
 
   // 刷新数据
   async getInfomation() {
+    this.infomation = await httpReq.request<IInformation>({
+      url: '/user/findById',
+    })
     try {
-      this.infomation = await httpReq.request<IInformation>({
-        url: '/user/findById',
-      })
-      logger.info(JSON.stringify(this.infomation))
     } catch (err) {
       promptAction.showToast({ message: '请求失败' })
     }
@@ -148,7 +147,6 @@ export struct MinePage {
       .width('100%')
       .height('100%')
       .padding({ top: 10 })
-      .margin({ bottom: 10 })
       .scrollBar(BarState.Off)
       .align(Alignment.Top)
     }
