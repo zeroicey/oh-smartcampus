@@ -52,7 +52,6 @@ export struct InformationEdite {
   MoreDialog: CustomDialogController = new CustomDialogController({
     builder: MoreDialog({
       onclick: () => {
-        promptAction.showToast({ message: '点击了' })
         auth.setUser({} as User)
         this.MoreDialog.close()
         router.back()
@@ -108,6 +107,8 @@ export struct InformationEdite {
       // 并更新user数据
       auth.setUser(this.user)
       this.dialog.close()
+      // 再提交用户数据给后台
+      await this.updateUserInfo()
     }
   }
 
@@ -146,15 +147,13 @@ export struct InformationEdite {
       })
       Scroll() {
         Column() {
-          Image( this.user.avatar||$rawfile('other/ic_mine_avatar.svg'))
+          Image(this.user.avatar || $rawfile('other/ic_mine_avatar.svg'))
             .width(125)
             .aspectRatio(1)
             .borderRadius(50)
             .margin({ bottom: 20, top: 24 })
             .onClick(async () => {
               await this.updateAvatar()
-              // 再提交用户数据给后台
-              await this.updateUserInfo()
             })
 
           Column() {

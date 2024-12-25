@@ -19,8 +19,8 @@ export struct UserInfoDialog {
 
       Column() {
         Stack({ alignContent: Alignment.Bottom }) {
-          Image(this.publisher.avatar ||
-          $rawfile('other/ic_mine_avatar.svg'))// .alt($rawfile('other/ic_mine_avatar.svg'))
+          Image(this.publisher.avatar || $rawfile('other/ic_mine_avatar.svg'))
+            .alt($rawfile('other/ic_mine_avatar.svg'))
             .width(142)
             .border({
               color: 'rgb(141, 135, 242)',
