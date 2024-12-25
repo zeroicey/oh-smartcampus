@@ -1,9 +1,13 @@
-import { httpReq } from '../commons/utils';
+import { auth, httpReq } from '../commons/utils';
 import { router } from '@kit.ArkUI';
 import { TopicAiList } from '../models';
 
 interface ICircleIdParams {
   circleId: string
+}
+
+interface IRouterParams {
+  topicId: number
 }
 
 @Entry
@@ -77,11 +81,11 @@ struct TopicList {
               top: 13
             })
             .onClick(() => {
-              router.pushUrl({
+              auth.CheckAuth({
                 url: '',
                 params: {
                   topicId: item.id
-                }
+                } as IRouterParams
               })
             })
           }
