@@ -1,13 +1,14 @@
-import { auth, httpReq } from '../commons/utils';
+import { auth, httpReq, logger } from '../commons/utils';
 import { promptAction, router } from '@kit.ArkUI';
 import { TopicAiList } from '../models';
-
+import { BusinessError } from '@kit.BasicServicesKit';
 interface ICircleIdParams {
   circleId: string
 }
 
-interface IRouterParams {
-  topicId: number
+export interface IRouterParamsAIChat {
+  topicId: number,
+  circleId: string
 }
 
 @Entry
@@ -18,7 +19,7 @@ struct TopicList {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
   @State TopicArray: TopicAiList[] = []
-
+  @State params : ICircleIdParams = { circleId: '' }
   // 获取话题AI数据
   async getTopicArray(params: ICircleIdParams) {
     try {
@@ -26,14 +27,16 @@ struct TopicList {
         url: '/topic/findAi',
         params
       })
-    } catch (err) {
+    } catch (error) {
+      //logger.info(err)
+      console.log('GOT_请求失败:')
       promptAction.showToast({message:'请求失败'})
     }
   }
 
   aboutToAppear(): void {
-    const params = router.getParams() as ICircleIdParams
-    this.getTopicArray(params)
+    this.params  = router.getParams() as ICircleIdParams
+    this.getTopicArray(this.params)
   }
 
   build() {
@@ -88,8 +91,9 @@ struct TopicList {
               auth.CheckAuth({
                 url: 'pages/AIChat',
                 params: {
-                  topicId: item.id
-                } as IRouterParams
+                  topicId: item.id,
+                  circleId: this.params.circleId
+                } as IRouterParamsAIChat
               })
             })
           }

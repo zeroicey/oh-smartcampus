@@ -1,69 +1,102 @@
 import router from '@ohos.router';
 import axios ,{AxiosResponse}from '@ohos/axios';
 import { GotPointLine } from '../models/tempModel/Interface/GotPointLine';
-import { pickProvinceDialog } from '../views/AdmissionsCounseling/pickProvinceDialog';
+import { pickDialog } from '../views/AdmissionsCounseling/pickDialog';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { InputComponent } from '../commons/components';
-import { SearchSchoolData, SearchSchoolResponseData,
+import {
+  ScoreData,
+  SearchSchoolData, SearchSchoolResponse,
   SearchSchool_ByName } from '../models/tempModel/Interface/SchoolSearch';
+import { UserInfo } from '../commons/utils';
+import { User } from '../models';
+
 
 @Entry
 @Component
 export struct AdmissionsCounseling {
-
+  @StorageProp(UserInfo)
+  user: User = {} as User
+  @State submitItem:SearchSchoolData = {}
   @State schoolName:string = ''
-  @State uniName: string = 'TheName'
-  @State NetErrorFlag:boolean = true
-  @State region: string = '广东省'; // 地区
+  @State region: string = '';//省份
   @State secondaryMajor: string = ''; // 二级专业
   @State tertiaryMajor: string = ''; // 三级专业
   @State universityLevel: string = ''; // 院校级别
-
-  @State responseSchoolData: Array<SearchSchoolData> = []//获取的学校列表
-
-
+  @State responseSchoolData: Array<ScoreData> = []//获取的学校列表
   @State flag:number = 0
-  @Builder inputComponent(text:string, placeholder:string,inputText:string) {
-    Column({ space: 10 }) {
-      Text(text)
-        .fontColor(Color.White)
-        .fontWeight(FontWeight.Bolder)
-        .fontSize(20)
-        .width('100%')
-        .textAlign(TextAlign.Start)
-      Row({ space: 50 }) {
-        TextInput({ placeholder:placeholder, text: inputText })
-          .backgroundColor('#c4c4c4')
-          .width('70%')
-          .height(30)
-          .borderRadius(15)
-        Image($rawfile('icon/search.png'))
-          .height(30)
-      }
-    }
-  }
-  @Builder TextItem(text:string){
-    Text(text)
-      .height(30)
-      .width('17%')
-      .backgroundColor('#fff18c')
-      .fontSize(15)
-      .fontColor('#8d87f0')
-      .textAlign(TextAlign.Center)
-      .fontWeight(FontWeight.Bolder)
-      .borderRadius(10)
-      .onClick((event: ClickEvent) => {
-
-      })
-  }
+  @State CardNameArr:Array<string> = ['年份', '学校', '学院', '专业', '最低分', '平均分', '最高分']
   controller:CustomDialogController = new CustomDialogController({
-    builder: pickProvinceDialog({
-      selectedItem:$region
+    builder: pickDialog({
+      submitItem:$submitItem
     })
   })
 
 
+  @Builder
+  TextInf(text:string){
+    Text(text)
+      .fontSize(20)
+      .fontWeight(FontWeight.Bolder)
+      .width('90%')
+      .height('100%')
+      .textAlign(TextAlign.Start)
+      .backgroundColor('#817afc')
+      .borderRadius(5)
+  }
 
+  @Builder
+  label1(text:string){
+    Text(text)
+      .height(30)
+      .width(40)
+      .fontColor(Color.White)
+      .fontSize(20)
+      .fontWeight(FontWeight.Bolder)
+      .textAlign(TextAlign.Center)
+      .backgroundColor('#817afc')
+      .borderRadius(5)
+  }
+
+  @Builder
+  label2(num:number){
+    Row({ space: 15}) {
+      Text(this.CardNameArr[num])
+        .height(30)
+        .width(70)
+        .fontSize(20)
+        .fontWeight(FontWeight.Bolder)
+        .textAlign(TextAlign.Center)
+        .fontColor(Color.White)
+        .backgroundColor('#817afc')
+        .borderRadius(5)
+    }
+    Blank().width(10)
+  }
+
+  @Builder
+  InfCard(item:ScoreData){
+    Row({space:10}){
+      Column({ space:10 }){
+        ForEach(this.CardNameArr, (item:string , index: number) => {
+          this.label2(index)
+        })
+      }
+      Column({ space: 10 }){
+        this.TextInf(item.school)
+        this.TextInf(item.faculty)
+        this.TextInf(item.tertiaryMajor)
+        this.TextInf(item.minScore)
+        this.TextInf(item.maxScore)
+        this.TextInf(item.averageScore)
+      }
+    }
+    .width('90%')
+    .borderRadius(30)
+    .onClick(() => {
+      //TODO
+    })
+  }
   build() {
     Column() {
       Row({ space: 20 }) { //lv1
@@ -84,44 +117,53 @@ export struct AdmissionsCounseling {
       .height('10%')
 
       Scroll() {
-        Column() {
-          Column() {
+        Column({ space: 20}) {
             Row({ space: 20 }) {
-              TextInput({ placeholder: 'Enter any message>', text: $$this.schoolName })
-                .backgroundColor('#c4c4c4')
-                .width('70%')
-                .height(40)
-                .fontSize(20)
-                .backgroundColor('#eae8f6')
-
-              Row() {
+              Row(){
+                TextInput({ placeholder: '请输入学校名称', text: $$this.schoolName })
+                  .width('70%')
+                  .height(40)
+                  .fontSize(20)
+                  .fontColor(Color.White)
+                  .backgroundColor(Color.Transparent)
+                Blank().width('10%')
+                Image($rawfile('icon/search.png'))
+                  .height(30)
+                  .width(30)
+                  .onClick(()=>{
+                    this.httpSearchBackByName_axios(0,10,this.schoolName,this.user.token)
+                  })
               }
-              .width('30%')
-              .height(40)
+              .backgroundColor('#313035')
+              .width('80%')
+
             }
-          }
 
           if (this.flag == 1) {
-            Text('具体搜索')
-              .width('100%')
-              .fontSize(25)
-              .fontColor(Color.White)
-              .fontWeight(FontWeight.Bolder)
-              .textAlign(TextAlign.End)
-          } else {
-            Text('学校搜索')
-              .width('100%')
-              .fontSize(25)
-              .fontColor(Color.White)
-              .fontWeight(FontWeight.Bolder)
-              .textAlign(TextAlign.End)
+            Row(){
+              Image('')
+                .height(70)
+                .width(70)
+              Column(){
+                Text('学校名称')
+                  .fontSize(20)
+                  .fontWeight(FontWeight.Bolder)
+                  .textAlign(TextAlign.Start)
+                Text('地区'+'--'+'学校类别')
+                  .fontColor(Color.Gray)
+                  .fontSize(20)
+                  .fontWeight(FontWeight.Bolder)
+                  .textAlign(TextAlign.Start)
+              }
+            }
+            .width('90%')
           }
-          List() {
-            // ForEach(this., (item: , index: number) => {
-            //
-            // })
-          }
+            ForEach(this.responseSchoolData, (item: ScoreData, index: number) => {
+              this.InfCard(item)
+
+            })
         }
+        .width('90%')
       }
       //.width('90%')
     }
@@ -132,7 +174,7 @@ export struct AdmissionsCounseling {
   httpSearchBackByRegion_axios(page:number,size:number,token:string){
     axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8081'+'/university/findRangeSearch',
+      url: 'https://1fd33097.r5.cpolar.cn'+'/university/findRangeSearch',
       data:{
         page:page,
         size:size,
@@ -144,8 +186,7 @@ export struct AdmissionsCounseling {
       headers:{
         "Authorization":"Bearer"+token
       }
-    })
-      .then((response: AxiosResponse<SearchSchoolResponseData>)=>{
+    }).then((response: AxiosResponse<SearchSchoolResponse>)=>{
         this.responseSchoolData = response.data.data
       })
       .catch((error:BusinessError)=>{
@@ -155,7 +196,7 @@ export struct AdmissionsCounseling {
   httpSearchBackByName_axios(page:number,size:number,school:string,token:string){
     axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8081'+'/university/findSchool',
+      url: 'https://1fd33097.r5.cpolar.cn'+'/university/findSchool',
       data:{
         page:page,
         size:size,
@@ -164,8 +205,7 @@ export struct AdmissionsCounseling {
       headers:{
         "Authorization":"Bearer"+token
       }
-    })
-      .then((response: AxiosResponse<SearchSchoolResponseData>)=>{
+    }).then((response: AxiosResponse<SearchSchoolResponse>)=>{
         this.responseSchoolData = response.data.data
       })
       .catch((error:BusinessError)=>{

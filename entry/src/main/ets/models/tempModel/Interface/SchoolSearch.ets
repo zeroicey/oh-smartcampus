@@ -9,15 +9,39 @@ export interface SearchSchoolData {
   universityLevel?: string | null; // 院校级别
 }
 
-export interface SearchSchoolResponseData {
-  success?: boolean | null
-  errorCode?: number | null
-  errMsg?: string | null
-  data:Array<SearchSchoolData>
-}
+// export interface SearchSchoolResponseData {
+//   success?: boolean | null
+//   errorCode?: number | null
+//   errMsg?: string | null
+//   data:Array<SearchSchoolData>
+// }
 
 export interface SearchSchool_ByName {
   page?: number | null; // 页码
   size?: number | null; // 条数
   school?: string | null;//学校名称
+}
+
+
+interface UniversityScoreDistributionVO {
+  scoreRange: string;
+  numberOfStudents: string;
+}
+
+export interface ScoreData {
+  tertiaryMajor: string;
+  year: number;
+  school: string;
+  faculty: string;
+  minScore: string;
+  averageScore: string;
+  maxScore: string;
+  universityScoreDistributionVOS: UniversityScoreDistributionVO[];
+}
+
+export interface SearchSchoolResponse {
+  success: boolean;
+  errorCode: number;
+  errorMsg: string;
+  data: ScoreData[];
 }

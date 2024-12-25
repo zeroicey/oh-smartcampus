@@ -100,13 +100,13 @@ export struct HomePage {
   }
   mineIndex:number|null = null
   // 刷题业
-  changIndexBrush=(index:number)=>{
+  changIndexBrush=(index:number) => {
   }
   // 个人中心页
-  changIndexMine=(index:number)=>{
+  changIndexMine=(index:number) => {
   }
   aboutToAppear(): void {
-    ///this.httpGetCircle_axios(this.user.token)
+    this.httpGetCircle_axios(this.user.token)
     // 被动上报埋点数据
     tracking.report(true)
     this.week[new Date().getDay()].isToday = true
@@ -270,7 +270,22 @@ export struct HomePage {
         .visibility(this.isShowSideBar?Visibility.Visible:Visibility.Hidden)
       }
     }
-
+  httpGetCircle_axios(token:string){
+    axios({
+      method: 'GET',
+      url: 'https://1fd33097.r5.cpolar.cn'+'/circle/findAll',//reeor here
+      headers: {
+        'Authorization': 'Bearer '+token
+      }
+    }).then((response:AxiosResponse<GotCircle>) => {
+      for(let i=0;i<4;i++) {
+        this.CircleArr[i] = response.data.data[i]
+        logger.info('GOT_SUCCESS_CIRCLE：'+ JSON.stringify(this.CircleArr))
+      }
+    }).catch((error:BusinessError) => {
+      console.log(error.message)
+    })
+  }
 }
 
 function colorDraw(arr: Array<week>) {

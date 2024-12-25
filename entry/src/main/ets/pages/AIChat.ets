@@ -26,6 +26,8 @@ import { AIChatNavBar } from '../commons/components/AIComponent/AI_chat/AIChatNa
 import { UserInfo } from '../commons/utils';
 import { User } from '../models';
 import { ChatHistoryPropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
+import { IRouterParams } from '../models/tempModel/Interface/ParamChatHistory';
+import { IRouterParamsAIChat } from './TopicList';
 
 //import { UploadWindow } from 'ets/components/AI_chat/Upload_window'//上传窗口组件
 //import { chatData ,DataSet,returnData} from 'ets/model/ChatData';
@@ -35,12 +37,12 @@ import { ChatHistoryPropmtType } from '../models/tempModel/Interface/PropmtInter
 export struct Chat {
   @StorageProp(UserInfo) user: User = {} as User
   @State firstMessage: TopicAI = new TopicAI(1, 'java', 'javaINT','','avator', '1', 'java', 'java', 1,1)
+  @State idGet:IRouterParamsAIChat = {} as IRouterParamsAIChat
   @State firstText: string = this.firstMessage.name//话题的ai介绍
   @State time: string = new Date().toLocaleString()//get//debug//这里目前引用当前时间
   @State Array: Array<Message> = []//渲染对象数组
   @State message: string = ''//输入框输入的内容
   @State AccessToken: string = ''//token
-  @State idGet:number =0
   @State QandA: Array<QuestionAnswer> = []
 
   // @State markdownReturn: string = ''//返回的markdown生成结果
@@ -65,8 +67,8 @@ export struct Chat {
   aboutToAppear(): void {
 
     try {
-      this.idGet = router.getParams() as number
-      this.getTopicDetail_axios(this.idGet, this.user.token)
+      this.idGet = router.getParams() as IRouterParamsAIChat
+      this.getTopicDetail_axios(this.idGet.topicId, this.user.token)
     } catch (err){
       console.log('获取失败')
     }
