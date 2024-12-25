@@ -75,8 +75,6 @@ struct ShareNotes {
         }
       })
     }
-
-    promptAction.showToast({ message: this.publisherData ? '充电成功' : '取消成功' })
   }
 
   aboutToAppear(): void {
