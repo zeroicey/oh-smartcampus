@@ -6,7 +6,7 @@ export interface GotCircle {
 }
 
 export interface circleItem {
-  circledId: string;
+  circleId: string;
   avatar: string;
   name: string;
 }

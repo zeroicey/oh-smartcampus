@@ -9,6 +9,8 @@ export struct Sign_button {
   @State fireworkSize: number = 0
   @Link signArr: Array<HmCalendarSelectedDay>
   @Link clickFlag: number//3跳弹窗，4失败
+  @Prop uid: string = ''
+  @Prop token: string = ''
   @State reqFlag:boolean = false
   @State signedDays:number = 0
 
@@ -26,7 +28,7 @@ export struct Sign_button {
 
   aboutToAppear(): void {
     //this.httpGotSignDays_axios()
-    this.httpSign_axios()//打卡动作
+    //this.httpSign_axios(this.uid,this.token)//打卡动作
   }
 
   build() {
@@ -72,7 +74,7 @@ export struct Sign_button {
             }).onActionEnd(() => {
                 this.animation_firework()
                 Sleep(600).then(()=>{
-                  this.httpSign_axios()//进行签到操作
+                  this.httpSign_axios(this.uid,this.token)//进行签到操作
                 })
             }))
         }
@@ -80,19 +82,23 @@ export struct Sign_button {
     .height('10%')
   }
 
-  httpSign_axios(){//打卡
+  httpSign_axios(uid:string,token:string){//打卡
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081/taskList'+'/press',//get
+      url: 'https://1fd33097.r5.cpolar.cn'+'/taskList/press',
+      headers:{
+        'uid':uid,
+        'Authorization': 'Bearer '+token,
+      }
     }).then(()=>{
       this.signArr.push({ date: new Date().toLocaleDateString() })
       //this.clickFlag = response.data
-      this.clickFlag=3//跳弹窗
+      this.clickFlag=3//3跳弹窗
     }).catch((error:BusinessError)=>{
       this.fireworkSize = 0
       this.buttonMovewidth = 0
-      this.clickFlag=4//3跳弹窗4失败
-      console.log(error.message)
+      this.clickFlag=4//4失败
+      console.log('GOT_ERR:'+error.message)
     })
   }
 }

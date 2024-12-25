@@ -5,9 +5,11 @@ import { router } from "@kit.ArkUI"
 export struct HomePage_head {
   @Link isShowSideBar: boolean
   @Link sideBarWidth: number
-  @Link userName: string
-  @Link userText: string
+  @Prop userName: string = ''
+  @Prop userText: string =''
   @Link opcityAll: number
+  @Prop IconStr: string
+
   sidebar_Animation(): void {
     let aimNumBar=0
     let aimNumOpa=1
@@ -25,10 +27,12 @@ export struct HomePage_head {
 
   build() {
     Row({ space: 5 }) { //头栏
-      Image($rawfile('other/Mock/Enpty.png'))//头像
+      Image(this.IconStr)//头像
         .height(50)
         .width(50)
         .borderRadius(15)
+        .borderWidth(1)
+        .borderColor(Color.White)
         .onClick(() => {
           this.isShowSideBar = !this.isShowSideBar
           this.sidebar_Animation()

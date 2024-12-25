@@ -1,5 +1,8 @@
 import router from '@ohos.router';
 import { CustomNavBar } from '../commons/components';
+import { UserInfo } from '../commons/utils';
+import { User } from '../models';
+import { NoteEditPropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
 import { SendNoteData } from '../models/tempModel/Interface/SendNote';
 import { EditNote_dealButton } from '../views/EditNote/EditNote_dealButton';
 import { EditNote_edit } from '../views/EditNote/EditNote_edit';
@@ -8,23 +11,31 @@ import { EditNote_imgArr } from '../views/EditNote/EditNote_imgArr';
 @Entry
 @Component
 export struct EditNote {
-  @State token:string=''
-  @State topicId:string=''
-  @State circleId:string=''
-  @State uid:string=''
+  @StorageProp(UserInfo)
+  user: User = {} as User
+  @State token:string = ''
+  @State getPropmt:NoteEditPropmtType = {} as NoteEditPropmtType
+  @State DATE:string = new Date().toLocaleDateString()// 现在的日期
   @State AIPictureUrl:string=''
   @State UserName:string='MR.ASS'
-  @State Topic: string = ''
-  @State Text: string = ''
   @State TargetAI_topic: string = 'TOPIC'
-  @State DATE:string = new Date().toLocaleDateString()
   @State buttonWidth1:string='30%'
   @State buttonWidth2:string='30%'
   @State onClickFlag:number=1
   @State url:string=''
-  @State imageItems:string[] = []
   @State updateFlag:boolean = false
   @State EditData:SendNoteData = {} as SendNoteData
+
+  sendNoteData() {
+    this.EditData.topicId = ''
+    this.EditData.uid = ''
+    this.EditData.title = ''
+    this.EditData.word = ''
+    this.EditData.circleId = '1'
+    this.EditData.pictures = []
+    this.EditData.createTime = new Date().toLocaleDateString()
+  }
+
   animation_button(): void {
     if(this.onClickFlag==1){
       animateTo({ duration: 500, curve: Curve.Smooth }, () => {
@@ -45,10 +56,17 @@ export struct EditNote {
   }
 
   aboutToAppear(): void {
-    this.url = (router.getParams() as string )['url']
-    if(this.url != '' && this.url != undefined && this.url != null){
-      this.imageItems.push(this.url)
+    try {
+      this.getPropmt = router.getParams() as NoteEditPropmtType
+    } catch (err) {
+      console.log('ERROR_EditNote_aboutToAppear')
     }
+    this.url = this.getPropmt.url
+    this.token=this.user.token
+    this.UserName = this.user.name
+    this.EditData.uid = this.user.uid
+    this.EditData.topicId = this.getPropmt.topicId.toString()
+    this.EditData.circleId = '1'
   }
 
   build() {
@@ -60,14 +78,12 @@ export struct EditNote {
       Scroll(){
         Column() {
           EditNote_imgArr({
-            imageItems:$imageItems,
+            EditData:$EditData
           })
           EditNote_edit({
-            Text:$Text,
-            Topic:$Topic,
+            EditData:$EditData,
             DATE:$DATE,
             UserName:$UserName,
-            TargetAI_topic:$TargetAI_topic,
           })
           Blank().height('51%')
           Row(){
@@ -96,16 +112,12 @@ export struct EditNote {
       .height('75%')
       .width('100%')
       EditNote_dealButton({
+        EditData:$EditData,
         buttonWidth1:$buttonWidth1,
         buttonWidth2:$buttonWidth2,
         onClickFlag:$onClickFlag,
-        topicId:$topicId,
-        circleId:$circleId,
-        uid:$uid,
-        pictures:$imageItems,
-        title:$Topic,
-        word:$Text,
         token:$token,
+        uid:this.user.uid
         //updateFlag:this.updateFlag
       })
     }

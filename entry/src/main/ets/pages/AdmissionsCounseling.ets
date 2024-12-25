@@ -9,16 +9,20 @@ import { SearchSchoolData, SearchSchoolResponseData,
 
 @Entry
 @Component
-struct AdmissionsCounseling {
+export struct AdmissionsCounseling {
 
-
+  @State schoolName:string = ''
   @State uniName: string = 'TheName'
   @State NetErrorFlag:boolean = true
   @State region: string = '广东省'; // 地区
   @State secondaryMajor: string = ''; // 二级专业
   @State tertiaryMajor: string = ''; // 三级专业
   @State universityLevel: string = ''; // 院校级别
+
   @State responseSchoolData: Array<SearchSchoolData> = []//获取的学校列表
+
+
+  @State flag:number = 0
   @Builder inputComponent(text:string, placeholder:string,inputText:string) {
     Column({ space: 10 }) {
       Text(text)
@@ -62,12 +66,12 @@ struct AdmissionsCounseling {
 
   build() {
     Column() {
-      Row({space: 20}){//lv1
+      Row({ space: 20 }) { //lv1
         Blank().width(10)
         Image($rawfile('icon/backIcon.png'))
           .width(30)
           .height(40)
-          .onClick(()=>{
+          .onClick(() => {
             router.back()
           })
         Text('录取咨讯')
@@ -75,100 +79,51 @@ struct AdmissionsCounseling {
           .fontSize(30)
           .fontWeight(FontWeight.Bolder)
         Blank().height(30)
-        Image($rawfile('icon/DealAIChat.png'))
-          .width(30)
-          .height(30)
-          .margin({ left: 140 })
-          .onClick(()=>{
-
-          })
-        Blank().width(30)
       }
       .width('100%')
       .height('10%')
+
       Scroll() {
         Column() {
-          Column({ space: 20 }) { //lv2
-            Text(this.region)
-              .width('90%')
-              .height(30)
-              .borderRadius(15)
-              .backgroundColor(Color.White)
-              .fontSize(20)
-              .fontWeight(FontWeight.Bolder)
-              .textAlign(TextAlign.Center)
-              .onClick(()=>{
-                this.controller.open()
-              })
-            this.inputComponent('地区','请输入地区',this.region)
-            this.inputComponent('二级专业','请输入二级专业',this.secondaryMajor)
-            this.inputComponent('三级专业','请输入三级专业',this.tertiaryMajor)
-            this.inputComponent('院校级别','请输入院校级别',this.universityLevel)
-          }
-          .height('40%')
-          .width('90%')
+          Column() {
+            Row({ space: 20 }) {
+              TextInput({ placeholder: 'Enter any message>', text: $$this.schoolName })
+                .backgroundColor('#c4c4c4')
+                .width('70%')
+                .height(40)
+                .fontSize(20)
+                .backgroundColor('#eae8f6')
 
-          Blank().height(20)
-          Column() { //lv3
-            Stack() {
-              Image($rawfile('other/card/selectUniCard.png'))
-                .height('100%')
-                .width('100%')
-              Column() {
-                Row() {
-                  Text(this.uniName)
-                    .fontColor(Color.White)
-                    .fontSize(40)
-                    .fontWeight(FontWeight.Bolder)
-                    .width('66%')
-                    .textAlign(TextAlign.Center)
-                  Blank().width('1%')
-                  Column({space: 10}){
-                    Image($rawfile('icon/searchUni.png'))
-                      .height(50)
-                    Text('搜索')
-                      .fontColor('#ff9996')
-                      .width('100%')
-                      .textAlign(TextAlign.Center)
-                      .fontWeight(FontWeight.Bold)
-                  }
-                  .width('33%')
-
-                }
-                .height('10%')
-
-                Row({space: 10}) {
-                  this.TextItem('年份')
-                  this.TextItem('人数')
-                  this.TextItem('最低分')
-                  this.TextItem('最高分')
-                  this.TextItem('平均分')
-                }
-                .height('10%')
-                .width('90%')
-                Column() {
-                  if(this.NetErrorFlag){
-                    Column(){
-                      Image($rawfile('icon/reload.png'))
-                        .height(100)
-                        .width(100)
-                    }
-                    .width('100%')
-                    .height('20%')
-                    .align(Alignment.Top)
-                  } else {
-                    //TODO
-                    //具体实现相应的图表设计
-                  }
-                }
-                .height('80%')
+              Row() {
               }
+              .width('30%')
+              .height(40)
             }
           }
-          .width('100%')
-          .height('130%')
+
+          if (this.flag == 1) {
+            Text('具体搜索')
+              .width('100%')
+              .fontSize(25)
+              .fontColor(Color.White)
+              .fontWeight(FontWeight.Bolder)
+              .textAlign(TextAlign.End)
+          } else {
+            Text('学校搜索')
+              .width('100%')
+              .fontSize(25)
+              .fontColor(Color.White)
+              .fontWeight(FontWeight.Bolder)
+              .textAlign(TextAlign.End)
+          }
+          List() {
+            // ForEach(this., (item: , index: number) => {
+            //
+            // })
+          }
         }
       }
+      //.width('90%')
     }
     .height('100%')
     .width('100%')

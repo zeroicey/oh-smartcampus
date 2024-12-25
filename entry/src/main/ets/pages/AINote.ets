@@ -13,6 +13,8 @@ import { markdownResponse } from '../models/tempModel/Interface/markdownReturn';
 import { lvMarkdownIn, lvText, lvTitle } from '@luvi/lv-markdown-in'
 import { CustomNavBar } from '../commons/components';
 import { httpGetImg_axios, httpGetToken_axios, httpMarkdown_axios } from '../views/HttpRequests';
+//import { TopicAll } from '../models/tempModel/Interface/GetTopicAll';
+import { AINotePropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
 
 lvText.setTextSize(20)
 lvTitle.setLevel1Title(25)
@@ -24,6 +26,8 @@ lvText.setTextColor('#ffffff')
 @Entry
 @Component
 export struct AINote {
+  @State gotPropmt:AINotePropmtType = {} as AINotePropmtType
+  //@State gotItem:TopicAll = {} as TopicAll
   @State isLoading:boolean = true
   @State Text:string = ' wait for response...'//markdown
   @State ChatArray:Array<Message> = []
@@ -32,8 +36,10 @@ export struct AINote {
   @State tokenGot:string = ''//token
   @State finishFlag:boolean = false
   @State imageItems:Array<string> = []
+
   aboutToAppear(): void {
-    this.ChatArray = (router.getParams() as Array<Message> )['chatArray']
+    this.gotPropmt = router.getParams() as AINotePropmtType
+    this.ChatArray = this.gotPropmt.chatArray
     this.httpGetToken_axios_beta()
   }
 
@@ -57,9 +63,12 @@ export struct AINote {
         finishFlag:$finishFlag,
         imageItems:$imageItems
       })
+
       AINote_foot({
         url:this.ImageUrl,
-        finishFlag:this.finishFlag
+        finishFlag:this.finishFlag,
+        topicId:this.gotPropmt.topicId,
+        topicName:this.gotPropmt.topicName
       })
     }
     .width("100%")
@@ -105,8 +114,7 @@ export struct AINote {
       //   // 'Authorization':'',
       //   'Content-Type': 'application/json'
       // }
-    })
-      .then((response: AxiosResponse<GetToken>) => {
+    }).then((response: AxiosResponse<GetToken>) => {
         console.log('GOT_Response data:', response.data.result.access_token);
         this.tokenGot = response.data.result.access_token;
       })
@@ -131,8 +139,7 @@ export struct AINote {
         'Authorization':'Bearer fastgpt-jvyZtwZ4IpClMwUwAnUuOM3UE6PvM1mRlG2FYT3UDe3morn8Tsvv0h0nV',
         'Content-Type': 'application/json'
       }
-    })
-      .then((response: AxiosResponse<markdownResponse>) => {
+    }).then((response: AxiosResponse<markdownResponse>) => {
         if(response.data.choices[0].message.content==null||response.data.choices[0].message.content==undefined){
           this.Text = '<Get null or undefined / 请求失败，请重试>'
         } else {

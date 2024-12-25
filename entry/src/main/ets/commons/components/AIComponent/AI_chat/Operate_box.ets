@@ -1,11 +1,15 @@
 import router from '@ohos.router';
 import { Message } from 'ets/models/tempModel/DataModel/Message';
+import { TopicAI } from '../../../../models/tempModel/DataModel/TopicAI';
+import { AINotePropmtType } from '../../../../models/tempModel/Interface/PropmtInterfaces';
 import { httpKeepChatHistory_axios } from '../../../../views/HttpRequests';
+
+
+
 
 @Component
 export struct OperateBox {
-  @StorageProp('bottomHeight')
-  bottomHeight: number = 0
+  @StorageProp('bottomHeight') bottomHeight: number = 0
   @Link checkAll: boolean
   @Link onClickUpload: number
   @Link checkCount: number
@@ -13,7 +17,9 @@ export struct OperateBox {
   @Link isVisible_CheckBox: boolean
   @Link ChatAIObj: Array<Message>
   @Link chatArray: Array<Message>
-
+  @Prop topicId: number
+  @Prop topicName: string
+  @Prop Imgurl: string
   build() {
     Row({ space: 35 }) {
       Blank().width(15)
@@ -49,8 +55,10 @@ export struct OperateBox {
           router.replaceUrl({
             url: 'pages/AINote',
             params: {
-              chatArray: this.chatArray
-            }
+              topicId:this.topicId,
+              topicName: this.topicName,
+              chatArray: this.chatArray,
+            } as AINotePropmtType
           })
         } else {
           AlertDialog.show({

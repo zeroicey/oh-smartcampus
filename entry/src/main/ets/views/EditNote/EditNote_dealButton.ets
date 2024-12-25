@@ -1,23 +1,19 @@
 
 import router from '@ohos.router';
 import axios from '@ohos/axios';
-import { keepNoteData } from '../../models/tempModel/Interface/KeepNote';
+import { CirclePost } from '../../models/tempModel/Interface/KeepNote';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { SendNoteData } from '../../models/tempModel/Interface/SendNote';
 import { promptAction } from '@kit.ArkUI';
 
 @Component
 export struct EditNote_dealButton{
+  @Link EditData:SendNoteData
   @Link onClickFlag:number
   @Link buttonWidth1:string
   @Link buttonWidth2:string
-  @Link topicId:string
-  @Link circleId:string
-  @Link uid:string
-  @Link pictures:Array<string>
-  @Link title:string
-  @Link word:string
   @Link token:string
+  @Prop uid:string = ''
   animation_button(): void {
     if(this.onClickFlag==1){
       animateTo({ duration: 500, curve: Curve.Smooth }, () => {
@@ -37,11 +33,11 @@ export struct EditNote_dealButton{
     }
   }
 
-  build() {
+  build(){
     Stack(){
       Row({space:50}){}
-      .width('100%')
-      .height('100%')
+        .width('100%')
+        .height('100%')
       Row({space:50}){
         Button('保存')
           .width(this.buttonWidth1)
@@ -49,11 +45,11 @@ export struct EditNote_dealButton{
           .fontSize(20)
           .fontWeight(FontWeight.Bold)
           .backgroundColor('#ff9996')
-          .onClick(()=>{
-            this.onClickFlag=1
+          .onClick(() => {
+            this.onClickFlag = 1
             this.animation_button()
-            if(this.onClickFlag==1){
-              httpKeepNote_axios(this.pictures,this.title,this.word,this.uid,this.topicId,this.circleId,this.token)
+            if(this.onClickFlag == 1){
+              httpKeepNote_axios(this.EditData.pictures,this.EditData.title,this.EditData.word,this.EditData.uid,this.EditData.topicId,this.EditData.circleId,this.token)
             }
           })
 
@@ -63,13 +59,13 @@ export struct EditNote_dealButton{
           .fontSize(20)
           .fontWeight(FontWeight.Bold)
           .backgroundColor('#ff9996')
-          .onClick(()=>{
-            this.onClickFlag=2
+          .onClick(() => {
+            this.onClickFlag = 2
             this.animation_button()
-            if(this.onClickFlag==2){
-              httpPublishNote_axios(this.pictures,this.title,this.word,this.uid,this.topicId,this.circleId,this.token)
+            if(this.onClickFlag == 2){
+              httpPublishNote_axios(this.EditData,this.token,this.uid)
             }
-          })
+        })
       }
     }
     .height('10%')
@@ -82,25 +78,18 @@ export struct EditNote_dealButton{
 function httpKeepNote_axios(imgArr:string[],title:string,word:string,uid:string,topicId:string,circleId:string,token:string){
   axios({
     method: 'POST',
-    url: "http://127.0.0.1:8081/topic"+"/note/save_note",
+    url: "https://1fd33097.r5.cpolar.cn"+"/note/save_note",
     data: {
-      context:{
-        pictures:imgArr,
-        title:title,
-        word:word
-      },
-      uid:uid,
-      topicId:topicId,
-      createTime:{
-        $date:new Date().toLocaleDateString()
-      },
-      updateTime:{
-        $date:new Date().toLocaleDateString()
-      },
-      type:"1",
-      _class:"Oracle.entity.Mongo.CircleContext",
-      circleId:circleId,
-    } as keepNoteData,
+      circle_id: circleId,
+      id: getNoteId(),
+      pictures: imgArr,
+      title: title,
+      word: word,
+      uid: uid,
+      topicId: topicId,
+      createTime: new Date().toLocaleDateString(),
+      updateTime: ''
+     } as CirclePost,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+token
@@ -113,20 +102,13 @@ function httpKeepNote_axios(imgArr:string[],title:string,word:string,uid:string,
   })
 }
 
-function httpPublishNote_axios(imgArr:string[],title:string,word:string,uid:string,topicId:string,circleId:string,token:string){
+function httpPublishNote_axios(EditData:SendNoteData,token:string,uid:string){
   axios({
     method: 'POST',
-    url: "http://127.0.0.1:8081/topic"+"/note/sendNote",
-    data: {
-      topicId:topicId,
-      circleId:circleId,
-      uid:uid,
-      pictures:imgArr,
-      title:title,
-      word:word,
-      createTime:new Date().toLocaleDateString()
-    } as SendNoteData,
+    url: "https://1fd33097.r5.cpolar.cn"+"/note/sendNote",
+    data: EditData,
     headers: {
+      'uid': uid,
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+token
     }
@@ -138,3 +120,11 @@ function httpPublishNote_axios(imgArr:string[],title:string,word:string,uid:stri
   })
 }
 
+function getNoteId():string{
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+  return Date.now().toString()+result;
+}

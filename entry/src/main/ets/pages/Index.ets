@@ -43,6 +43,7 @@ struct Index {
   ]
   @State activeIndex: number = 0
   @State angleNumber: number = 45
+  tabControl:TabsController = new TabsController()
 
   @Builder
   TabContent(item: TabItem, index: number) {
@@ -63,11 +64,20 @@ struct Index {
   }
 
   build() {
-    Tabs() {
+    Tabs({controller:this.tabControl}) {
       ForEach(this.tabList, (item: TabItem, index: number) => {
         TabContent() {
           if (index == 0) {
-            HomePage()
+            HomePage({
+              changIndexBrush:(index:number)=>{
+                this.tabControl.changeIndex(index)
+                this.activeIndex = index
+              },
+              changIndexMine:(index:number)=>{
+                this.tabControl.changeIndex(index)
+                this.activeIndex = index
+              }
+            })
           } else if (index == 1) {
             AIChatPage()
           } else if (index == 2) {
@@ -89,7 +99,7 @@ struct Index {
     })
     .width('100%')
     .height('100%')
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#15161a')
     .padding({ top: this.topHeight + 10, bottom: this.bottomHeight })
     .animationMode(AnimationMode.NO_ANIMATION)
   }

@@ -5,6 +5,9 @@ import axios ,{ AxiosResponse }from '@ohos/axios';
 import { SignData, SignedDay } from '../models/tempModel/Interface/SignData';
 import { SignDialog,Sign_LearningProgress,Sign_calender,Sign_button } from '../views/Sign/index';
 import { BusinessError } from '@kit.BasicServicesKit'
+import { User } from '../models';
+import { UserInfo } from '../commons/utils';
+
 interface date { date:string }
 
 @Entry
@@ -12,6 +15,7 @@ interface date { date:string }
 struct Sign {
   // @State year: string = new Date().getFullYear().toString()
   // @State month: string = new Date().getMonth().toString()
+  @StorageProp(UserInfo) user: User = {} as User
   @State DateArray: Array<date> = []//get from server
   @State signArr: Array<HmCalendarSelectedDay> = this.DateArray
   @State today: HmCalendarSelectedDay = { date: new Date().toLocaleDateString() }
@@ -33,12 +37,13 @@ struct Sign {
   })
 
   aboutToAppear(): void {
-    this.httpSignData_axios('debug_here_Empty')//uid
+    this.httpSignData_axios(this.user.token,this.user.uid)
+    this.httpSignContinuousSignMonthDays_axios()
+    this.httpSignContinuousSignAllDays_axios()
   }
 
   build() {
     Column() {
-
       CustomNavBar({
         title: '打卡',
         showRightIcon: false,
@@ -51,7 +56,9 @@ struct Sign {
 
       Sign_button({
         signArr: $signArr,
-        clickFlag: $clickFlag
+        clickFlag: $clickFlag,
+        uid:this.user.uid,
+        token:this.user.token
         //TODO 打卡记录统计数据
       })
 
@@ -69,35 +76,38 @@ struct Sign {
           promptAction.showToast({ message: "网络错误，打卡失败" ,duration: 2000 })
         })
       }
-
     }
     .height('160%')
     .width('100%')
     .backgroundColor('#353242')
   }
-  httpSignData_axios(uid:string){//每日打卡
+  httpSignData_axios(uid:string,token:string){//每日打卡
     axios({
       method: 'GET',
-      url: ' http://127.0.0.1:8081/dayLog'+'find',
+      url: 'https://1fd33097.r5.cpolar.cn'+'/dayLog/find',
       params: {
         'date': time_now()
       },
       headers:{
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ', //token
+        'Authorization': 'Bearer '+token, //token
         'uid': uid
       }
     })
       .then((response: AxiosResponse<SignData>)=>{
         this.rewardOfToday = response.data.data.gotPoints//获得的分数
     }).catch((error:BusinessError)=>{
-      console.log(error.message)
+        console.log(error.message)
     })
   }
   httpSignContinuousSignMonthDays_axios(){//获取月连续签到的天数
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081/taskList'+'/getMDay',//get
+      url: 'https://1fd33097.r5.cpolar.cn'+'/taskList/getMDay',//get
+      headers:{
+        'Authorization': 'Bearer '+this.user.token, //token
+        'uid': this.user.uid
+      }
     }).then((response: AxiosResponse<SignedDay>)=>{
       this.ConsecutiveCheckIn_month = response.data.data
     }).catch((error:BusinessError)=>{
@@ -107,7 +117,11 @@ struct Sign {
   httpSignContinuousSignAllDays_axios(){//获取总连续签到的天数
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081/taskList'+'/getDay',//get
+      url: 'https://1fd33097.r5.cpolar.cn'+'/taskList/getDay',//get
+      headers:{
+        'Authorization': 'Bearer '+this.user.token, //token
+        'uid': this.user.uid
+      }
     }).then((response: AxiosResponse<SignedDay>)=>{
       this.ConsecutiveCheckIn_all = response.data.data
     }).catch((error:BusinessError)=>{

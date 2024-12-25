@@ -146,7 +146,7 @@ export struct InformationEdite {
       })
       Scroll() {
         Column() {
-          Image(this.user.avatar || $rawfile('other/ic_mine_avatar.svg'))
+          Image( this.user.avatar||$rawfile('other/ic_mine_avatar.svg'))
             .width(125)
             .aspectRatio(1)
             .borderRadius(50)

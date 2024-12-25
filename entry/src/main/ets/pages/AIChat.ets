@@ -23,26 +23,28 @@ import { CustomNavBar } from '../commons/components';
 import { QuestionAnswer } from 'ets/models/tempModel/Interface/ChatQandA'
 import { httpChat_axios_v1, httpKeepChatHistory_axios } from '../views/HttpRequests';
 import { AIChatNavBar } from '../commons/components/AIComponent/AI_chat/AIChatNavBar';
-
+import { UserInfo } from '../commons/utils';
+import { User } from '../models';
+import { ChatHistoryPropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
 
 //import { UploadWindow } from 'ets/components/AI_chat/Upload_window'//上传窗口组件
 //import { chatData ,DataSet,returnData} from 'ets/model/ChatData';
-//数据测试：给我一串简单的java代码
+// //数据测试：给我一串简单的java代码
 @Entry
 @Component
 export struct Chat {
-
-  @State firstMessage: TopicAI = new TopicAI(1, '数据通路', '数据通路', 'avator', '1', 'java', 'java', 1)
-  //@State firstMessage: TopicAI = new TopicAI(1, 'java', 'java', 'avator', '1', 'java', 'java', 1)//Mock
-  @State firstText: string = this.firstMessage.title//话题的ai介绍
+  @StorageProp(UserInfo) user: User = {} as User
+  @State firstMessage: TopicAI = new TopicAI(1, 'java', 'javaINT','','avator', '1', 'java', 'java', 1,1)
+  @State firstText: string = this.firstMessage.name//话题的ai介绍
   @State time: string = new Date().toLocaleString()//get//debug//这里目前引用当前时间
   @State Array: Array<Message> = []//渲染对象数组
   @State message: string = ''//输入框输入的内容
   @State AccessToken: string = ''//token
+  @State idGet:number =0
   @State QandA: Array<QuestionAnswer> = []
+
   // @State markdownReturn: string = ''//返回的markdown生成结果
-  @StorageLink('userAvatar')
-  pic:Resource|image.PixelMap = $rawfile('other/Mock/Enpty.png')//get
+  @StorageLink('userAvatar') pic:Resource|image.PixelMap = $rawfile('other/Mock/Enpty.png')//get
   //隐藏控制
   @State isVisible_head: boolean = false
   @State isVisible_CheckBox: boolean = true
@@ -61,7 +63,13 @@ export struct Chat {
   //@State lastItemRole:string|undefined = this.Array[this.Array.length - 1].role//判断最后一位的角色
 
   aboutToAppear(): void {
-   // this.firstMessage = (router.getParams() as Record<number, Object>)['item'] as TopicAI//debug
+
+    try {
+      this.idGet = router.getParams() as number
+      this.getTopicDetail_axios(this.idGet, this.user.token)
+    } catch (err){
+      console.log('获取失败')
+    }
     this.onClickUpload=1
   }
 
@@ -82,7 +90,7 @@ export struct Chat {
       Column() {
         //GotToken({ token: $AccessToken })
         AIChatNavBar({
-          title: this.firstMessage.title,
+          title: this.firstMessage.name,
           leftIcon: $rawfile('icon/backIcon.png'),
           rightIcon: $rawfile('icon/DealAIChat.png'),
           onclick: () => {
@@ -97,9 +105,9 @@ export struct Chat {
             router.pushUrl({
               url: 'pages/ChatHistory',
               params: {
-                item: this.firstMessage.title,
-                ShowMod: 1
-              }
+                topicId:this.firstMessage.id,
+                topicName:this.firstMessage.name
+              } as ChatHistoryPropmtType
             })
           },
           onClickBack: () => {
@@ -145,7 +153,7 @@ export struct Chat {
                       chatArray: $chatArray,
                       checkCount: $checkCount,
                       checkAll: $allchecked,
-                      AITopic: this.firstMessage.title,
+                      AITopic: this.firstMessage.name,
                       SourceArr: this.QandA
                     })
                   }
@@ -173,16 +181,11 @@ export struct Chat {
                       spinSize: 25,
                     })
                   }
-
-                  //.margin({ right: 100 })
                 }
-                // .onAppear(() => {
-                //   this.scrollerForScroll.scrollEdge(Edge.Bottom)
-                // })
               }
             }
             .onAppear(async () => {
-              this.Array.push(await httpChat_axios_v1('什么是' + this.firstMessage.title + '？80字以内解答。', 'sbsbsbsb'))//debug
+              this.Array.push(await httpChat_axios_v1('什么是' + this.firstMessage.name + '？80字以内解答。', 'chatId'))//debug
               //this.httpData_axios('什么是' + this.firstMessage.title + '？80字以内解答。', 'sbsbsbsb')//内容+id
             })
 
@@ -234,7 +237,9 @@ export struct Chat {
                 isVisible_head: $isVisible_head,
                 isVisible_CheckBox: $isVisible_CheckBox,
                 ChatAIObj: $Array,
-                chatArray: $chatArray
+                chatArray: $chatArray,
+                topicId: this.firstMessage.id,
+                topicName: this.firstMessage.name,
               })
             }
             .margin({
@@ -248,7 +253,7 @@ export struct Chat {
       .width("100%")
       .height("100%")
       .justifyContent(FlexAlign.SpaceBetween)
-      .backgroundColor('#353242')
+      .backgroundColor('#16151a')
       .transition( //入场
         TransitionEffect.translate({ y: 1000 })
           .animation({ curve: curves.springMotion(0.6, 0.8) })
@@ -257,6 +262,22 @@ export struct Chat {
         //UploadWindow()
       }
     }
+  }
+  async getTopicDetail_axios(id: number,token: string): Promise<void> {
+    axios({
+      method: 'GET',
+      url: "https://1fd33097.r5.cpolar.cn"+"/findAll",
+      headers: {
+        'Authorization': 'Bearer '+token
+      },
+      params: {
+        id: id
+      }
+    }).then((response: AxiosResponse<TopicAI>) => {
+      this.firstMessage = response.data
+    }).catch((error: BusinessError) => {
+      console.error('Request failed:', error);
+    })
   }
   //转场效果
   pageTransition() {

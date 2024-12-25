@@ -1,5 +1,14 @@
-import { tracking } from '../commons/utils';
+import { logger, tracking, UserInfo } from '../commons/utils';
+import { User } from '../models';
 import {HomePage_GoToAI,HomePage_head,HomePage_hotCircle,HomePage_InfFastLook,HomePage_sidebar,HomePage_sign} from '../views/HomePage';
+import { token } from '../views/HttpRequests';
+import { router } from '@kit.ArkUI';
+import { circleItem, GotCircle } from '../models/tempModel/Interface/GotCircle';
+import { NoteEditPropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
+import { courseItem } from '../models/tempModel/Interface/GetCourse';
+import axios, { AxiosResponse } from '@ohos/axios';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { IRouterParams } from '../models/tempModel/Interface/ParamChatHistory';
 
 export class week {
   day: number
@@ -18,10 +27,10 @@ export class week {
 @Entry
 @Component
 export struct HomePage {
+  @StorageProp(UserInfo) user: User = {} as User
   @State isShowSideBar: boolean = false
   @State sideBarWidth: number = 0
   @State opcityAll: number = 1
-  @State Icon: ResourceStr = $rawfile('other/Mock/Enpty.png')
   @State userName: string = '断网了哦'
   @State userText: string = '没有网哦，不知道座右铭是什么（。。？）~'
   @State week: Array<week> = [
@@ -35,15 +44,89 @@ export struct HomePage {
   ] //Mock
   @State circle: Array<number> = [1, 2, 3, 4] //debug
   @State provinceCountLine: Array<string> = [] //debug
+  @State CircleArr: circleItem[] = []
+  @Builder SideBarButton(text:string){
+    Text('    '+text)
+      .width('80%')
+      .fontColor('#9b9b9b')
+      .height(45)
+      .backgroundColor('#5e5e5e')
+      .borderRadius(20)
+      .margin({right:30})
 
+  }
+  @Builder ButtonNotice(text:string,Img:string){
+    Blank().height(5)
+    Row(){
+      Text(' '+text)
+        .fontColor('#9b9b9b')
+        .width('60%')
+
+      Blank().width('30%')
+      Image($rawfile(Img))
+        .width('10%')
+    }
+    .width('80%')
+    .margin({right:30})
+  }
+  @Builder Head(){
+    Row({ space: 5 }) { //头栏
+      Image(this.user.avatar)//头像
+        .height(45)
+        .width(45)
+        .borderRadius(15)
+        .borderWidth(1)
+        .borderColor(Color.White)
+        .onClick(() => {
+          this.isShowSideBar = !this.isShowSideBar
+          this.sidebar_Animation()
+        })
+      Column({ space: 5}) {
+        Text('Hello,' + this.userName)
+          .fontSize(20)
+          .fontWeight(FontWeight.Bolder)
+          .fontColor(Color.White)
+          .textAlign(TextAlign.Start)
+          .width('100%')
+        Text(this.user.introduction)
+          .fontSize(12)
+          .fontWeight(FontWeight.Bolder)
+          .fontColor(Color.White)
+          .textAlign(TextAlign.Start)
+          .width('100%')
+      }
+      .width('64%')
+    }
+  }
+  mineIndex:number|null = null
+  // 刷题业
+  changIndexBrush=(index:number)=>{
+  }
+  // 个人中心页
+  changIndexMine=(index:number)=>{
+  }
   aboutToAppear(): void {
+    ///this.httpGetCircle_axios(this.user.token)
     // 被动上报埋点数据
     tracking.report(true)
-    //this.Icon = //TODO 获取用户头像
     this.week[new Date().getDay()].isToday = true
     colorDraw(this.week)
   }
 
+  sidebar_Animation(): void {
+    let aimNumBar=0
+    let aimNumOpa=1
+    if(this.sideBarWidth==0){
+      aimNumBar=250
+      aimNumOpa=0
+    } else {
+      aimNumOpa=1
+    }
+    animateTo({ duration: 200, curve: Curve.Smooth }, () => {
+      this.sideBarWidth = aimNumBar
+      this.opcityAll = aimNumOpa
+    })
+  }
   build() {
     Stack() {
       //stack1
@@ -54,24 +137,31 @@ export struct HomePage {
             HomePage_head({
               isShowSideBar: $isShowSideBar,
               sideBarWidth: $sideBarWidth,
-              userName: $userName,
-              userText: $userText,
-              opcityAll: $opcityAll
+              userName: this.user.name,
+              userText: this.user.introduction,
+              opcityAll: $opcityAll,
+              IconStr: this.user.avatar
             })
 
             HomePage_sign({
               week: $week
             })
 
-            HomePage_hotCircle({
-              circle: $circle
-            })
-
             HomePage_GoToAI()
+              .margin({ top: 20 })
+              .onClick(()=>{
+                this.changIndexBrush(1)
+              })
+
+            HomePage_hotCircle({
+              circle: $circle,
+              token: this.user.token
+            })
 
             HomePage_InfFastLook({
               provinceCountLine: $provinceCountLine,
-              circle: $circle
+              circle: $circle,
+              token: this.user.token
             })
 
           }
@@ -84,15 +174,103 @@ export struct HomePage {
       .scrollBar(BarState.Off)
 
       //stack2
-      HomePage_sidebar({
-        isShowSideBar: $isShowSideBar,
-        sideBarWidth: $sideBarWidth,
-        userName: $userName,
-        opcityAll: $opcityAll,
-        Icon: this.Icon
-      })
+      // HomePage_sidebar({
+      //   isShowSideBar: $isShowSideBar,
+      //   sideBarWidth: $sideBarWidth,
+      //   userName: this.user.name,
+      //   opcityAll: $opcityAll,
+      //   Icon: this.user.avatar,
+      //   introduce: this.user.introduction,
+      //   token: this.user.token
+      // })
+
+
+
+
+
+
+        Row() {
+          Column({space:10}) {//sidBar位置
+            Blank().height('10%')
+            this.Head()
+            this.ButtonNotice('AI对话记录','icon/ChatHistory.png')
+            Row(){
+              this.SideBarButton('点击进入对话记录')
+            }.onClick(() => {
+              router.pushUrl({
+                url: 'pages/ChatHistory',
+                params: {
+                  subjectId: 2//debug
+                }
+              })
+            })
+            this.ButtonNotice('笔记编辑','icon/NoteEdit.png')
+            Row(){
+              this.SideBarButton('点击进入笔记编辑')
+            }.onClick(() => {
+              router.pushUrl({
+                url: 'pages/EditNote',
+                params: {
+                  topicId:54,
+                  topicName:'EMPTY',
+                  url:''
+                } as NoteEditPropmtType
+              })
+            })
+            this.ButtonNotice('每日一练','icon/EverydayTask.png')
+            List({space:10}){//获取的列表
+              ForEach(this.CircleArr, (item: circleItem, index: number) => {
+                ListItem() {
+                  this.SideBarButton(item.name.toString())// text & url
+                }.width('90%').onClick(()=>{
+                  router.pushUrl({
+                    url: 'pages/BrushProblem',
+                    params: {
+                      subjectId: item
+                    }
+                  })
+                })
+              })
+            }
+            Blank().height(0)
+            Stack() {
+              Image($rawfile('icon/GotoUserCenter.png'))
+                .width('50%')
+                .height(30)
+                .margin({ right: 90 })
+              Text('      个人中心')
+                .fontSize(20)
+                .fontColor(Color.White)
+                .fontWeight(FontWeight.Bolder)
+                .textAlign(TextAlign.Start)
+                .height(30)
+                .width('100%')
+            }
+            .onClick(()=>{
+              this.changIndexMine(3)
+            })
+          }
+          .height('100%')
+          .width(this.sideBarWidth)
+          .backgroundImage($rawfile('other/card/SideBar.png'))
+          .backgroundImageSize(ImageSize.Contain)
+          .backgroundImagePosition(Alignment.Start)
+          Column(){}//空白位置
+          .width('30%')
+          .height('100%')
+          .onClick(()=>{
+            if(this.isShowSideBar){
+              this.sidebar_Animation()
+              this.isShowSideBar = false
+            }
+          })
+        }
+        .height('100%')
+        .width('100%')
+        .visibility(this.isShowSideBar?Visibility.Visible:Visibility.Hidden)
+      }
     }
-  }
+
 }
 
 function colorDraw(arr: Array<week>) {

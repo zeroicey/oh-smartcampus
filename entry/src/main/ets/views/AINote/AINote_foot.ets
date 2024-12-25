@@ -1,8 +1,12 @@
 import router from '@ohos.router';
+import { NoteEditPropmtType } from '../../models/tempModel/Interface/PropmtInterfaces';
+
 @Component
 export struct AINote_foot {
   @Prop url:string = ''
   @Prop finishFlag:boolean = false
+  @Prop topicId:number = -1
+  @Prop topicName:string = ''
   build() {
     Row(){
       Button('进入编辑')
@@ -17,8 +21,10 @@ export struct AINote_foot {
             router.pushUrl({
               url: 'pages/EditNote',
               params: {
+                topicId: this.topicId,
+                topicName: this.topicName,
                 url: this.url
-              }
+              } as NoteEditPropmtType
             })
           } else {
             AlertDialog.show({

@@ -1,5 +1,5 @@
 import { auth, httpReq } from '../commons/utils';
-import { router } from '@kit.ArkUI';
+import { promptAction, router } from '@kit.ArkUI';
 import { TopicAiList } from '../models';
 
 interface ICircleIdParams {
@@ -21,10 +21,14 @@ struct TopicList {
 
   // 获取话题AI数据
   async getTopicArray(params: ICircleIdParams) {
-    this.TopicArray = await httpReq.request<TopicAiList[]>({
-      url: '/topic/findAi',
-      params
-    })
+    try {
+      this.TopicArray = await httpReq.request<TopicAiList[]>({
+        url: '/topic/findAi',
+        params
+      })
+    } catch (err) {
+      promptAction.showToast({message:'请求失败'})
+    }
   }
 
   aboutToAppear(): void {
@@ -82,7 +86,7 @@ struct TopicList {
             })
             .onClick(() => {
               auth.CheckAuth({
-                url: '',
+                url: 'pages/AIChat',
                 params: {
                   topicId: item.id
                 } as IRouterParams

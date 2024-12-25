@@ -50,8 +50,7 @@ struct BrushProblem {
 
   aboutToAppear(): void {
     const params = router.getParams() as IRouterParams
-    // TODO 给下面的函数subjectId
-    this.getChapterData('1')
+    this.getChapterData(params.subjectId.toString())
   }
 
   build() {

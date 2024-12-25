@@ -15,6 +15,7 @@ interface  pointLine{
 export struct HomePage_InfFastLook{
   @Link circle:number[]
   @Link provinceCountLine:Array<string>
+  @Prop token:string = ''
   @State MockData:Array<pointLine> = [
     {
       province:'广东省',
@@ -31,11 +32,11 @@ export struct HomePage_InfFastLook{
       point:560,
       specialized:'math'
     },
-  ]//mock
+  ]
   @State TopicArr:Array<DataItem> = []
 
   aboutToAppear(): void {
-    this.httpGetNTopic_axios(8)
+    this.httpGetNTopic_axios(8,this.token)
   }
 
   build() {
@@ -61,13 +62,16 @@ export struct HomePage_InfFastLook{
 
       Scroll() {
         Row() {
-          if(this.TopicArr.length==0){Text('咨询好像也跑路了( ﾟдﾟ)').fontColor(Color.Gray)}
+          if(this.TopicArr.length==0){Text('咨询好像也跑路了( ﾟдﾟ)*').fontColor(Color.Gray)}
           List() {
             ForEach(this.TopicArr, (item: DataItem, index: number) => {
               ListItem() {
                 Row() {
-                  Text(item.name)
-                    .width(100)
+                  Text('  '+item.name+'  ')
+                    .width('auto')
+                    .constraintSize({maxWidth:150})
+                    .maxLines(1)
+                    .textOverflow({overflow:TextOverflow.Ellipsis})
                     .height(22)
                     .borderRadius(10)
                     .backgroundColor('#c7c4ff')
@@ -173,15 +177,17 @@ export struct HomePage_InfFastLook{
     .width('100%')
   }
 
-  httpGetNTopic_axios(size:number){
+  httpGetNTopic_axios(size:number,token:string) {
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081/topic/findList',
+      url: 'https://1fd33097.r5.cpolar.cn'+'/topic/findList',
+      headers: {
+        'Authorization': 'Bearer '+token
+      },
       params: {
         size:size
       }
-    })
-      .then((response: AxiosResponse<TopicAtHome>)=>{
+    }).then((response: AxiosResponse<TopicAtHome>)=>{
         this.TopicArr = response.data.data
       })
       .catch((error:BusinessError)=>{

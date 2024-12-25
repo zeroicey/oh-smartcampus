@@ -2,15 +2,18 @@ import { router } from "@kit.ArkUI"
 import axios, { AxiosResponse } from "@ohos/axios"
 import { courseItem, courseResponse } from "../../models/tempModel/Interface/GetCourse"
 import { BusinessError } from "@kit.BasicServicesKit"
+import { NoteEditPropmtType } from "../../models/tempModel/Interface/PropmtInterfaces"
 
 
 @Component
 export struct HomePage_sidebar{
   @Link isShowSideBar: boolean
   @Link sideBarWidth: number
-  @Link userName: string
+  @Prop userName: string = ''
   @Link opcityAll: number
-  @Prop Icon: ResourceStr = $rawfile('other/Mock/Enpty.png')
+  @Prop Icon: string = ''
+  @Prop introduce: string = ''
+  @Prop token: string = ''
   @State subjectArr:Array<courseItem> = []//debug获取章节
 
   sidebar_Animation(): void {
@@ -18,7 +21,7 @@ export struct HomePage_sidebar{
     let aimNumOpa=1
     if(this.sideBarWidth==0){
       aimNumBar=250
-      aimNumOpa=0.3
+      aimNumOpa=0
     } else {
       aimNumOpa=1
     }
@@ -28,7 +31,7 @@ export struct HomePage_sidebar{
     })
   }
 
-  @Builder SideBarButton(text:string,pageUrl:string,id:number){
+  @Builder SideBarButton(text:string){
     Text('    '+text)
       .width('80%')
       .fontColor('#9b9b9b')
@@ -36,14 +39,7 @@ export struct HomePage_sidebar{
       .backgroundColor('#5e5e5e')
       .borderRadius(20)
       .margin({right:30})
-      .onClick(()=>{
-        router.pushUrl({
-          url: 'pages/'+pageUrl,
-          params: {
-            subjectId:id//debug
-          }
-        })
-      })
+
 }
   @Builder ButtonNotice(text:string,Img:string){
     Blank().height(5)
@@ -61,10 +57,12 @@ export struct HomePage_sidebar{
   }
   @Builder Head(){
     Row({ space: 5 }) { //头栏
-      Image($rawfile('other/Mock/Enpty.png'))//头像
+      Image(this.Icon)//头像
         .height(45)
         .width(45)
         .borderRadius(15)
+        .borderWidth(1)
+        .borderColor(Color.White)
         .onClick(() => {
           this.isShowSideBar = !this.isShowSideBar
           this.sidebar_Animation()
@@ -76,7 +74,7 @@ export struct HomePage_sidebar{
           .fontColor(Color.White)
           .textAlign(TextAlign.Start)
           .width('100%')
-        Text(this.userName)
+        Text(this.introduce)
           .fontSize(12)
           .fontWeight(FontWeight.Bolder)
           .fontColor(Color.White)
@@ -88,7 +86,7 @@ export struct HomePage_sidebar{
   }
 
   aboutToAppear(): void {
-    this.httpGotCourse_axios('')//TODO 这里填token
+    this.httpGotCourse_axios(this.token)
   }
   build() {
     Row() {
@@ -96,15 +94,42 @@ export struct HomePage_sidebar{
         Blank().height('10%')
         this.Head()
         this.ButtonNotice('AI对话记录','icon/ChatHistory.png')
-        this.SideBarButton('点击进入对话记录','ChatHistory',2)
+        Row(){
+          this.SideBarButton('点击进入对话记录')
+        }.onClick(() => {
+          router.pushUrl({
+            url: 'pages/ChatHistory',
+            params: {
+              subjectId: 2//debug
+            }
+          })
+        })
         this.ButtonNotice('笔记编辑','icon/NoteEdit.png')
-        this.SideBarButton('点击进入笔记编辑','EditNote',0)
+        Row(){
+          this.SideBarButton('点击进入笔记编辑')
+        }.onClick(() => {
+          router.pushUrl({
+            url: 'pages/EditNote',
+            params: {
+              topicId:54,
+              topicName:'EMPTY',
+              url:''
+            } as NoteEditPropmtType
+          })
+        })
         this.ButtonNotice('每日一练','icon/EverydayTask.png')
         List({space:10}){
-          ForEach(this.subjectArr, (item: number, index: number) => {
+          ForEach(this.subjectArr, (item: courseItem, index: number) => {
             ListItem() {
-              this.SideBarButton(item.toString(), 'BrushProblem',3)// text & url
-            }.width('90%')
+              this.SideBarButton(item.name.toString())// text & url
+            }.width('90%').onClick(()=>{
+              router.pushUrl({
+                url: 'pages/BrushProblem',
+                params: {
+                  subjectId: item.id
+                }
+              })
+            })
           })
         }
         Blank().height(0)
@@ -146,15 +171,15 @@ export struct HomePage_sidebar{
   httpGotCourse_axios(token:string){
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081'+'/question/getAllSubject',//get
+      url: 'https://1fd33097.r5.cpolar.cn'+'/question/getAllSubject',//get
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': 'Bearer '+token
       }
     }).then((response: AxiosResponse<courseResponse>)=>{
       this.subjectArr = response.data.data
+      console.log('GOT_SUCCESS_SIDEBAR,LENGTH:'+this.subjectArr.length)
     }).catch((error:BusinessError)=>{
-      console.log(error.message)
+      console.log('GOT_ERROR_SIDEBAR'+error.message)
     })
   }
 }

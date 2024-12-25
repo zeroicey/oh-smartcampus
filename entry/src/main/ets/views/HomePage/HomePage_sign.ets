@@ -33,16 +33,16 @@ export struct HomePage_sign{
               .width('100%')
               .height('20%')
               .margin({ left: 10 })
-              .onClick(() => {
-                console.log('aaaaaa')
-                router.pushUrl({
-                  url: 'pages/Sign'
-                })
-              })
             }
             .margin({top: 20})
           }
       }
       .height('15%')
+      .onClick(() => {
+        console.log('aaaaaa')
+        router.pushUrl({
+          url: 'pages/Sign'
+        })
+      })
   }
 }

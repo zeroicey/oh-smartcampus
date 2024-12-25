@@ -1,5 +1,5 @@
 import { FilterSheet, NotesWaterFlow } from '../commons/components'
-import { httpReq } from '../commons/utils'
+import { httpReq, logger } from '../commons/utils'
 import { ITopic, WaterFlowType } from '../models'
 import { router } from '@kit.ArkUI'
 
@@ -30,7 +30,6 @@ export struct InCircleContent {
   }
 
   aboutToAppear(): void {
-    // TODO
     const param = router.getParams() as ICircleIdParam
     this.circleId = param.circleId
     this.getTopic()

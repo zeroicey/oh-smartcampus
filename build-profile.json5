@@ -1,19 +1,6 @@
 {
   "app": {
     "signingConfigs": [
-      {
-        "name": "default",
-        "type": "HarmonyOS",
-        "material": {
-          "certpath": "C:\\Users\\区浩贤\\.ohos\\config\\default_OraclePlus_SGOsyq5dS54--V8VK7PNWS4QcPDgWaoG-vj2JXivocA=.cer",
-          "storePassword": "0000001B1F207B0595D459EB28E85DE37C737941FEEEC7F5E6BF318DE73F874473C2F6A581E4EA5AA7909D",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001BA3629F6A52804789411234DA3AA78CC3797DC3270D9DBAA0052CC69F08DC3B509272C8F2547300",
-          "profile": "C:\\Users\\区浩贤\\.ohos\\config\\default_OraclePlus_SGOsyq5dS54--V8VK7PNWS4QcPDgWaoG-vj2JXivocA=.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\区浩贤\\.ohos\\config\\default_OraclePlus_SGOsyq5dS54--V8VK7PNWS4QcPDgWaoG-vj2JXivocA=.p12"
-        }
-      }
     ],
     "products": [
       {
