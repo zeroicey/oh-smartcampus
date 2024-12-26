@@ -1,7 +1,7 @@
 import { CircleGrid, HcSkeletonGrid } from '../commons/components';
 import { IAllCircle } from '../models';
 import { router } from '@kit.ArkUI';
-import { httpReq } from '../commons/utils';
+import { auth, httpReq } from '../commons/utils';
 
 @Component
 export struct AIChatPage {
@@ -34,11 +34,13 @@ export struct AIChatPage {
             CircleGrid({
               list: this.circleList,
               onclick: (circleId: string) => {
-                router.pushUrl({
-                  url: 'pages/TopicList',
-                  params: {
-                    circleId: circleId
-                  }
+                auth.CheckAuth(()=>{
+                  router.pushUrl({
+                    url: 'pages/TopicList',
+                    params: {
+                      circleId: circleId
+                    }
+                  })
                 })
               }
             })

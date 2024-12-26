@@ -4,6 +4,8 @@ import { MyDataSource } from '../../models/LazyForeachResource/MyDataSource';
 import { auth, httpReq } from '../utils';
 import { HcSkeleton } from './HcSkeleton';
 import { NotesWaterFlowItem } from './NotesWaterFlowItem';
+import { router } from '@kit.ArkUI';
+import { NoteEditPropmtType } from '../../models/tempModel/Interface/PropmtInterfaces';
 
 // 请求参数类型
 interface IInCircleContentRes {
@@ -134,7 +136,12 @@ export struct NotesWaterFlow {
                 NotesWaterFlowItem({ item: item, flowType: this.flowType })
                   .onClick(() => {
                     if (this.flowType == WaterFlowType.draft) {
-                      // TODO 跳转到笔记编辑页
+                      router.pushUrl({
+                        url: 'pages/EditNotes',
+                        params: {
+                          //TODO
+                        } as NoteEditPropmtType
+                      })
 
                     } else {
                       auth.CheckAuth({

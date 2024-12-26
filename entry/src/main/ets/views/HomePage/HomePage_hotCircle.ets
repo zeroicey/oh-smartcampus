@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "@ohos/axios"
 import { BusinessError } from '@kit.BasicServicesKit';
 import { circleItem, GotCircle } from "../../models/tempModel/Interface/GotCircle";
 import { router } from "@kit.ArkUI";
-import { logger } from "../../commons/utils";
+import { auth, logger } from "../../commons/utils";
 
 @Component
 export struct HomePage_hotCircle {
@@ -19,6 +19,7 @@ export struct HomePage_hotCircle {
     Stack() {
       Image($rawfile('icon/hotCircleBox.png'))
         .width('100%')
+        .margin({ top: 15})
 
       Column({ space: 5 }) { //hot circle
         Text('热门圈子')
@@ -38,17 +39,20 @@ export struct HomePage_hotCircle {
                 .borderRadius(50)
             }
             .onClick(()=>{
-              router.pushUrl({
-                url: 'pages/InCircleContent',
-                params: {
-                  circleId: item.circleId
-                }
+              auth.CheckAuth(()=>{
+                router.pushUrl({
+                  url: 'pages/InCircleContent',
+                  params: {
+                    circleId: item.circleId
+                  }
+                })
               })
             })
-            Blank().width(30)
+            Blank().width(35)
           })
         }
         .width('90%')
+        .margin({ bottom: 20 })
       }
       .borderRadius(25)
       .width('100%')

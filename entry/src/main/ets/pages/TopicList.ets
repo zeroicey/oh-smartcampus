@@ -1,13 +1,17 @@
-import { auth, httpReq, logger } from '../commons/utils';
+import { auth, httpReq, logger, UserInfo } from '../commons/utils';
 import { promptAction, router } from '@kit.ArkUI';
-import { TopicAiList } from '../models';
+import { TopicAiList, User } from '../models';
 import { BusinessError } from '@kit.BasicServicesKit';
+import axios, { AxiosResponse } from '@ohos/axios';
+import { TopicItem, TopicListResponse } from '../models/tempModel/Interface/TopicList';
+import { TopicAI } from '../models/tempModel/DataModel/TopicAI';
+
 interface ICircleIdParams {
   circleId: string
 }
 
 export interface IRouterParamsAIChat {
-  topicId: number,
+  topic: string,
   circleId: string
 }
 
@@ -18,25 +22,29 @@ struct TopicList {
   topHeight: number = 0
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
-  @State TopicArray: TopicAiList[] = []
+  @StorageProp(UserInfo)
+  user: User = {} as User
+  @State TopicArray: TopicItem[] = []
   @State params : ICircleIdParams = { circleId: '' }
+  @State Message:TopicAI = {} as TopicAI
   // 获取话题AI数据
-  async getTopicArray(params: ICircleIdParams) {
-    try {
-      this.TopicArray = await httpReq.request<TopicAiList[]>({
-        url: '/topic/findAi',
-        params
-      })
-    } catch (error) {
-      //logger.info(err)
-      console.log('GOT_请求失败:')
-      promptAction.showToast({message:'请求失败'})
-    }
-  }
+  // async getTopicArray(params: ICircleIdParams) {
+  //   try {
+  //     this.TopicArray = await httpReq.request<TopicAiList[]>({
+  //       url: '/topic/findTopic',
+  //       params
+  //     })
+  //   } catch (error) {
+  //     //logger.info(err)
+  //     console.log('GOT_请求失败:')
+  //     promptAction.showToast({message:'请求失败'})
+  //   }
+  // }
 
   aboutToAppear(): void {
     this.params  = router.getParams() as ICircleIdParams
-    this.getTopicArray(this.params)
+    // this.getTopicArray(this.params)
+    this.httpGotTopicArray_axios(this.params.circleId,this.user.token)
   }
 
   build() {
@@ -88,14 +96,17 @@ struct TopicList {
               top: 13
             })
             .onClick(() => {
-              auth.CheckAuth({
-                url: 'pages/AIChat',
-                params: {
-                  topicId: item.id,
-                  circleId: this.params.circleId
-                } as IRouterParamsAIChat
+              //this.getTopicDetail_axios(item.id.toString(),this.user.token).then(() => {
+                //console.log('GOT_Message:'+JSON.stringify(this.Message))
+                auth.CheckAuth({
+                  url: 'pages/AIChat',
+                  params: {
+                    topic: item.id.toString(),
+                    circleId: this.params.circleId
+                  } as IRouterParamsAIChat
+                })
               })
-            })
+            //})
           }
         })
       }
@@ -112,4 +123,37 @@ struct TopicList {
       right: 30
     })
   }
+
+  httpGotTopicArray_axios(circleId: string,token: string){
+    axios({
+      url: 'https://1fd33097.r5.cpolar.cn'+'/topic/findTopic',
+      headers: {
+        'Authorization': 'Bearer '+token
+      },
+      params: {
+        circleId: circleId,
+        size:10
+      }
+    }).then((response:AxiosResponse<TopicListResponse>) => {
+      this.TopicArray =response.data.data
+    }).catch((err: BusinessError) => {
+      console.log('GOT_请求失败:'+err)
+      promptAction.showToast({message:'请求失败'})
+    })
+  }
+  // async getTopicDetail_axios(id: string,token: string): Promise<void> {
+  //   axios({
+  //     method: 'GET',
+  //     url: `https://1fd33097.r5.cpolar.cn/`+`topic/findById/${id}`,
+  //     headers: {
+  //       'Authorization': 'Bearer '+token
+  //     },
+  //   }).then((response: AxiosResponse<TopicAI>) => {
+  //     this.Message = response.data
+  //     console.log('GOT_Request successGTDL:'+JSON.stringify(response.data))
+  //     console.log('GOT_Request successFSMG:'+JSON.stringify(this.Message))
+  //   }).catch((error: BusinessError) => {
+  //     console.error('GOT_Request failedGTDL:', error);
+  //   })
+  // }
 }

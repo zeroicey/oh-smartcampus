@@ -1,4 +1,4 @@
-import { logger, tracking, UserInfo } from '../commons/utils';
+import { auth, logger, tracking, UserInfo } from '../commons/utils';
 import { User } from '../models';
 import {HomePage_GoToAI,HomePage_head,HomePage_hotCircle,HomePage_InfFastLook,HomePage_sidebar,HomePage_sign} from '../views/HomePage';
 import { token } from '../views/HttpRequests';
@@ -9,6 +9,7 @@ import { courseItem } from '../models/tempModel/Interface/GetCourse';
 import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { IRouterParams } from '../models/tempModel/Interface/ParamChatHistory';
+import { audio } from '@kit.AudioKit';
 
 export class week {
   day: number
@@ -31,7 +32,7 @@ export struct HomePage {
   @State isShowSideBar: boolean = false
   @State sideBarWidth: number = 0
   @State opcityAll: number = 1
-  @State userName: string = '断网了哦'
+  @State userName: string = '签名空空'
   @State userText: string = '没有网哦，不知道座右铭是什么（。。？）~'
   @State week: Array<week> = [
     new week(7, false, false, ''),
@@ -82,7 +83,7 @@ export struct HomePage {
           this.sidebar_Animation()
         })
       Column({ space: 5}) {
-        Text('Hello,' + this.userName)
+        Text('Hello,' + this.user.name )
           .fontSize(20)
           .fontWeight(FontWeight.Bolder)
           .fontColor(Color.White)
@@ -197,24 +198,28 @@ export struct HomePage {
             Row(){
               this.SideBarButton('点击进入对话记录')
             }.onClick(() => {
-              router.pushUrl({
-                url: 'pages/ChatHistory',
-                params: {
-                  subjectId: 2//debug
-                }
+              auth.CheckAuth(()=>{
+                router.pushUrl({
+                  url: 'pages/ChatHistory',
+                  params: {
+                    subjectId: 2//debug
+                  }
+                })
               })
             })
-            this.ButtonNotice('笔记编辑','icon/NoteEdit.png')
+            this.ButtonNotice('笔记编辑', 'icon/NoteEdit.png')
             Row(){
               this.SideBarButton('点击进入笔记编辑')
             }.onClick(() => {
-              router.pushUrl({
-                url: 'pages/EditNote',
-                params: {
-                  topicId:54,
-                  topicName:'EMPTY',
-                  url:''
-                } as NoteEditPropmtType
+              auth.CheckAuth(()=>{
+                router.pushUrl({
+                  url: 'pages/EditNote',
+                  params: {
+                    topicId:54,
+                    topicName:'EMPTY',
+                    url:''
+                  } as NoteEditPropmtType
+                })
               })
             })
             this.ButtonNotice('每日一练','icon/EverydayTask.png')
@@ -223,11 +228,13 @@ export struct HomePage {
                 ListItem() {
                   this.SideBarButton(item.name.toString())// text & url
                 }.width('90%').onClick(()=>{
-                  router.pushUrl({
-                    url: 'pages/BrushProblem',
-                    params: {
-                      subjectId: item
-                    }
+                  auth.CheckAuth(()=> {
+                    router.pushUrl({
+                      url: 'pages/BrushProblem',
+                      params: {
+                        subjectId: item
+                      }
+                    })
                   })
                 })
               })
@@ -280,7 +287,7 @@ export struct HomePage {
     }).then((response:AxiosResponse<GotCircle>) => {
       for(let i=0;i<4;i++) {
         this.CircleArr[i] = response.data.data[i]
-        logger.info('GOT_SUCCESS_CIRCLE：'+ JSON.stringify(this.CircleArr))
+        //logger.info('GOT_SUCCESS_CIRCLE：'+ JSON.stringify(this.CircleArr))
       }
     }).catch((error:BusinessError) => {
       console.log(error.message)

@@ -32,11 +32,11 @@ export struct TypeIn_box {
     Row({ space: 20 }) {
       Blank().width(0)
 
-      TextInput({ placeholder: 'Enter any message>', text: $$this.message })
+      TextInput({ placeholder: '输入点什么试试 >', text: $$this.message })
         .width('70%')
         .height(40)
         .fontSize(20)
-        .fontColor(Color.White)
+        .fontColor('#16151a')
         .fontWeight(FontWeight.Bold)
         .backgroundColor('#eae8f6')
 

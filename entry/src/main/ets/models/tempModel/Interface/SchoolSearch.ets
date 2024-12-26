@@ -6,7 +6,6 @@ export interface SearchSchoolData {
   region?: string | null; // 地区
   secondaryMajor?: string | null; // 二级专业
   tertiaryMajor?: string | null; // 三级专业
-  universityLevel?: string | null; // 院校级别
 }
 
 // export interface SearchSchoolResponseData {
@@ -32,6 +31,7 @@ export interface ScoreData {
   tertiaryMajor: string;
   year: number;
   school: string;
+  img: string;
   faculty: string;
   minScore: string;
   averageScore: string;

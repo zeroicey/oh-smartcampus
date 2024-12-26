@@ -12,18 +12,14 @@ export struct Sign_LearningProgress{
 
   //mock
   @State BarArr:Array<valueObjects_bar> = [
-    { type: 'oxygen',time:'2024-12-01', value: 46 },
-    { type: 'silicon',time:'2024-12-02', value: 27 },
-    { type: 'aluminum',time:'2024-12-03', value: 8 },
-    { type: 'iron',time:'2024-12-04', value: 5 },
-    { type: 'calcium',time:'2024-12-05', value: 3 },
+    { type: '学习',time:'2024-12-03', value: 46 },
+    { type: '浏览',time:'2024-12-03', value: 57 },
+    { type: '其他',time:'2024-12-03', value: 20 },
   ]
   @State RoseArr:Array<ValueObjects_rose> = [
-    { type: 'oxygen', value: '46' },
-    { type: 'silicon', value: '27' },
-    { type: 'aluminum', value: '8' },
-    { type: 'iron', value: '5' },
-    { type: 'calcium', value: '3' },
+    { type: '学习', value: '46' },
+    { type: '浏览', value: '57' },
+    { type: '其他', value: '20' },
   ]
 
   animation_chart(): void {
@@ -57,9 +53,9 @@ export struct Sign_LearningProgress{
             dataValue: this.BarArr
           })
 
-          Text('aaaaaaaaaaaaaaaaaaaaa\n' + 'bbbbbbbbbbbbbbbbbbbbb\n' + 'ccccccccccccccccccccc')
-            .fontSize(20)
-            .fontWeight(FontWeight.Bold)
+          // Text('aaaaaaaaaaaaaaaaaaaaa\n' + 'bbbbbbbbbbbbbbbbbbbbb\n' + 'ccccccccccccccccccccc')
+          //   .fontSize(20)
+          //   .fontWeight(FontWeight.Bold)
         }
       }
       .height(600)

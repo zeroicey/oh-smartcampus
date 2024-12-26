@@ -49,10 +49,10 @@ export struct AINote {
         CustomNavBar({
           title: 'AI笔记',
           showRightIcon: false,
-          onClickBack:()=>{
-            //TODO AI笔记的返回事件
-            //console.log('GOT_onClickBack_Response')//debug
-          }
+          // onClickBack:()=>{
+          //   //
+          //   //console.log('GOT_onClickBack_Response')//debug
+          // }
         })
 
       AINote_content({
@@ -140,8 +140,10 @@ export struct AINote {
         'Content-Type': 'application/json'
       }
     }).then((response: AxiosResponse<markdownResponse>) => {
-        if(response.data.choices[0].message.content==null||response.data.choices[0].message.content==undefined){
+        if(response.data.choices[0].message.content==null){
           this.Text = '<Get null or undefined / 请求失败，请重试>'
+        } else if (response.data.choices[0].message.content==undefined) {
+          this.Text = '输入的内容意义不明，无法生成ai笔记。'
         } else {
           this.Text = trimKnownBackticks(response.data.choices[0].message.content)
           //console.log('GOT_DealedText: ' + this.Text)

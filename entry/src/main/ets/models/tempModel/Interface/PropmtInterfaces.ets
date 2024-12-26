@@ -16,5 +16,4 @@ export interface NoteEditPropmtType{
 export interface ChatHistoryPropmtType{
   topicId:number
   topicName:string
-
 }

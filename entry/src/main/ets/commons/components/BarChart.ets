@@ -85,7 +85,7 @@ export struct BarChart {
 export function getData(): Array<valueObjects_bar> {
   const data: Array<valueObjects_bar> = [
     { type: 'oxygen',time:'2024-12-01', value: 46 },
-    { type: 'silicon',time:'2024-12-02', value: 27 },
+    { type: 'silicon',time:'2024-12-02', value: 57 },
     { type: 'aluminum',time:'2024-12-03', value: 8 },
     { type: 'iron', time:'2024-12-04', value: 5},
     { type: 'calcium',time:'2024-12-05' , value: 3},

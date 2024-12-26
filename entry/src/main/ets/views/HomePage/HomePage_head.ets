@@ -1,4 +1,5 @@
 import { router } from "@kit.ArkUI"
+import { auth } from "../../commons/utils"
 
 
 @Component
@@ -34,8 +35,10 @@ export struct HomePage_head {
         .borderWidth(1)
         .borderColor(Color.White)
         .onClick(() => {
-          this.isShowSideBar = !this.isShowSideBar
-          this.sidebar_Animation()
+          auth.CheckAuth(()=>{
+            this.isShowSideBar = !this.isShowSideBar
+            this.sidebar_Animation()
+          })
         })
       Column() {
         Text('Hello,' + this.userName)
@@ -59,8 +62,10 @@ export struct HomePage_head {
           .width(30)
           .margin({ top: 10 })
           .onClick(()=>{
-            router.pushUrl({
-              url: 'pages/Scan'
+            auth.CheckAuth(()=>{
+              router.pushUrl({
+                url: 'pages/Scan'
+              })
             })
           })
       }

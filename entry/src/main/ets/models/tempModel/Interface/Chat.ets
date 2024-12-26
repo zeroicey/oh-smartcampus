@@ -19,6 +19,11 @@ export interface chatResponseData {
 
 }
 
+export interface ChatHistoryData {
+  uid: string;
+  topicId: number;
+  messages: Message[];
+}
 export class Usage {
   prompt_tokens: number;
   completion_tokens: number;

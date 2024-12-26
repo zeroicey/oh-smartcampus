@@ -19,14 +19,10 @@ export struct ChatHistory {
   @State nameColorArr:string[] = ['#ff6666','#ffb266','#ff00ff','#66ff66','#66b2ff']
   private menu: string[] = ['删除'];
 
-  aboutToAppear(): void {
+  async aboutToAppear(){
     this.getPropmt = router.getParams() as ChatHistoryPropmtType
-    this.axios_GotAllHistoryArray(1,10,this.user.uid,this.getPropmt.topicId.toString(),this.user.token)
-      // if(this.ParamObj.ShowMod == 1) {
-      //   this.axios_GotHistoryArray()
-      // } else if(this.ParamObj.ShowMod == 2) {
-      //   this.axios_GotAllHistoryArray()
-      // }
+    console.log('GOT_pramas:'+JSON.stringify(this.getPropmt))
+    await this.axios_GotAllHistoryArray(1,10,this.user.uid,this.getPropmt.topicId.toString(),this.user.token)
   }
 
   @Builder
@@ -51,6 +47,7 @@ export struct ChatHistory {
 
   build() {
     Column({ space: 15 }) {
+      Blank().height(30)
       Text('对话记录')
         .fontSize(40)
         .fontColor(Color.White)
@@ -75,15 +72,20 @@ export struct ChatHistory {
                     .fontWeight(FontWeight.Bolder)
                     .borderRadius(30)
                     .backgroundColor(Color.White)
-                  Column({ space: 15 }) {
+                  Column({ space: 5 }) {
                     Text(item.topic.name)
+                      .fontSize(25)
+                      .fontWeight(FontWeight.Bolder)
                       .fontColor(Color.White)
                       .width('100%')
-                      .textAlign(TextAlign.Start)
-                      .margin({ left: 5 })
+
                     Text(item.induction)
                       .fontSize(20)
                       .fontColor(Color.White)
+                      .textAlign(TextAlign.Start)
+                      .maxLines(2)
+                      .margin({right:20})
+                      .textOverflow({ overflow: TextOverflow.Ellipsis })
                   }
                   .width('90%')
                 }
@@ -131,7 +133,7 @@ export struct ChatHistory {
   //   })
   // }
 
-  axios_GotAllHistoryArray(page:number,size:number,uid:string,topicId:string,token:string): void {//获取全部历史
+   async axios_GotAllHistoryArray(page:number,size:number,uid:string,topicId:string,token:string): Promise<void> {//获取全部历史
     axios({
       method: 'POST',
       url: "https://1fd33097.r5.cpolar.cn"+"/ai/history_list",

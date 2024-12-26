@@ -15,17 +15,17 @@ export struct EditNote_dealButton{
   @Link token:string
   @Prop uid:string = ''
   animation_button(): void {
-    if(this.onClickFlag==1){
+    if(this.onClickFlag==1){//left bigger
       animateTo({ duration: 500, curve: Curve.Smooth }, () => {
         this.buttonWidth1='50%'
         this.buttonWidth2='20%'
       })
-    } else if(this.onClickFlag==2) {
+    } else if(this.onClickFlag==2) {//right bigger
       animateTo({ duration: 500, curve: Curve.Smooth }, () => {
         this.buttonWidth1='20%'
         this.buttonWidth2='50%'
       })
-    } else if(this.onClickFlag==3){
+    } else if(this.onClickFlag==3){//reset
       animateTo({ duration: 500, curve: Curve.Smooth }, () => {
         this.buttonWidth1='30%'
         this.buttonWidth2='30%'
@@ -46,9 +46,10 @@ export struct EditNote_dealButton{
           .fontWeight(FontWeight.Bold)
           .backgroundColor('#ff9996')
           .onClick(() => {
-            this.onClickFlag = 1
-            this.animation_button()
-            if(this.onClickFlag == 1){
+            if (this.onClickFlag!=1) {
+              this.onClickFlag = 1
+              this.animation_button()
+            } else if(this.onClickFlag == 1){
               httpKeepNote_axios(this.EditData.pictures,this.EditData.title,this.EditData.word,this.EditData.uid,this.EditData.topicId,this.EditData.circleId,this.token)
             }
           })
@@ -60,9 +61,10 @@ export struct EditNote_dealButton{
           .fontWeight(FontWeight.Bold)
           .backgroundColor('#ff9996')
           .onClick(() => {
-            this.onClickFlag = 2
-            this.animation_button()
-            if(this.onClickFlag == 2){
+            if(this.onClickFlag!=2){
+                this.onClickFlag = 2
+                this.animation_button()
+              } else if(this.onClickFlag == 2){
               httpPublishNote_axios(this.EditData,this.token,this.uid)
             }
         })
@@ -87,15 +89,17 @@ function httpKeepNote_axios(imgArr:string[],title:string,word:string,uid:string,
       word: word,
       uid: uid,
       topicId: topicId,
-      createTime: new Date().toLocaleDateString(),
+      createTime: getCurrentTime(),
       updateTime: ''
      } as CirclePost,
     headers: {
+      'uid': uid,
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+token
     }
   }).then(()=>{
     promptAction.showToast({message: '保存成功', duration: 2000})
+    console.log('GOT_保存成功:'+topicId+"---"+uid+'======'+circleId)
   }).catch((error: BusinessError)=>{
     promptAction.showToast({message: '保存失败，请检查网络', duration: 1000})
     console.log(error.name+' : '+error.message)
@@ -112,7 +116,7 @@ function httpPublishNote_axios(EditData:SendNoteData,token:string,uid:string){
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+token
     }
-  }).then(()=>{
+  }).then(()=> {
     promptAction.showToast({message: '发布成功', duration: 2000})
   }).catch((error: BusinessError)=>{
     promptAction.showToast({message: '发布失败，请检查网络', duration: 1000})
@@ -127,4 +131,16 @@ function getNoteId():string{
     result += charset.charAt(Math.floor(Math.random() * charset.length));
   }
   return Date.now().toString()+result;
+}
+
+function getCurrentTime(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hour = String(now.getHours()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  const second = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }

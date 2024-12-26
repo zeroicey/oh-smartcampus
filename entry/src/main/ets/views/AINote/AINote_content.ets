@@ -26,20 +26,29 @@ export struct AINote_content {
         Column() {
           Column() {
             if (!this.isLoading) {
-              Image(this.ImageUrl)
-                .borderRadius(25)
-                .height('100%')
-                .width('100%')
-                .backgroundColor(Color.Pink)
-                .sharedTransition('PrewiewImg',{ duration:500 })
-                .onClick(() => {
-                  pushImagePreview({images:this.imageItems,index:0})//
-                })
-                .onAppear(()=>{
-                  this.finishFlag = true
-                })
-
-            } else {
+              if(this.ImageUrl!=null||this.ImageUrl!=undefined){
+                Image(this.ImageUrl)
+                  .borderRadius(25)
+                  .height('100%')
+                  .width('100%')
+                  .backgroundColor(Color.Pink)
+                  .sharedTransition('PrewiewImg',{ duration:500 })
+                  .onClick(() => {
+                    pushImagePreview({images:this.imageItems,index:0})//
+                  })
+                  .onAppear(()=>{
+                    this.finishFlag = true
+                  })
+              } else {
+                Column() {
+                  Blank().height('45%')
+                  Text('不知道什么原因，\n生成图片的ai罢工了(ó﹏ò｡)')
+                    .fontColor(Color.White)
+                    .fontSize(20)
+                    .width('100%')
+                }
+              }
+              } else {
               Column() {
                 Blank().height('45%')
                 SpinKit({

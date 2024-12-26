@@ -16,12 +16,12 @@ export struct EditNote {
   @State token:string = ''
   @State getPropmt:NoteEditPropmtType = {} as NoteEditPropmtType
   @State DATE:string = new Date().toLocaleDateString()// 现在的日期
-  @State AIPictureUrl:string=''
-  @State UserName:string='MR.ASS'
+  @State AIPictureUrl:string = ''
+  @State UserName:string = 'MR.ASS'
   @State TargetAI_topic: string = 'TOPIC'
-  @State buttonWidth1:string='30%'
-  @State buttonWidth2:string='30%'
-  @State onClickFlag:number=1
+  @State buttonWidth1:string = '30%'
+  @State buttonWidth2:string = '30%'
+  @State onClickFlag:number = 3
   @State url:string=''
   @State updateFlag:boolean = false
   @State EditData:SendNoteData = {} as SendNoteData
@@ -62,7 +62,7 @@ export struct EditNote {
       console.log('ERROR_EditNote_aboutToAppear')
     }
     this.url = this.getPropmt.url
-    this.token=this.user.token
+    this.token = this.user.token
     this.UserName = this.user.name
     this.EditData.uid = this.user.uid
     this.EditData.topicId = this.getPropmt.topicId.toString()
@@ -78,7 +78,8 @@ export struct EditNote {
       Scroll(){
         Column() {
           EditNote_imgArr({
-            EditData:$EditData
+            EditData:$EditData,
+            url:this.url
           })
           EditNote_edit({
             EditData:$EditData,

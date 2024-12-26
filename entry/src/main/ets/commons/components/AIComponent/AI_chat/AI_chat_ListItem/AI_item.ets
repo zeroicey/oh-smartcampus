@@ -8,7 +8,7 @@ import { router } from '@kit.ArkUI'
 
 
 //lvText.setTextColor('#ffffff')
-lvText.setTextSize(20)
+lvText.setTextSize(17)
 //lvTitle.setLevelTitleColor('#ffa3e5e5')
 lvTitle.setLevel1Title(25)
 lvTitle.setLevel2Title(23)
@@ -82,45 +82,6 @@ export struct AI_Item {
             .onClick(()=>{
               this.controller.open()
             })
-            // Divider().width('100%')
-            // Row({ space: 5}) {
-            //   Text(' 5条上下文 ')
-            //     .fontSize(10)
-            //     .height(15)
-            //     .width('auto')
-            //     .backgroundColor('#dfdef7')
-            //     .borderColor('#736f8a')
-            //     .fontColor('#736f8a')
-            //     .borderWidth(1)
-            //     .borderRadius(20)
-            //   Text(' 6条引用 ')
-            //     .fontSize(10)
-            //     .height(15)
-            //     .width('auto')
-            //     .backgroundColor('#e4f1ef')
-            //     .borderColor('#45867e')
-            //     .fontColor('#45867e')
-            //     .borderWidth(1)
-            //     .borderRadius(20)
-            //   Text(' 12.32s ')
-            //     .fontSize(10)
-            //     .height(15)
-            //     .width('auto')
-            //     .backgroundColor('#e8f8fe')
-            //     .borderColor('#a4dcf1')
-            //     .fontColor('#367d98')
-            //     .borderWidth(1)
-            //     .borderRadius(20)
-            //   Text(' 查看详情 ')
-            //     .fontSize(10)
-            //     .height(15)
-            //     .width('auto')
-            //     .backgroundColor(Color.Transparent)
-            //     .borderColor('#9b98ae')
-            //     .fontColor('#353341')
-            //     .borderWidth(1)
-            //     .borderRadius(20)
-            // }
             .align(Alignment.Start)
             Row(){
               Row() {
@@ -134,6 +95,9 @@ export struct AI_Item {
                   .fontColor(Color.White)
                   .align(Alignment.Center)
                   .fontWeight(FontWeight.Bold)
+                  .width('90%')
+                  .maxLines(1)
+                  .textOverflow({ overflow: TextOverflow.Ellipsis })
                   .onClick(() => {
                     router.pushUrl({
                       url: 'pages/Answer',

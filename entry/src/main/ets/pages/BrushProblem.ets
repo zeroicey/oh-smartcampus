@@ -1,7 +1,7 @@
 import { CustomNavBar, HcLoadingDialog } from '../commons/components'
 import { promptAction, router } from '@kit.ArkUI'
-import { httpReq } from '../commons/utils'
-import { IChapter } from '../models'
+import { httpReq, UserInfo } from '../commons/utils'
+import { IChapter, User } from '../models'
 
 interface IRouterParams {
   subjectId: number
@@ -10,6 +10,8 @@ interface IRouterParams {
 @Entry
 @Component
 struct BrushProblem {
+  @StorageProp(UserInfo)
+  user: User = {} as User
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
   @State chapterList: IChapter[] = []
@@ -27,7 +29,7 @@ struct BrushProblem {
         url: '/question/getChapterBySubjectId',
         params: {
           // TODO uid更改
-          uid: '10008',
+          uid: this.user.uid,//'10008',
           id: id
         }
       })

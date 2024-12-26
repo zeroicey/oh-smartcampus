@@ -3,6 +3,7 @@ import { promptAction, router } from '@kit.ArkUI';
 import { IPublisher, IPublisherData, User } from '../models';
 import { httpReq, logger, UserInfo } from '../commons/utils';
 import { INoteIdParams } from '../commons/components';
+import { IRouterParamsAIChat } from './TopicList';
 
 @Entry
 @Component
@@ -167,7 +168,13 @@ struct ShareNotes {
                   .width('100%')
               }
               .onClick(() => {
-                // TODO 跳转到ai对话
+                router.pushUrl({
+                  url: 'pages/AIChat',
+                  params: {
+                    topic: this.publisherData.topicId,
+                    circleId: this.circleId
+                  } as IRouterParamsAIChat
+                })
               })
             }
 

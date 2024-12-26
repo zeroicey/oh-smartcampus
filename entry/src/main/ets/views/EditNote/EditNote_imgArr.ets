@@ -8,24 +8,30 @@ import { SendNoteData } from '../../models/tempModel/Interface/SendNote';
 export struct EditNote_imgArr {
   //@Link imageItems:Array<string>
   @Link EditData:SendNoteData
+  @Prop url:string = ''
   //@Link AIPictureUrl:string
 
   build() {
     Column({space:10}) {
       Row(){
         List(){
-          // if(this.AIPictureUrl != ''){
-          //   ListItem() {
-          //     Image(this.AIPictureUrl)
-          //       .width(100)
-          //       .height(100)
-          //       .margin({ top: 10, bottom: 10, left: 10, right: 10 })
-          //       .borderRadius(20)
-          //       .onClick(() => {
-          //         //
-          //       })
-          //   }
-          // }
+          ListItem(){
+            Column(){
+              Image(this.url)
+                .width(100)
+                .height(100)
+                .borderRadius(20)
+                .onClick(()=>{
+                  //TODO 打开图片选择器添加图片
+                })
+
+            }
+            .width(100)
+            .height(100)
+            .backgroundColor('#c4c4c4')
+            .margin({ top: 10, bottom: 10, left: 10, right: 10 })
+            .borderRadius(20)
+          }
           ForEach(this.EditData.pictures, (item:string,index:number) => {
             ListItem() {
               Image(item)

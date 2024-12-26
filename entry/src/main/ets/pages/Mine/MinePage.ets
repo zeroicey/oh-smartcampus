@@ -1,7 +1,7 @@
 import { promptAction, router } from '@kit.ArkUI'
 import { NotesWaterFlow, roseChart } from '../../commons/components'
 import { BarChart, valueObjects_bar } from '../../commons/components/BarChart'
-import { auth, httpReq, UserInfo } from '../../commons/utils'
+import { auth, httpReq, logger, UserInfo } from '../../commons/utils'
 import { IInformation, User, WaterFlowType } from '../../models'
 import { Avatar, NoteInfomation, NoteServe } from '../../views/MinePage'
 import { emitter } from '@kit.BasicServicesKit'
@@ -116,21 +116,21 @@ export struct MinePage {
               BarChart({
                 dataValue: this.BarArr
               })
-              Button('清除用户数据')
-                .onClick(() => {
-                  auth.setUser({} as User)
-                })
-              Button('模拟token失效')
-                .onClick(() => {
-                  this.user.token += 'xx'
-                  auth.setUser(this.user)
-                })
-              Button('跳转刷题章节')
-                .onClick(() => {
-                  router.pushUrl({
-                    url: 'pages/BrushProblem'
-                  })
-                })
+              // Button('清除用户数据')
+              //   .onClick(() => {
+              //     auth.setUser({} as User)
+              //   })
+              // Button('模拟token失效')
+              //   .onClick(() => {
+              //     this.user.token += 'xx'
+              //     auth.setUser(this.user)
+              //   })
+              // Button('跳转刷题章节')
+              //   .onClick(() => {
+              //     router.pushUrl({
+              //       url: 'pages/BrushProblem'
+              //     })
+              //   })
             }
             .backgroundColor(Color.White)
             .width('100%')

@@ -4,11 +4,13 @@ import { it } from '@ohos/hypium';
 import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { TopicAtHome , DataItem} from '../../models/tempModel/Interface/TopicAtHome';
+import { auth } from '../../commons/utils';
 
 interface  pointLine{
   province:string
   point:number
   specialized:string
+  img:string
 }
 
 @Component
@@ -18,19 +20,22 @@ export struct HomePage_InfFastLook{
   @Prop token:string = ''
   @State MockData:Array<pointLine> = [
     {
-      province:'广东省',
-      point:700,
-      specialized:'physics'
+      province:'中山大学',
+      point:334,
+      specialized:'电子信息',
+      img:'https://bkimg.cdn.bcebos.com/pic/b3119313b07eca8032bb094b9a2397dda04483db?x-bce-process=image/format,f_auto/quality,Q_70/resize,m_lfit,limit_1,w_536'
     },
     {
-      province:'重庆市',
-      point:680,
-      specialized:'math'
+      province:'暨南大学',
+      point:340,
+      specialized:'软件工程',
+      img:'https://bkimg.cdn.bcebos.com/pic/8694a4c27d1ed21b0ef428022a3ecac451da80cb918e?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080'
     },
     {
-      province:'广西省',
-      point:560,
-      specialized:'math'
+      province:'华南理工大学',
+      point:359,
+      specialized:'计算机科学与技术',
+      img:'https://bkimg.cdn.bcebos.com/pic/377adab44aed2e738bd4a4526759b68b87d6277f4c0e?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080'
     },
   ]
   @State TopicArr:Array<DataItem> = []
@@ -80,7 +85,7 @@ export struct HomePage_InfFastLook{
                     .fontSize(18)
                     .onClick(()=>{
                       router.pushUrl({
-                        url: 'pages/Note',
+                        url: 'pages/ShareNotes',
                         params: {
                           topicId: item.id
                         }
@@ -88,6 +93,16 @@ export struct HomePage_InfFastLook{
                     })
                   Blank().width(10)
                 }
+                .onClick(()=>{
+                  auth.CheckAuth(()=> {
+                    router.pushUrl({
+                      url: 'pages/AdmissionsCounseling',
+                      params: {
+                        topicId: item.id
+                      }
+                    })
+                  })
+                })
               }
             })
           }
@@ -104,27 +119,27 @@ export struct HomePage_InfFastLook{
         ForEach(this.MockData, (item: pointLine, index: number) => {
           Column({ space: 10 }) {
             Row() {
-              Image($rawfile('other/Mock/me.png'))
-                .height('100%')
-                .width('40%')
+              Blank().width(10)
+              Image(item.img)
+                .height('90%')
                 .borderRadius({
                   topLeft: 30,
                   bottomLeft: 30
                 })
               Column() {
                 Column({space:5}){
-                  Text('xuexiao')
+                  Text(item.province)
                     .fontSize(23)
                     .width('100%')
                     .textAlign(TextAlign.Start)
-                  Text('shangfeng'+'--'+'leibie')
+                  Text('平均分'+': '+item.point.toString())
                     .fontSize(15)
                     .width('100%')
                     .fontColor(Color.Gray)
                     .textAlign(TextAlign.Start)
                   Blank().height(20)
                   Row({space:5}){
-                    Text('  '+'label_1'+'  ')
+                    Text('  '+'985'+'  ')
                       .fontSize(10)
                       .height(15)
                       .width('auto')
@@ -132,7 +147,7 @@ export struct HomePage_InfFastLook{
                       .backgroundColor('#c7c4ff')
                       .textAlign(TextAlign.Center)
                       .align(Alignment.Start)
-                    Text('  '+'label__2'+'  ')
+                    Text('  '+'211'+'  ')
                       .fontSize(10)
                       .height(15)
                       .width('auto')
@@ -140,7 +155,7 @@ export struct HomePage_InfFastLook{
                       .backgroundColor('#c7c4ff')
                       .textAlign(TextAlign.Center)
                       .align(Alignment.Start)
-                    Text('  '+'label___3'+'  ')
+                    Text('  '+'B+'+'  ')
                       .fontSize(10)
                       .height(15)
                       .width('auto')
@@ -163,11 +178,14 @@ export struct HomePage_InfFastLook{
             .height(120)
             .borderRadius(30)
             .onClick(()=>{
-              router.pushUrl({
-                url: 'pages/AIChat'
+              auth.CheckAuth(()=> {
+                router.pushUrl({
+                  url: 'pages/AdmissionsCounseling'
+                })
               })
             })
           }
+
           Blank().height(10)
         })
       }
