@@ -7,7 +7,7 @@ export struct Scan {
   build() {
     Column() {//debug
       Blank().height('45%')
-      Text('扫描Scan-Scan')
+      Text('扫二维码这里')
         .fontSize(40)
         .fontColor('#5effea')
     }

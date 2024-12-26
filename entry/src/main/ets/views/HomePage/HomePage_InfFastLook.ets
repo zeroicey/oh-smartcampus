@@ -80,7 +80,7 @@ export struct HomePage_InfFastLook{
                     .fontSize(18)
                     .onClick(()=>{
                       router.pushUrl({
-                        url: 'pages/Note',
+                        url: 'pages/ShareNotes',
                         params: {
                           topicId: item.id
                         }

@@ -1,4 +1,4 @@
-import { logger, tracking, UserInfo } from '../commons/utils';
+import { auth, logger, tracking, UserInfo } from '../commons/utils';
 import { User } from '../models';
 import {HomePage_GoToAI,HomePage_head,HomePage_hotCircle,HomePage_InfFastLook,HomePage_sidebar,HomePage_sign} from '../views/HomePage';
 import { token } from '../views/HttpRequests';
@@ -9,6 +9,7 @@ import { courseItem } from '../models/tempModel/Interface/GetCourse';
 import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { IRouterParams } from '../models/tempModel/Interface/ParamChatHistory';
+import { audio } from '@kit.AudioKit';
 
 export class week {
   day: number
@@ -197,24 +198,28 @@ export struct HomePage {
             Row(){
               this.SideBarButton('点击进入对话记录')
             }.onClick(() => {
-              router.pushUrl({
-                url: 'pages/ChatHistory',
-                params: {
-                  subjectId: 2//debug
-                }
+              auth.CheckAuth(()=>{
+                router.pushUrl({
+                  url: 'pages/ChatHistory',
+                  params: {
+                    subjectId: 2//debug
+                  }
+                })
               })
             })
-            this.ButtonNotice('笔记编辑','icon/NoteEdit.png')
+            this.ButtonNotice('笔记编辑', 'icon/NoteEdit.png')
             Row(){
               this.SideBarButton('点击进入笔记编辑')
             }.onClick(() => {
-              router.pushUrl({
-                url: 'pages/EditNote',
-                params: {
-                  topicId:54,
-                  topicName:'EMPTY',
-                  url:''
-                } as NoteEditPropmtType
+              auth.CheckAuth(()=>{
+                router.pushUrl({
+                  url: 'pages/EditNote',
+                  params: {
+                    topicId:54,
+                    topicName:'EMPTY',
+                    url:''
+                  } as NoteEditPropmtType
+                })
               })
             })
             this.ButtonNotice('每日一练','icon/EverydayTask.png')
@@ -223,11 +228,13 @@ export struct HomePage {
                 ListItem() {
                   this.SideBarButton(item.name.toString())// text & url
                 }.width('90%').onClick(()=>{
-                  router.pushUrl({
-                    url: 'pages/BrushProblem',
-                    params: {
-                      subjectId: item
-                    }
+                  auth.CheckAuth(()=> {
+                    router.pushUrl({
+                      url: 'pages/BrushProblem',
+                      params: {
+                        subjectId: item
+                      }
+                    })
                   })
                 })
               })

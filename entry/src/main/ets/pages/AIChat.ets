@@ -268,7 +268,7 @@ export struct Chat {
   async getTopicDetail_axios(id: number,token: string): Promise<void> {
     axios({
       method: 'GET',
-      url: "https://1fd33097.r5.cpolar.cn"+"/findAll",
+      url: "https://1fd33097.r5.cpolar.cn"+"/findById/{id}",
       headers: {
         'Authorization': 'Bearer '+token
       },

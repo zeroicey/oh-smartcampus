@@ -27,7 +27,7 @@ export struct EditNote {
   @State EditData:SendNoteData = {} as SendNoteData
 
   sendNoteData() {
-    this.EditData.topicId = ''
+    this.EditData.topicId = '2'
     this.EditData.uid = ''
     this.EditData.title = ''
     this.EditData.word = ''
