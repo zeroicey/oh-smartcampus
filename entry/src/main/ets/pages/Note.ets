@@ -42,10 +42,6 @@ export struct Note {
       CustomNavBar({
         title: '笔记',
         showRightIcon: false,
-        onClickBack:()=>{
-          //TODO 笔记编辑返回事件
-          //console.log('GOT_onClickBack_Response')//debug
-        }
       })
       AINote_content({
         Text:$Text,

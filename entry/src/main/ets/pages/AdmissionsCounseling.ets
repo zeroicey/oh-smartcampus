@@ -225,7 +225,7 @@ export struct AdmissionsCounseling {
       })
   }
   httpGetSchoolData_axios(){
-    //TODO 获取详细学校信息，等待接口完善
+    //TODO 获取详细学校信息，等待接口完善(后续开发准备)
   }
 }
 

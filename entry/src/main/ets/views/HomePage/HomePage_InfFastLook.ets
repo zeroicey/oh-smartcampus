@@ -115,7 +115,6 @@ export struct HomePage_InfFastLook{
 
 
       Column() {
-        // TODO
         ForEach(this.MockData, (item: pointLine, index: number) => {
           Column({ space: 10 }) {
             Row() {

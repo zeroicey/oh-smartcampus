@@ -94,7 +94,7 @@ export struct EditNote {
               .height('30')
               .fontSize(20)
               .onClick(()=>{
-                //TODO  删除接口等待完善
+                //TODO  删除接口等待完善(后续开发准备)
                 //delete
               })
             Text('<  END')

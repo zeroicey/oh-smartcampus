@@ -21,10 +21,6 @@ export struct EditNote_imgArr {
                 .width(100)
                 .height(100)
                 .borderRadius(20)
-                .onClick(()=>{
-                  //TODO 打开图片选择器添加图片
-                })
-
             }
             .width(100)
             .height(100)

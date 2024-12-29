@@ -59,12 +59,12 @@ struct Sign {
         clickFlag: $clickFlag,
         uid:this.user.uid,
         token:this.user.token
-        //TODO 打卡记录统计数据
+        //
       })
 
       Sign_LearningProgress({
         aniNum: $aniNum
-        //TODO 学习数据统计图表数据
+        //
       })
 
       if(this.clickFlag==3){

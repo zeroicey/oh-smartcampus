@@ -93,7 +93,7 @@ export function httpKeepChat_axios(type:number,chatArray:Array<Message>,Array:Ar
     }
   })
     .then((response: AxiosResponse<KeepAIChatResponse>) => {
-      //TODO
+
       console.log('word:  '+response.data.word)
       console.log('img:  '+response.data.img)
     })
@@ -173,8 +173,7 @@ export async function httpGetImg_axios(text:string,token:string):Promise<string>
       }
     })
     return extractUrlFromJsonString(response.data.result.output[1].content[0].content)
-    // this.isLoading = false//TODO
-    // this.imageItems.push(url)//TODO
+
   } catch (error){
     console.log('ERROR_GOT_TOKEN:'+ token);
     console.log('GOT_ImgReqErr:'+ error)
