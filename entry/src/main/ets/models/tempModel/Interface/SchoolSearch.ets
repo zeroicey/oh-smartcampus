@@ -8,12 +8,6 @@ export interface SearchSchoolData {
   tertiaryMajor?: string | null; // 三级专业
 }
 
-// export interface SearchSchoolResponseData {
-//   success?: boolean | null
-//   errorCode?: number | null
-//   errMsg?: string | null
-//   data:Array<SearchSchoolData>
-// }
 
 export interface SearchSchool_ByName {
   page?: number | null; // 页码

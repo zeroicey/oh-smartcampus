@@ -31,7 +31,7 @@ export struct HomePage_hotCircle {
         Row() {
           if (this.CircleArr.length == 0) {Text('热门圈子出问题了？是不是没网?( \'ㅅ\' )').fontColor(Color.White)}
           Blank().width(10)
-          ForEach(this.CircleArr, (item: circleItem, index: number) => {
+          ForEach(this.CircleArr, (item: circleItem) => {
             Column() {
               Image(item.avatar)
                 .height(50)

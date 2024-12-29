@@ -9,12 +9,8 @@ import { BusinessError } from '@kit.BasicServicesKit';
 @Component
 export struct EditNote_edit{
   @Link EditData:SendNoteData
-  // @Link Topic: string
-  // @Link Text: string
-  // @Link TargetAI_topic: string
-   @Link DATE:string
-   @Link UserName:string
-  //@Link AIPictureUrl:string
+  @Link DATE:string
+  @Link UserName:string
   build() {
     Column() {
       Divider()

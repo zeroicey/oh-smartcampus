@@ -27,23 +27,10 @@ struct TopicList {
   @State TopicArray: TopicItem[] = []
   @State params : ICircleIdParams = { circleId: '' }
   @State Message:TopicAI = {} as TopicAI
-  // 获取话题AI数据
-  // async getTopicArray(params: ICircleIdParams) {
-  //   try {
-  //     this.TopicArray = await httpReq.request<TopicAiList[]>({
-  //       url: '/topic/findTopic',
-  //       params
-  //     })
-  //   } catch (error) {
-  //     //logger.info(err)
-  //     console.log('GOT_请求失败:')
-  //     promptAction.showToast({message:'请求失败'})
-  //   }
-  // }
+
 
   aboutToAppear(): void {
     this.params  = router.getParams() as ICircleIdParams
-    // this.getTopicArray(this.params)
     this.httpGotTopicArray_axios(this.params.circleId,this.user.token)
   }
 
@@ -96,8 +83,6 @@ struct TopicList {
               top: 13
             })
             .onClick(() => {
-              //this.getTopicDetail_axios(item.id.toString(),this.user.token).then(() => {
-                //console.log('GOT_Message:'+JSON.stringify(this.Message))
                 auth.CheckAuth({
                   url: 'pages/AIChat',
                   params: {
@@ -106,7 +91,6 @@ struct TopicList {
                   } as IRouterParamsAIChat
                 })
               })
-            //})
           }
         })
       }
@@ -123,7 +107,6 @@ struct TopicList {
       right: 30
     })
   }
-
   httpGotTopicArray_axios(circleId: string,token: string){
     axios({
       url: 'https://1fd33097.r5.cpolar.cn'+'/topic/findTopic',
@@ -141,19 +124,4 @@ struct TopicList {
       promptAction.showToast({message:'请求失败'})
     })
   }
-  // async getTopicDetail_axios(id: string,token: string): Promise<void> {
-  //   axios({
-  //     method: 'GET',
-  //     url: `https://1fd33097.r5.cpolar.cn/`+`topic/findById/${id}`,
-  //     headers: {
-  //       'Authorization': 'Bearer '+token
-  //     },
-  //   }).then((response: AxiosResponse<TopicAI>) => {
-  //     this.Message = response.data
-  //     console.log('GOT_Request successGTDL:'+JSON.stringify(response.data))
-  //     console.log('GOT_Request successFSMG:'+JSON.stringify(this.Message))
-  //   }).catch((error: BusinessError) => {
-  //     console.error('GOT_Request failedGTDL:', error);
-  //   })
-  // }
 }

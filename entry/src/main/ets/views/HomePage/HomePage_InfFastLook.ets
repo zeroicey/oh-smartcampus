@@ -1,6 +1,5 @@
 
 import router from '@ohos.router';
-import { it } from '@ohos/hypium';
 import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { TopicAtHome , DataItem} from '../../models/tempModel/Interface/TopicAtHome';
@@ -40,12 +39,23 @@ export struct HomePage_InfFastLook{
   ]
   @State TopicArr:Array<DataItem> = []
 
+  @Builder myText(text:string){
+    Text('  '+text+'  ')
+      .fontSize(10)
+      .height(15)
+      .width('auto')
+      .borderRadius(10)
+      .backgroundColor('#c7c4ff')
+      .textAlign(TextAlign.Center)
+      .align(Alignment.Start)
+  }
+
   aboutToAppear(): void {
     this.httpGetNTopic_axios(8,this.token)
   }
 
   build() {
-    Column({ space: 20 }) { //zixunsukan
+    Column({ space: 20 }) {
       Row() {
         Text('资讯速看')
           .fontColor(Color.White)
@@ -62,14 +72,13 @@ export struct HomePage_InfFastLook{
               url: 'pages/AdmissionsCounseling'
             })
           })
-
       }
 
       Scroll() {
         Row() {
           if(this.TopicArr.length==0){Text('咨询好像也跑路了( ﾟдﾟ)*').fontColor(Color.Gray)}
           List() {
-            ForEach(this.TopicArr, (item: DataItem, index: number) => {
+            ForEach(this.TopicArr, (item: DataItem) => {
               ListItem() {
                 Row() {
                   Text('  '+item.name+'  ')
@@ -115,8 +124,7 @@ export struct HomePage_InfFastLook{
 
 
       Column() {
-        // TODO
-        ForEach(this.MockData, (item: pointLine, index: number) => {
+        ForEach(this.MockData, (item: pointLine) => {
           Column({ space: 10 }) {
             Row() {
               Blank().width(10)
@@ -139,30 +147,9 @@ export struct HomePage_InfFastLook{
                     .textAlign(TextAlign.Start)
                   Blank().height(20)
                   Row({space:5}){
-                    Text('  '+'985'+'  ')
-                      .fontSize(10)
-                      .height(15)
-                      .width('auto')
-                      .borderRadius(10)
-                      .backgroundColor('#c7c4ff')
-                      .textAlign(TextAlign.Center)
-                      .align(Alignment.Start)
-                    Text('  '+'211'+'  ')
-                      .fontSize(10)
-                      .height(15)
-                      .width('auto')
-                      .borderRadius(10)
-                      .backgroundColor('#c7c4ff')
-                      .textAlign(TextAlign.Center)
-                      .align(Alignment.Start)
-                    Text('  '+'B+'+'  ')
-                      .fontSize(10)
-                      .height(15)
-                      .width('auto')
-                      .borderRadius(10)
-                      .backgroundColor('#c7c4ff')
-                      .textAlign(TextAlign.Center)
-                      .align(Alignment.Start)
+                    this.myText('985')
+                    this.myText('211')
+                    this.myText('B+')
                   }
                   .width('100%')
                 }
@@ -189,7 +176,6 @@ export struct HomePage_InfFastLook{
           Blank().height(10)
         })
       }
-      //.backgroundColor(Color.Pink)
       .width('100%')
     }
     .width('100%')

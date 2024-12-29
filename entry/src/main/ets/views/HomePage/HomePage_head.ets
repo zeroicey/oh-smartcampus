@@ -1,7 +1,6 @@
 import { router } from "@kit.ArkUI"
 import { auth } from "../../commons/utils"
 
-
 @Component
 export struct HomePage_head {
   @Link isShowSideBar: boolean

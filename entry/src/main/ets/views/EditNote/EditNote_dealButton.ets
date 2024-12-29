@@ -1,5 +1,4 @@
 
-import router from '@ohos.router';
 import axios from '@ohos/axios';
 import { CirclePost } from '../../models/tempModel/Interface/KeepNote';
 import { BusinessError } from '@kit.BasicServicesKit';
@@ -124,7 +123,7 @@ function httpPublishNote_axios(EditData:SendNoteData,token:string,uid:string){
   })
 }
 
-function getNoteId():string{
+function getNoteId():string {
   const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
   for (let i = 0; i < 6; i++) {

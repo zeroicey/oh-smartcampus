@@ -10,16 +10,7 @@ export struct AINote_content {
   @Link ImageUrl:string
   @Link finishFlag:boolean
   @Link imageItems:Array<string>
-  //@Link imageItems:Array<string>
-  // animation_Tail_appear(): void {
-  //   animateTo({ duration: 500, curve: Curve.Smooth }, () => {
-  //     this.isLoading = false
-  //   })
-  // }
-  // aboutToAppear(): void {
-  //     this.ImageUrl = extractUrlFromJsonString(this.ImageUrl)
-  //     console.log('GOT_ImageUrl:'+this.ImageUrl)
-  // }
+
 
     build() {
       Scroll() {

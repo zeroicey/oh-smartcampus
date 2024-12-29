@@ -1,4 +1,4 @@
-import { chatResponseData, Choice, Usage } from "./Chat";
+import { Choice, Usage } from "./Chat";
 import { QuestionAnswer } from "./ChatQandA";
 
 

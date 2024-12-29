@@ -1,17 +1,15 @@
-//import { boxLength } from 'ets/components/AI_chat/AI_chat_ListItem/algorithm'
 import { Message } from 'ets/models/tempModel/DataModel/Message'
-//import { html2md } from '@luvi/html2md'
 import { lvMarkdownIn, lvText, lvTitle } from '@luvi/lv-markdown-in'
 import { sourceDialog } from '../dialog/sourceDialog'
 import { QuestionAnswer } from '../../../../../models/tempModel/Interface/ChatQandA'
 import { router } from '@kit.ArkUI'
 
 
-//lvText.setTextColor('#ffffff')
+
 lvText.setTextSize(17)
-//lvTitle.setLevelTitleColor('#ffa3e5e5')
 lvTitle.setLevel1Title(25)
 lvTitle.setLevel2Title(23)
+lvText.setTextColor('#000000')
 
 
 //测试数据，生成一段简单的java代码
@@ -29,7 +27,6 @@ export struct AI_Item {
   @State inputStepChar: number = 1
   @State currentProgress: number = 0
   @State currentTxt: string = ""
-  //@State TextArray: Array<miniChildItem> = []//分割的字符串数组
   @State textHead: string = ""
   @State textTail: string = ""
   @State colorTarget: number = 1
@@ -40,8 +37,6 @@ export struct AI_Item {
       souArr: this.SourceArr
     })
   })
-  // @State BackgroundColorArr: Array<string> = ['#FFCCCC','#FFE5CC','#FFFFCC','#E5FFCC','#CCFFCC','#CCFFE5','#CCFFFF','#CCE5FF','#CCCCFF','#E5CCFF','#FFCCE5']
-  // @State FrontColorArr: Array<string> = ['#990000','#994c00','#999900','#4c9900','#009900','#00994c','#009999','#004c99','#000099','#4c0099','#990099']
   build() {
     Row() {
       Image($rawfile('other/Mock/Enpty.png'))
@@ -52,13 +47,12 @@ export struct AI_Item {
         .borderRadius(100)
         .margin({ right: 8 })
         .onAppear(() => {
-          this.inputTxt(50, '-' + this.item.content)//debug
+          this.inputTxt(50, '-' + this.item.content)
           this.extraMessageflag++
         })
 
       Column() {
-        lvMarkdownIn({ text: this.currentTxt })//this.item.content
-        //lvMarkdownIn({ text: this.item.content})//debug
+        lvMarkdownIn({ text: this.currentTxt })
         if (this.extraMessageflag == 1) {
           Column({space:5}) {
             Divider()
@@ -67,9 +61,6 @@ export struct AI_Item {
               .borderColor('#353341')
             Row(){
               Blank().width(10)
-              // Image($rawfile('icon/pdf.png'))
-              //   .width(15)
-              //   .height(20)
               Text('查看出处')
                 .fontSize(15)
                 .fontWeight(FontWeight.Bold)
@@ -135,29 +126,18 @@ export struct AI_Item {
               //填入对象数组
               this.chatArray.push(chat)
               this.checkCount++
-              //console.log('GOT_CHECKCOUNT++:'+this.checkCount)
-              //console.log('GOT_Array_length:'+this.chatArray.length)
-              //console.log('GOT_array0:'+this.chatArray[0].content)
-
             } else if (value == false) {
               //从数组中移除
-              //console.log('GOT_run_here')
-
               let index: number = this.chatArray.indexOf(chat)
               for (let i = 0; i < this.chatArray.length; i++) {
                 if (this.chatArray[i].content == chat.content) {
                   this.chatArray.splice(index, 1)
                   this.checkCount--
-                  //console.log('GOT_CHECKCOUNT--:'+this.checkCount)
-                  //console.log('GOT_Array_length:'+this.chatArray.length)
-                  //console.log('GOT_array0:'+this.chatArray[0].content)
                 }
               }
             }
           })
-
       }
-
     }
     .width("100%")
     .alignItems(VerticalAlign.Top)
@@ -166,7 +146,6 @@ export struct AI_Item {
 
   inputTxt(step: number, text: string): void {
     let targetTxtArray = splitAndExtract(text);//分割字符串
-    //let targetTxtArray = text.split('')
     if (this.intervalId != -1) {
       clearInterval(this.intervalId)
       this.intervalId = -1
@@ -194,7 +173,7 @@ function splitAndExtract(input: string): string[] {
   while ((match = regex.exec(input)) !== null) {
     if (match[1]) {
       // 匹配到的是三反引号包裹的字符串
-      result.push(`\`\`\`${match[1]}\`\`\``);
+      result.push(`\`\`\`${match[1]}\`\`\``)
     } else {
       // 匹配到的是单个字符
       result.push(match[0]);

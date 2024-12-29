@@ -13,45 +13,37 @@ import { UserItem } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_Lis
 import { AI_Item } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/AI_item'; //AI聊天项
 import { TypeIn_box } from 'ets/commons/components/AIComponent/AI_chat/TypeIn_box'; //底部输入框
 import { OperateBox } from 'ets/commons/components/AIComponent/AI_chat/Operate_box'; //底部操作框
-
 import { QuestionAnswer } from 'ets/models/tempModel/Interface/ChatQandA';
-import { httpKeepChatHistory_axios, token } from '../views/HttpRequests';
 import { AIChatNavBar } from '../commons/components/AIComponent/AI_chat/AIChatNavBar';
 import { UserInfo } from '../commons/utils';
 import { User } from '../models';
 import { ChatHistoryPropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
 import { IRouterParamsAIChat } from './TopicList';
-import json from '@ohos.util.json';
-import { ChatHistory } from './ChatHistory';
+
 
 @Entry
 @Component
 export struct Chat {
+  //变量
   @StorageProp(UserInfo) user: User = {} as User
   @State firstMessage: TopicAI = {} as TopicAI
   @State messageOfTopic: TopicAI = {} as TopicAI
   @State idGet: IRouterParamsAIChat = {} as IRouterParamsAIChat
-  //@State firstText: string = this.firstMessage.name//话题的ai介绍
   @State time: string = new Date().toLocaleString() //get//debug//这里目前引用当前时间
   @State Array: Array<Message> = [] //渲染对象数组
   @State message: string = '' //输入框输入的内容
   @State AccessToken: string = '' //token
   @State QandA: Array<QuestionAnswer> = []
-  // @State markdownReturn: string = ''//返回的markdown生成结果
-  // @StorageLink('userAvatar') pic:Resource|image.PixelMap = $rawfile('other/Mock/Enpty.png')//get
-  //隐藏控制
+  //动画
   @State isVisible_head: boolean = false
   @State isVisible_CheckBox: boolean = true
-  @State textAuto: boolean = false
   @State checkCount: number = 0 //勾选框勾选计数
   @State chatArray: Array<Message> = [] //勾选对象数组
   @State onClickUpload: number = 1 //点击上传
   @State allchecked: boolean = false //checkbox全选
-  //动画
   @State head_height: number = 0
   @State tail_height: number = 200
   @State Tail_height: number = 0
-  //滚动到最下
   private scrollerForScroll: Scroller = new Scroller()
 
   async aboutToAppear() {
@@ -72,7 +64,6 @@ export struct Chat {
   build() {
     Stack() {
       Column() {
-        //GotToken({ token: $AccessToken })
         AIChatNavBar({
           title: this.firstMessage.name,
           leftIcon: $rawfile('icon/backIcon.png'),
@@ -85,7 +76,6 @@ export struct Chat {
             this.animation_Tail_appear()
           },
           onClickV2: () => {
-            //console.log('点击了GO—TO—CHAT—History')
             router.pushUrl({
               url: 'pages/ChatHistory',
               params: {
@@ -95,7 +85,6 @@ export struct Chat {
             })
           },
           onClickBack: async () => {
-            //httpKeepChatHistory_axios('uid', 'topicId', 'token', this.Array) //debug
             await this.http_keepChatData_axios(this.user.token)
           }
         })
@@ -105,13 +94,10 @@ export struct Chat {
           .color('#ff9996')
           .strokeWidth(0.8)
         // 1.显示聊天的内容
-
         Scroll(this.scrollerForScroll) {
           // 1.2 对话显示区
           Column() {
-
             Blank().height(10)
-
             Text(this.time)
               .fontColor(Color.White)
               .fontSize(15)
@@ -143,7 +129,6 @@ export struct Chat {
                   }
                 }
                 .padding({ bottom: 50 })
-
               })
               //对话加载动画出现逻辑
               if (this.Array.length == 0 || this.Array[this.Array.length-1].role == "user") {
@@ -166,12 +151,6 @@ export struct Chat {
                 }
               }
             }
-
-            // .onAppear(async () => {
-            //
-            //   this.httpChat_axios_v1('什么是' + this.firstMessage.name + '？80字以内解答。', this.user.uid)//内容+id
-            // })
-
           }
           .borderRadius('5%')
           .height('100%')
@@ -179,7 +158,6 @@ export struct Chat {
           .padding({ top: 12, bottom: 12 })
           .onClick(() => {
             this.head_height = 0 //头部移动距离
-            //this.animation_head_disappear()//头部隐藏动画
             this.chatArray = [] //清空对象数组
             this.isVisible_head = true //隐藏头部
             if (this.isVisible_CheckBox === false) {
@@ -194,7 +172,6 @@ export struct Chat {
         .opacity(this.onClickUpload)
         .layoutWeight(1) //铺满剩余空间
         .height('90%')
-
         // 2.发送消息 + 返回按钮
         Row() {
           if (this.isVisible_CheckBox === true) {
@@ -242,15 +219,10 @@ export struct Chat {
         TransitionEffect.translate({ y: 1000 })
           .animation({ curve: curves.springMotion(0.6, 0.8) })
       )
-
-      if (this.onClickUpload != 1) {
-        //UploadWindow()
-      }
     }
   }
 
   async getTopicDetail_axios(id: string, token: string) {
-
     try {
       let response: AxiosResponse = await axios({
         method: 'GET',
@@ -265,7 +237,6 @@ export struct Chat {
       return this.messageOfTopic
     }
   }
-
   async httpChat_axios_v1(message: string, chatId: string): Promise<void> {
     //console.log('GOT_message:  '+message)//
     axios({
@@ -289,7 +260,6 @@ export struct Chat {
       return new Message('system', 'Error occurred during request');
     })
   }
-
   async http_keepChatData_axios(token: string) {
     axios({
       method: 'POST',
@@ -311,8 +281,6 @@ export struct Chat {
 
   //转场效果
   pageTransition() {
-    // PageTransitionEnter({duration:600})
-    //   .slide(SlideEffect.Bottom)//侧划入
     PageTransitionExit({ duration: 600 })// .slide(SlideEffect.START)//侧划入
       .slide(SlideEffect.Bottom)//侧划入
       .opacity(0)
@@ -320,7 +288,4 @@ export struct Chat {
   }
 }
 
-const Sleep = (ms: number) => {
-  return new Promise<void>(resolve => setTimeout(resolve, ms))
-}
 

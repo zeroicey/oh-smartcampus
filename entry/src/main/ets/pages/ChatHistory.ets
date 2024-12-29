@@ -3,7 +3,6 @@ import { router } from '@kit.ArkUI'
 import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { Message } from '../models/tempModel/DataModel/Message'
-import { IRouterParams } from '../models/tempModel/Interface/ParamChatHistory';
 import { GotChatHistoryData,GetChatHistory,historyListDataItem } from '../models/tempModel/Interface/GetChatHistory';
 import { User } from '../models';
 import { UserInfo } from '../commons/utils';
@@ -34,7 +33,7 @@ export struct ChatHistory {
             .fontSize(18)
             .textAlign(TextAlign.Center)
             .onClick(()=>{
-              //TODO 长按删除事件，等待接口完善
+              //TODO 长按删除事件，等待接口完善(后续开发准备)
               //delete
             })
         }

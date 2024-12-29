@@ -38,7 +38,6 @@ export struct pickDialog {
   @State gotData:string[] = []
   @State selectList:Array<string> = []
 
-  //@Builder mybutton(item:string,index:number){}
   @Builder mybutton2(item:string,index:number){
     Text('  '+item+'  ')
       .height(40)

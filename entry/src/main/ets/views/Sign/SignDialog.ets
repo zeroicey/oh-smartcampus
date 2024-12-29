@@ -14,7 +14,6 @@ export struct SignDialog {
       duration: 1600,
       curve: curves.springCurve(0, 10, 80, 10),
       iterations: 1,
-
     }, () => {
       this.doScale = { x: 1.1, y: 1.1 };
     })
@@ -130,7 +129,6 @@ export struct SignDialog {
           Blank().height(30)
         }
         .width('80%')
-
       }
       .height('70%')
       .backgroundColor('#353242')

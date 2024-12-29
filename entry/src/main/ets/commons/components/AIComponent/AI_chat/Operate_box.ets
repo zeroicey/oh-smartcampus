@@ -1,10 +1,6 @@
 import router from '@ohos.router';
 import { Message } from 'ets/models/tempModel/DataModel/Message';
-import { TopicAI } from '../../../../models/tempModel/DataModel/TopicAI';
 import { AINotePropmtType } from '../../../../models/tempModel/Interface/PropmtInterfaces';
-import { httpKeepChatHistory_axios } from '../../../../views/HttpRequests';
-
-
 
 
 @Component
@@ -36,7 +32,7 @@ export struct OperateBox {
         router.pushUrl({
           url: 'pages/Knowledge_circlePage',
           params: {
-            //chatArray_string: chatArray_string
+            //TODO(Jump to KnowledgeCircle)
           }
         })
       })
@@ -79,9 +75,7 @@ export struct OperateBox {
             }
           })
         }
-        httpKeepChatHistory_axios('uid','topicId','token',this.ChatAIObj)
       })
-
 
       Column() {
         Image($rawfile('icon/checkAll.png'))

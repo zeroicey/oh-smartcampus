@@ -1,16 +1,10 @@
 import router from '@ohos.router';
 import axios ,{AxiosResponse}from '@ohos/axios';
-import { GotPointLine } from '../models/tempModel/Interface/GotPointLine';
 import { pickDialog } from '../views/AdmissionsCounseling/pickDialog';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { InputComponent } from '../commons/components';
-import {
-  ScoreData,
-  SearchSchoolData, SearchSchoolResponse,
-  SearchSchool_ByName } from '../models/tempModel/Interface/SchoolSearch';
+import {ScoreData,SearchSchoolData, SearchSchoolResponse,SearchSchool_ByName } from '../models/tempModel/Interface/SchoolSearch';
 import { logger, UserInfo } from '../commons/utils';
 import { User } from '../models';
-
 
 @Entry
 @Component
@@ -34,8 +28,6 @@ export struct AdmissionsCounseling {
       flag:$flag
     })
   })
-
-
 
   @Builder
   TextInf(text:string){
@@ -225,27 +217,6 @@ export struct AdmissionsCounseling {
       })
   }
   httpGetSchoolData_axios(){
-    //TODO 获取详细学校信息，等待接口完善
+    //TODO 获取详细学校信息，等待接口完善(后续开发准备)
   }
-}
-
-function MockData(): ScoreData[]{
-  return [
-    {
-      year:0,
-      school:'',
-      faculty:'',
-      tertiaryMajor:'',
-      img:'',
-      minScore:'',
-      maxScore:'',
-      averageScore:'',
-      universityScoreDistributionVOS:[
-        {
-          scoreRange:'',
-          numberOfStudents:''
-        }
-      ]
-    }
-  ]
 }

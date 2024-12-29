@@ -6,8 +6,6 @@ import { BusinessError } from '@kit.BasicServicesKit'
 export struct Sign_calender{
   @Link signArr: Array<HmCalendarSelectedDay>
   @Link today:HmCalendarSelectedDay
-  // @Link month:string
-  // @Link year:string
 
   aboutToAppear(): void {
     this.httpGotSignMonthHistory_axios()
@@ -17,12 +15,6 @@ export struct Sign_calender{
     Scroll(){
       Column(){
         Blank().height(20)
-        // Text('  '+this.month+'. '+this.year)
-        //   .fontColor(Color.White)
-        //   .fontSize(35)
-        //   .width('100%')
-        //   .textAlign(TextAlign.Start)
-        //   .fontWeight(FontWeight.Bolder)
         HmCalendar({
           type: HmCalendarType.MONTH,
           selectedDays: this.signArr,

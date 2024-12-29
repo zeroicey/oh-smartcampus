@@ -13,8 +13,6 @@ interface date { date:string }
 @Entry
 @Component
 struct Sign {
-  // @State year: string = new Date().getFullYear().toString()
-  // @State month: string = new Date().getMonth().toString()
   @StorageProp(UserInfo) user: User = {} as User
   @State DateArray: Array<date> = []//get from server
   @State signArr: Array<HmCalendarSelectedDay> = this.DateArray
@@ -59,12 +57,12 @@ struct Sign {
         clickFlag: $clickFlag,
         uid:this.user.uid,
         token:this.user.token
-        //TODO 打卡记录统计数据
+        //
       })
 
       Sign_LearningProgress({
         aniNum: $aniNum
-        //TODO 学习数据统计图表数据
+        //
       })
 
       if(this.clickFlag==3){

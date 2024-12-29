@@ -1,15 +1,12 @@
 import { auth, logger, tracking, UserInfo } from '../commons/utils';
 import { User } from '../models';
-import {HomePage_GoToAI,HomePage_head,HomePage_hotCircle,HomePage_InfFastLook,HomePage_sidebar,HomePage_sign} from '../views/HomePage';
-import { token } from '../views/HttpRequests';
+import {HomePage_GoToAI,HomePage_head,HomePage_hotCircle,HomePage_InfFastLook,HomePage_sign} from '../views/HomePage';
 import { router } from '@kit.ArkUI';
 import { circleItem, GotCircle } from '../models/tempModel/Interface/GotCircle';
 import { NoteEditPropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
-import { courseItem } from '../models/tempModel/Interface/GetCourse';
 import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { IRouterParams } from '../models/tempModel/Interface/ParamChatHistory';
-import { audio } from '@kit.AudioKit';
+
 
 export class week {
   day: number
@@ -174,22 +171,6 @@ export struct HomePage {
       .opacity(this.opcityAll)
       .scrollBar(BarState.Off)
 
-      //stack2
-      // HomePage_sidebar({
-      //   isShowSideBar: $isShowSideBar,
-      //   sideBarWidth: $sideBarWidth,
-      //   userName: this.user.name,
-      //   opcityAll: $opcityAll,
-      //   Icon: this.user.avatar,
-      //   introduce: this.user.introduction,
-      //   token: this.user.token
-      // })
-
-
-
-
-
-
         Row() {
           Column({space:10}) {//sidBar位置
             Blank().height('10%')
@@ -277,17 +258,16 @@ export struct HomePage {
         .visibility(this.isShowSideBar?Visibility.Visible:Visibility.Hidden)
       }
     }
-  httpGetCircle_axios(token:string){
+  httpGetCircle_axios(token:string) {
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn'+'/circle/findAll',//reeor here
+      url: 'https://1fd33097.r5.cpolar.cn'+'/circle/findAll',
       headers: {
         'Authorization': 'Bearer '+token
       }
     }).then((response:AxiosResponse<GotCircle>) => {
       for(let i=0;i<4;i++) {
         this.CircleArr[i] = response.data.data[i]
-        //logger.info('GOT_SUCCESS_CIRCLE：'+ JSON.stringify(this.CircleArr))
       }
     }).catch((error:BusinessError) => {
       console.log(error.message)
