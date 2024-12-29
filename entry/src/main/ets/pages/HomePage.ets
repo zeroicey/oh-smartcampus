@@ -232,7 +232,7 @@ export struct HomePage {
                     router.pushUrl({
                       url: 'pages/BrushProblem',
                       params: {
-                        subjectId: item
+                        subjectId: item.circleId
                       }
                     })
                   })
