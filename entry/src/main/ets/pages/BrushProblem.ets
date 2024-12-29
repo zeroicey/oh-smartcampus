@@ -28,8 +28,7 @@ struct BrushProblem {
       this.chapterList = await httpReq.request<IChapter[]>({
         url: '/question/getChapterBySubjectId',
         params: {
-          // TODO uid更改
-          uid: this.user.uid,//'10008',
+          uid: this.user.uid,
           id: id
         }
       })

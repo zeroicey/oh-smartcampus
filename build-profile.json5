@@ -14,37 +14,37 @@
         }
       }
     ],
-    //    "products": [
-    //      {
-    //        "name": "default",
-    //        "signingConfig": "default",
-    //        "compatibleSdkVersion": "5.0.0(12)",
-    //        "runtimeOS": "HarmonyOS",
-    //        "buildOption": {
-    //          "strictMode": {
-    //            "caseSensitiveCheck": true,
-    //            "useNormalizedOHMUrl": true
-    //          }
-    //        }
-    //      }
-    //    ],
-    "products": [
-      {
-        "name": "default",
-        "signingConfig": "default",
-        "compileSdkVersion": 12,
-        //指定OpenHarmony应用/服务编译时的版本
-        "compatibleSdkVersion": 12,
-        //指定OpenHarmony应用/服务兼容的最低版本。
-        "targetSdkVersion": 12,
-        "runtimeOS": "OpenHarmony",
-        "buildOption": {
-          "strictMode": {
-            "caseSensitiveCheck": true,
+        "products": [
+          {
+            "name": "default",
+            "signingConfig": "default",
+            "compatibleSdkVersion": "5.0.0(12)",
+            "runtimeOS": "HarmonyOS",
+            "buildOption": {
+              "strictMode": {
+                "caseSensitiveCheck": true,
+                "useNormalizedOHMUrl": true
+              }
+            }
           }
-        }
-      }
-    ],
+        ],
+//    "products": [
+//      {
+//        "name": "default",
+//        "signingConfig": "default",
+//        "compileSdkVersion": 12,
+//        //指定OpenHarmony应用/服务编译时的版本
+//        "compatibleSdkVersion": 12,
+//        //指定OpenHarmony应用/服务兼容的最低版本。
+//        "targetSdkVersion": 12,
+//        "runtimeOS": "OpenHarmony",
+//        "buildOption": {
+//          "strictMode": {
+//            "caseSensitiveCheck": true,
+//          }
+//        }
+//      }
+//    ],
     "buildModeSet": [
       {
         "name": "debug",
