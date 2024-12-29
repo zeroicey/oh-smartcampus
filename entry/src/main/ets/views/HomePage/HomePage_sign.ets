@@ -16,7 +16,7 @@ export struct HomePage_sign{
                 .fontSize(45)
                 .width('100%')
                 .textAlign(TextAlign.Center)
-              Row({ space: 18 }) {
+              Row({ space: 8 }) {
                 Blank().width(5)
                 ForEach(this.week, (item: week, index: number) => {
                   Row() {
@@ -36,7 +36,7 @@ export struct HomePage_sign{
               .height('20%')
               .margin({ left: 10 })
             }
-            .margin({top: 35})
+            .margin({top: 20})
           }
       }
       .height('20%')

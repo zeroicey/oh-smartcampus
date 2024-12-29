@@ -230,7 +230,7 @@ export struct HomePage {
                 }.width('90%').onClick(()=>{
                   auth.CheckAuth(()=> {
                     router.pushUrl({
-                      url: 'pages/BrushProblem',
+                      url: '/pages/BrushProblem',
                       params: {
                         subjectId: item.circleId
                       }
