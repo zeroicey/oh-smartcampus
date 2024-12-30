@@ -13,19 +13,22 @@ export struct AIChatNavBar {
   @Prop rightIcon: ResourceStr = $rawfile('icon/Finished.png')
   //邮编第二个图标
   @Prop rightIconV2: ResourceStr = $rawfile('icon/MonthChatSearch.png')
-  onclick = () => {}
-  onClickBack = () => {}
-  onClickV2 = () => {}
+  onclick = () => {
+  }
+  onClickBack = () => {
+  }
+  onClickV2 = () => {
+  }
 
   build() {
     Row() {
-        Image(this.leftIcon)
-          .width(30)
-          .margin({ right: 20 })
-          .onClick(() => {
-            this.onClickBack()
-            router.back()
-          })
+      Image(this.leftIcon)
+        .width(23)
+        .margin({ right: 20 })
+        .onClick(() => {
+          this.onClickBack()
+          router.back()
+        })
       Text(this.title)
         .fontSize(24)
         .fontWeight(900)
@@ -34,17 +37,17 @@ export struct AIChatNavBar {
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
       Blank()
-        Image(this.rightIconV2)
-          .width(30)
-          .margin({right:10})
-          .onClick(()=>{
-            this.onClickV2()
-          })
-        Image(this.rightIcon)
-          .width(30)
-          .onClick(() => {
-            this.onclick()
-          })
+      Image(this.rightIconV2)
+        .width(30)
+        .margin({ right: 10 })
+        .onClick(() => {
+          this.onClickV2()
+        })
+      Image(this.rightIcon)
+        .width(25)
+        .onClick(() => {
+          this.onclick()
+        })
 
     }
     .width('100%')

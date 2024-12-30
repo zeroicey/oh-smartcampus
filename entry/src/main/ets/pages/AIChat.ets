@@ -1,4 +1,3 @@
-
 import { curves, promptAction, router } from '@kit.ArkUI';
 import { SpinKit, SpinType } from '@pura/spinkit';
 import axios, { AxiosResponse } from '@ohos/axios';
@@ -23,6 +22,8 @@ import { IRouterParamsAIChat } from './TopicList';
 export struct Chat {
   //变量
   @StorageProp(UserInfo) user: User = {} as User
+  @StorageProp('bottomHeight')
+  bottomHeight: number = 0
   @State firstMessage: TopicAI = {} as TopicAI
   @State messageOfTopic: TopicAI = {} as TopicAI
   @State idGet: IRouterParamsAIChat = {} as IRouterParamsAIChat
@@ -48,7 +49,7 @@ export struct Chat {
     this.idGet = router.getParams() as IRouterParamsAIChat;
     const res: AxiosResponse = await this.getTopicDetail_axios(this.idGet.topic, this.user.token)
     this.firstMessage = res.data
-    this.httpChat_axios_v1('什么是' + this.firstMessage.name + '？80字以内解答。',this.user.uid);
+    this.httpChat_axios_v1('什么是' + this.firstMessage.name + '？80字以内解答。', this.user.uid);
   }
 
   //底部动画：出现
@@ -169,6 +170,7 @@ export struct Chat {
         .opacity(this.onClickUpload)
         .layoutWeight(1) //铺满剩余空间
         .height('90%')
+
         // 2.发送消息 + 返回按钮
         Row() {
           if (this.isVisible_CheckBox === true) {
@@ -189,7 +191,7 @@ export struct Chat {
           } else {
             Column() {
               OperateBox({
-                CircleId:this.idGet.circleId,
+                CircleId: this.idGet.circleId,
                 checkAll: $allchecked,
                 onClickUpload: $onClickUpload,
                 checkCount: $checkCount,
@@ -211,6 +213,7 @@ export struct Chat {
       }
       .width("100%")
       .height("100%")
+      .padding({ bottom: this.bottomHeight })
       .justifyContent(FlexAlign.SpaceBetween)
       .backgroundColor('#16151a')
       .transition( //入场
@@ -235,6 +238,7 @@ export struct Chat {
       return this.messageOfTopic
     }
   }
+
   async httpChat_axios_v1(message: string, chatId: string): Promise<void> {
     //console.log('GOT_message:  '+message)//
     axios({
@@ -258,6 +262,7 @@ export struct Chat {
       return new Message('system', 'Error occurred during request');
     })
   }
+
   async http_keepChatData_axios(token: string) {
     axios({
       method: 'POST',
@@ -270,10 +275,10 @@ export struct Chat {
       headers: {
         'Authorization': 'Bearer ' + token
       }
-    }).then(()=>{
-      promptAction.showToast({message: '已保存对话', duration: 1000})
-    }).catch((Error: BusinessError)=>{
-      console.log('GOT_Request failedKCD:'+Error)
+    }).then(() => {
+      promptAction.showToast({ message: '已保存对话', duration: 1000 })
+    }).catch((Error: BusinessError) => {
+      console.log('GOT_Request failedKCD:' + Error)
     })
   }
 

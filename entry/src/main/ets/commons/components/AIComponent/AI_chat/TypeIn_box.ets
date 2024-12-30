@@ -2,15 +2,13 @@ import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { promptAction } from '@kit.ArkUI';
 import { Message } from 'ets/models/tempModel/DataModel/Message';
-import { chatData  } from 'ets/models/tempModel/Interface/Chat';
+import { chatData } from 'ets/models/tempModel/Interface/Chat';
 import { QuestionAnswer } from '../../../../models/tempModel/Interface/ChatQandA';
 import { AiChatResponse } from '../../../../models/tempModel/Interface/Awnser';
 
 
 @Component
 export struct TypeIn_box {
-  @StorageProp('bottomHeight')
-  bottomHeight: number = 0
   @Link isVisible_CheckBox: boolean
   @Link Array: Array<Message>
   @Link message: string
@@ -44,8 +42,7 @@ export struct TypeIn_box {
           }
         })
     }
-    .backgroundColor('#9893b1')
-    .padding({ bottom: this.bottomHeight })
+    .backgroundColor('#313035')
     .borderRadius(30)
     .width('100%')
     .height('100%')

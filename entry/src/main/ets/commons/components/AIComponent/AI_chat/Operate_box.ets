@@ -5,7 +5,6 @@ import { AINotePropmtType } from '../../../../models/tempModel/Interface/PropmtI
 
 @Component
 export struct OperateBox {
-  @StorageProp('bottomHeight') bottomHeight: number = 0
   @Prop CircleId: string
   @Link checkAll: boolean
   @Link onClickUpload: number
@@ -17,9 +16,8 @@ export struct OperateBox {
   @Prop topicId: number
   @Prop topicName: string
   @Prop Imgurl: string
-
   // 个人中心页
-  changIndexMine=(index:number) => {
+  changIndexMine = (index: number) => {
   }
 
   build() {
@@ -52,10 +50,10 @@ export struct OperateBox {
           router.replaceUrl({
             url: 'pages/AINote',
             params: {
-              topicId:this.topicId,
+              topicId: this.topicId,
               topicName: this.topicName,
               chatArray: this.chatArray,
-              circleId:this.CircleId
+              circleId: this.CircleId
             } as AINotePropmtType
           })
         } else {
@@ -92,10 +90,9 @@ export struct OperateBox {
         this.checkAll = !this.checkAll
       })
     }
-    .padding({ bottom: this.bottomHeight })
     .width('100%')
     .height('100%')
     .borderRadius(30)
-    .backgroundColor('#9893b1')
+    .backgroundColor('#313035')
   }
 }

@@ -1,23 +1,23 @@
-import { router } from "@kit.ArkUI"
-import { auth } from "../../commons/utils"
+import { router } from '@kit.ArkUI'
+import { auth } from '../../commons/utils'
 
 @Component
 export struct HomePage_head {
   @Link isShowSideBar: boolean
   @Link sideBarWidth: number
   @Prop userName: string = ''
-  @Prop userText: string =''
+  @Prop userText: string = ''
   @Link opcityAll: number
   @Prop IconStr: string
 
   sidebar_Animation(): void {
-    let aimNumBar=0
-    let aimNumOpa=1
-    if(this.sideBarWidth==0){
-      aimNumBar=250
-      aimNumOpa=0.6
+    let aimNumBar = 0
+    let aimNumOpa = 1
+    if (this.sideBarWidth == 0) {
+      aimNumBar = 250
+      aimNumOpa = 0.6
     } else {
-      aimNumOpa=1
+      aimNumOpa = 1
     }
     animateTo({ duration: 200, curve: Curve.Smooth }, () => {
       this.sideBarWidth = aimNumBar
@@ -34,7 +34,7 @@ export struct HomePage_head {
         .borderWidth(1)
         .borderColor(Color.White)
         .onClick(() => {
-          auth.CheckAuth(()=>{
+          auth.CheckAuth(() => {
             this.isShowSideBar = !this.isShowSideBar
             this.sidebar_Animation()
           })
@@ -57,11 +57,11 @@ export struct HomePage_head {
 
       Column() {
         Image($rawfile('icon/Scan.png'))
-          .height(30)
-          .width(30)
+          .height(40)
+          .width(40)
           .margin({ top: 10 })
-          .onClick(()=>{
-            auth.CheckAuth(()=>{
+          .onClick(() => {
+            auth.CheckAuth(() => {
               router.pushUrl({
                 url: 'pages/Scan'
               })
@@ -71,7 +71,6 @@ export struct HomePage_head {
       .height(50)
       .width(50)
       .borderRadius(15)
-      .backgroundColor(Color.White)
 
     }
     .height(50)
