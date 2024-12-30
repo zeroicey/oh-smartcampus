@@ -1,5 +1,5 @@
 import { CustomNavBar, HcLoadingDialog } from '../commons/components'
-import { promptAction, router } from '@kit.ArkUI'
+import { router } from '@kit.ArkUI'
 import { httpReq, UserInfo } from '../commons/utils'
 import { IChapter, User } from '../models'
 
@@ -23,20 +23,15 @@ struct BrushProblem {
 
   // 获取章节数据
   async getChapterData(id: string) {
-    try {
-      this.dialog.open()
-      this.chapterList = await httpReq.request<IChapter[]>({
-        url: '/question/getChapterBySubjectId',
-        params: {
-          uid: this.user.uid,
-          id: id
-        }
-      })
-      promptAction.showToast({ message: '请求成功' })
-      this.dialog.close()
-    } catch (err) {
-      this.dialog.close()
-    }
+    this.dialog.open()
+    this.chapterList = await httpReq.request<IChapter[]>({
+      url: '/question/getChapterBySubjectId',
+      params: {
+        uid: this.user.uid,
+        id: id
+      }
+    })
+    this.dialog.close()
   }
 
   // 时间转化
