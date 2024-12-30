@@ -49,7 +49,7 @@ export struct BarChart {
   }
 
   aboutToAppear(): void {
-    this.dataValue = getData()
+    //this.dataValue = getData()
   }
 
   build() {
@@ -58,10 +58,10 @@ export struct BarChart {
         spec: this.spec,
         w: 400,
         h: 300,
-        onChartInitCb: (vchart) => {
+        onChartInitCb: () => {
           return;
         },
-        onChartReadyCb: (vchart) => {
+        onChartReadyCb: () => {
 
         },
         initOption: {

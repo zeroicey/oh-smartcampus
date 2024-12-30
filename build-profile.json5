@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\区浩贤\\.ohos\\config\\default_OraclePlus_SGOsyq5dS54--V8VK7PNWS4QcPDgWaoG-vj2JXivocA=.cer",
-          "storePassword": "0000001B17CF49AE5207C52D72BD4712A553D106682A4AFAE24557067E493FF6267B69677517641DAE414E",
+          "certpath": "C:\\Users\\linkrame\\.ohos\\config\\default_oracle-plus_qRllmghZRM7swwSyzU3hyM0uWt61bU2Jetw8J4EV7uw=.cer",
+          "storePassword": "0000001BD88AEF80014F9DB4FC3AA12EA1D4B75E3EA8862E2C61A1CDE7C290E7C9E194AAC860343117017A",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BD200480D1C5F9DB92089E35B1EDC24579BEA1963FA82D31E6E72E2EB894B37D0CAF8E1B01731EF",
-          "profile": "C:\\Users\\区浩贤\\.ohos\\config\\default_OraclePlus_SGOsyq5dS54--V8VK7PNWS4QcPDgWaoG-vj2JXivocA=.p7b",
+          "keyPassword": "0000001BF7593C8388E4CD2DAA92548F4F6A4A5C965871C7FA04605CD2F5600BEAC5FEE67E26CDEF7E09E5",
+          "profile": "C:\\Users\\linkrame\\.ohos\\config\\default_oracle-plus_qRllmghZRM7swwSyzU3hyM0uWt61bU2Jetw8J4EV7uw=.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\区浩贤\\.ohos\\config\\default_OraclePlus_SGOsyq5dS54--V8VK7PNWS4QcPDgWaoG-vj2JXivocA=.p12"
+          "storeFile": "C:\\Users\\linkrame\\.ohos\\config\\default_oracle-plus_qRllmghZRM7swwSyzU3hyM0uWt61bU2Jetw8J4EV7uw=.p12"
         }
       }
     ],
@@ -29,23 +29,23 @@
         }
       }
     ],
-    //    "products": [
-    //      {
-    //        "name": "default",
-    //        "signingConfig": "default",
-    //        "compileSdkVersion": 12,
-    //        //指定OpenHarmony应用/服务编译时的版本
-    //        "compatibleSdkVersion": 12,
-    //        //指定OpenHarmony应用/服务兼容的最低版本。
-    //        "targetSdkVersion": 12,
-    //        "runtimeOS": "OpenHarmony",
-    //        "buildOption": {
-    //          "strictMode": {
-    //            "caseSensitiveCheck": true,
-    //          }
-    //        }
-    //      }
-    //    ],
+//        "products": [
+//          {
+//            "name": "default",
+//            "signingConfig": "default",
+//            "compileSdkVersion": 12,
+//            //指定OpenHarmony应用/服务编译时的版本
+//            "compatibleSdkVersion": 12,
+//            //指定OpenHarmony应用/服务兼容的最低版本。
+//            "targetSdkVersion": 12,
+//            "runtimeOS": "OpenHarmony",
+//            "buildOption": {
+//              "strictMode": {
+//                "caseSensitiveCheck": true,
+//              }
+//            }
+//          }
+//        ],
     "buildModeSet": [
       {
         "name": "debug",

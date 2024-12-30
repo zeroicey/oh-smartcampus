@@ -116,6 +116,7 @@ function httpPublishNote_axios(EditData:SendNoteData,token:string,uid:string){
       'Authorization': 'Bearer '+token
     }
   }).then(()=> {
+    console.log('GOT_发布成功:'+JSON.stringify(EditData))
     promptAction.showToast({message: '发布成功', duration: 2000})
   }).catch((error: BusinessError)=>{
     promptAction.showToast({message: '发布失败，请检查网络', duration: 1000})

@@ -10,7 +10,7 @@ import { CustomNavBar } from '../commons/components';
 import { AINotePropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
 import { UserInfo } from '../commons/utils';
 import { User } from '../models';
-
+import { GotToken, TokenRequest } from '../models/tempModel/Interface/AccessToken';
 
 
 @Entry
@@ -24,11 +24,11 @@ export struct AINote {
   @State ImageUrl:string = ''//url
   @State finishFlag:boolean = false
   @State imageItems:Array<string> = []
-
+  @State tokenGot:string = ''
   aboutToAppear(): void {
     this.gotPropmt = router.getParams() as AINotePropmtType
     this.ChatArray = this.gotPropmt.chatArray
-    this.httpMarkdown_axios(this.ChatArray)
+    this.httpGetToken_axios_beta()
   }
 
   build() {
@@ -58,6 +58,32 @@ export struct AINote {
     .justifyContent(FlexAlign.SpaceBetween)
     .backgroundColor('#353242')
   }
+
+  httpGetToken_axios_beta(){
+    axios({
+      method: 'POST',
+      url: "https://chatglm.cn/chatglm/assistant-api/v1/get_token",
+      data: {
+        api_key: "0c2aef874ee6de79",
+        api_secret: "c68185c59c2197017eaad9ca1ecd7c1e",
+      } as TokenRequest,
+      // headers: {
+      //   // 'Authorization': 'Bearer fastgpt-08KBc24GnU0hWrsb0I6Mpcs918z9fqkIW0Wp1ULuzoGCBKBTrIINyahBVN2u5kz',
+      //   // 'Authorization':'',
+      //   'Content-Type': 'application/json'
+      // }
+    }).then((response: AxiosResponse<GotToken>) => {
+      console.log('GOT_Response data:', response.data.result.access_token);
+      this.tokenGot = response.data.result.access_token;
+    })
+      .catch((error: BusinessError) => {
+        console.log('Request failed:', error)
+      })
+      .then(()=>{
+        this.httpMarkdown_axios(this.ChatArray)
+      })
+  } //获取Token
+
   httpMarkdown_axios( message:Array<Message> ){
     axios({
       method: 'POST',
@@ -100,7 +126,7 @@ export struct AINote {
         prompt:text
       } as mindMapPostData,
       headers: {
-        'Authorization':'Bearer ' + this.user.token
+        'Authorization':'Bearer ' + this.tokenGot
       }
     })
       .then((response: AxiosResponse<ResponseMindMapData>) => {

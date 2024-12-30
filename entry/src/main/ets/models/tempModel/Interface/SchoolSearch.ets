@@ -23,7 +23,7 @@ interface UniversityScoreDistributionVO {
 
 export interface ScoreData {
   tertiaryMajor: string;
-  year: number;
+  year: string;
   school: string;
   img: string;
   faculty: string;

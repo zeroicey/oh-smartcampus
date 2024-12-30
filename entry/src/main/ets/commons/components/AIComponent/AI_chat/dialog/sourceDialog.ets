@@ -8,6 +8,15 @@ export struct sourceDialog {
     Column(){
       Scroll() {
         List() {
+          ListItem(){
+            Text('暂时没有出处哦')
+              .fontSize(24)
+              //.fontColor('#FFFFFF')
+              .margin({ top: 20 })
+              .width('100%')
+              .textAlign(TextAlign.Start)
+              .backgroundColor(Color.Black)
+          }
           ForEach(this.souArr, (item: QuestionAnswer,index: number) => {
             ListItem() {
               Column({ space: 10 }) {

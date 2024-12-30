@@ -18,6 +18,8 @@
     "pages/Answer",
     "pages/ChatHistory",
     "pages/Note",
-    "pages/TopicList"
+    "pages/TopicList",
+    "pages/HistoryDetail",
+    "pages/reEdit"
   ]
 }

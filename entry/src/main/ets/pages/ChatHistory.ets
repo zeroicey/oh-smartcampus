@@ -6,6 +6,7 @@ import { GetChatHistory, GotChatHistoryData, historyListDataItem } from '../mode
 import { User } from '../models';
 import { UserInfo } from '../commons/utils';
 import { ChatHistoryPropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
+import { HistoryDetialParams } from './HistoryDetail';
 
 @Entry
 @Component
@@ -98,10 +99,10 @@ struct ChatHistory {
               //保留对话
               //切换页面（换掉）
               router.pushUrl({
-                url: 'pages/AIChat',
+                url: 'pages/HistoryDetail',
                 params: {
-                  //item: item //对话历史记录列表
-                }
+                  mid: item.mid,
+                } as HistoryDetialParams
               })
             })
           }

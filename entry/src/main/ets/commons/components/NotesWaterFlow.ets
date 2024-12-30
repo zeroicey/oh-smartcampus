@@ -6,6 +6,7 @@ import { HcSkeleton } from './HcSkeleton';
 import { NotesWaterFlowItem } from './NotesWaterFlowItem';
 import { router } from '@kit.ArkUI';
 import { NoteEditPropmtType } from '../../models/tempModel/Interface/PropmtInterfaces';
+import { noteIdParams } from '../../pages/reEdit';
 
 // 请求参数类型
 interface IInCircleContentRes {
@@ -138,10 +139,10 @@ export struct NotesWaterFlow {
                   .onClick(() => {
                     if (this.flowType == WaterFlowType.draft) {
                       router.pushUrl({
-                        url: 'pages/EditNotes',
+                        url: 'pages/reEdit',
                         params: {
-                          //TODO 获取编辑笔记数据
-                        } as NoteEditPropmtType
+                          noteId: item.id,
+                        } as noteIdParams
                       })
 
                     } else {

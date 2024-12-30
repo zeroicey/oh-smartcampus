@@ -98,7 +98,7 @@ export struct HomePage_InfFastLook {
                       router.pushUrl({
                         url: 'pages/ShareNotes',
                         params: {
-                          topicId: item.id
+                          noteId: item.id
                         }
                       })
                     })

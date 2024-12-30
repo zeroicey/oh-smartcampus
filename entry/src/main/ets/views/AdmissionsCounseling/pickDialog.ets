@@ -28,11 +28,11 @@ export struct pickDialog {
       '浙江省', '安徽省', '福建省', '江西省', '山东省', '河南省', '湖北省', '湖南省', '广东省', '广西壮族自治区',
       '海南省', '重庆市', '四川省', '贵州省', '云南省', '西藏自治区', '陕西省', '甘肃省', '青海省', '宁夏回族自治区',
       '新疆维吾尔自治区', '香港特别行政区', '澳门特别行政区', '台湾省']
-  @State ListS: string[] = ['计算机科学与技术', '软件工程', '电子信息']
+  @State ListS: string[] = ['(0812)计算机科学与技术' , '(0835)软件工程' ,'(0854)电子信息']
   @State specializedList: string[][] = [
-    ['计算机科学与技术', '计算机软件与理论', '计算机系统结构', '计算机应用技术'],
-    ['软件工程'],
-    ['电子信息', '计算机技术', '软件工程', '人工智能', '大数据技术与工程', '网络信息安全']
+    ['(081200)计算机科学与技术' , '(081201)计算机软件与理论' , '(081202)计算机系统结构' , '(081203)计算机应用技术'],
+    ['(083500)软件工程'],
+    ['(085400)电子信息' , '(085404)计算机技术' , '(085405)软件工程' , '(085410)人工智能' , '(085411)大数据技术与工程' , '(085412)网络信息安全']
   ]
   @State gotData: string[] = []
   @State selectList: Array<string> = []
@@ -155,32 +155,32 @@ export struct pickDialog {
               }
               .margin({ bottom: 64 })
             } else {
-              Row({ space: 10 }) {
+              Column({ space: 5 }) {
                 Row() {
-                  this.mybutton1('计算机科学与技术', 0)
+                  this.mybutton1('(0812)计算机科学与技术', 0)
                 }
                 .onClick(() => {
-                  this.selectedString = '计算机科学与技术'
+                  this.selectedString = '(0812)计算机科学与技术'
                   this.selectedStringIndex = 0
-                  this.submitItem.secondaryMajor = '计算机科学与技术' //zyl
+                  this.submitItem.secondaryMajor = '(0812)计算机科学与技术' //zyl
                 })
 
                 Row() {
-                  this.mybutton1('软件工程', 1)
+                  this.mybutton1('(0835)软件工程', 1)
                 }
                 .onClick(() => {
-                  this.selectedString = '软件工程'
+                  this.selectedString = '(0835)软件工程'
                   this.selectedStringIndex = 1
-                  this.submitItem.secondaryMajor = '软件工程' //zyl
+                  this.submitItem.secondaryMajor = '(0835)软件工程' //zyl
                 })
 
                 Row() {
-                  this.mybutton1('电子信息', 2)
+                  this.mybutton1('(0854)电子信息', 2)
                 }
                 .onClick(() => {
-                  this.selectedString = '电子信息'
+                  this.selectedString = '(0854)电子信息'
                   this.selectedStringIndex = 2
-                  this.submitItem.secondaryMajor = '电子信息' //zyl
+                  this.submitItem.secondaryMajor = '(0854)电子信息' //zyl
                 })
               }
 
@@ -228,10 +228,10 @@ export struct pickDialog {
         "Authorization": "Bearer " + token
       }
     }).then((response: AxiosResponse<SearchSchoolResponse>) => {
+      console.log('GOT_myDATA:------>' + JSON.stringify(this.submitItem))
       this.responseSchoolData = response.data.data
       console.log('GOT_responseSchoolData:' + JSON.stringify(response.data.data))
-    })
-      .catch((error: BusinessError) => {
+    }).catch((error: BusinessError) => {
         console.log('Got_ERR:' + error.message)
       })
   }
