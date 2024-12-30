@@ -16,6 +16,8 @@ import { CustomNavBar } from '../commons/components';
 export struct AdmissionsCounseling {
   @StorageProp(UserInfo)
   user: User = {} as User
+  @StorageProp('bottomHeight')
+  bottomHeight: number = 0
   @State submitItem: SearchSchoolData = {}
   @State schoolName: string = ''
   @State region: string = ''; //省份
@@ -187,6 +189,7 @@ export struct AdmissionsCounseling {
     .height('100%')
     .width('100%')
     .backgroundColor('#15161a')
+    .padding({ bottom: this.bottomHeight })
   }
 
   httpSearchBackByName_axios(page: number, size: number, school: string, token: string) {
