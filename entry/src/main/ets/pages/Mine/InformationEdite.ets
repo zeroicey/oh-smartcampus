@@ -210,7 +210,7 @@ export struct InformationEdite {
                   .width('100%')
                   .height(50)
                   .borderRadius(20)
-                  .backgroundColor('#141414')
+                  .backgroundColor('#313035')
                   .padding({ left: 24 })
                 }
               }
@@ -233,7 +233,7 @@ export struct InformationEdite {
                   .width('100%')
                   .height(50)
                   .borderRadius(20)
-                  .backgroundColor('#141414')
+                  .backgroundColor('#313035')
                   .padding({ left: 24 })
                   .bindMenu(this.MenuBuilder)
                 }
@@ -268,7 +268,7 @@ export struct InformationEdite {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
     .padding({ top: 10, bottom: this.bottomHeight })
   }
 

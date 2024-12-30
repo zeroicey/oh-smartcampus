@@ -91,7 +91,7 @@ export struct SNList {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
     .padding({
       left: 30,
       right: 30,

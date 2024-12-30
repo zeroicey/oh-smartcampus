@@ -31,7 +31,7 @@ export struct Avatar {
               Text(`学时：${this.item.studyTime}h`)
                 .fontColor(Color.White)
                 .fontSize(12)
-              Text('签到：'+/*${this.item.attendance}*/'n'+' 天')
+              Text('签到：' + /*${this.item.attendance}*/'n' + ' 天')
                 .fontColor(Color.White)
                 .fontSize(12)
             }
@@ -51,7 +51,7 @@ export struct Avatar {
           .height(55)
           .borderRadius(40)
           .translate({ x: 10 })
-          .backgroundColor('rgb(53, 50, 66)')
+          .backgroundColor('#16151A')
           .justifyContent(FlexAlign.Center)
           .zIndex(1)
 

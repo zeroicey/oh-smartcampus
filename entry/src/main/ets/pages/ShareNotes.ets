@@ -79,9 +79,9 @@ struct ShareNotes {
   }
 
   aboutToAppear(): void {
-    const params = router.getParams() as INoteIdParams
-    this.getPublisherData(params)
-    this.noteId = params.noteId
+    // const params = router.getParams() as INoteIdParams
+    // this.getPublisherData(params)
+    // this.noteId = params.noteId
   }
 
   build() {
@@ -89,7 +89,7 @@ struct ShareNotes {
       // 顶部导航条
       Row() {
         Image($rawfile('icon/backIcon.png'))
-          .width(30)
+          .width(23)
           .margin({ right: 20 })
           .onClick(() => {
             router.back()
@@ -100,11 +100,9 @@ struct ShareNotes {
           if (this.user.uid != this.publisherData.creatorId) {
             Image($rawfile(this.publisherData.isFollowingCreator ? 'other/Bright.png' : 'other/notBright.png'))
               .borderRadius(20)
-              .width(87)
+              .width(65)
               .onClick(() => {
-                logger.info('' + this.publisherData.isFollowingCreator)
                 this.publisherData.isFollowingCreator = !this.publisherData.isFollowingCreator
-                logger.info('' + this.publisherData.isFollowingCreator)
                 clearTimeout(this.timeId)
                 this.timeId = setTimeout(() => {
                   this.charging()
@@ -161,23 +159,29 @@ struct ShareNotes {
               Row() {
                 Image($rawfile('icon/aiIcon.png'))
                   .width(28)
-                Text('这里是话题')
+                Text(this.publisherData.topicName)
                   .fontSize(20)
                   .fontWeight(900)
                   .fontColor('#98F4E9')
                   .width('100%')
+                  .onClick(() => {
+                    router.pushUrl({
+                      url: 'pages/AIChat',
+                      params: {
+                        topic: this.publisherData.topicId,
+                        circleId: this.circleId
+                      } as IRouterParamsAIChat
+                    })
+                  })
+                Blank()
+                Image($rawfile('icon/share.png'))
+                  .width(26)
+                  .onClick(() => {
+                    this.shareDialog.open()
+                  })
               }
-              .onClick(() => {
-                router.pushUrl({
-                  url: 'pages/AIChat',
-                  params: {
-                    topic: this.publisherData.topicId,
-                    circleId: this.circleId
-                  } as IRouterParamsAIChat
-                })
-              })
+              .width('100%')
             }
-
             Divider()
               .width('100%')
               .height(2)
@@ -208,7 +212,7 @@ struct ShareNotes {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
   }
 
   @Builder
@@ -216,16 +220,15 @@ struct ShareNotes {
     Row({ space: 10 }) {
       Image(this.publisherData.creatorAvatar || $rawfile('other/ic_mine_avatar.svg'))
         .alt($rawfile('other/ic_mine_avatar.svg'))
-        .width(50)
+        .width(30)
         .borderRadius(25)
-        .onClick(() => {
-          this.getPublisher()
-        })
       Text(this.publisherData.creatorName)
         .fontSize(24)
         .fontColor(Color.White)
-        .fontWeight(700)
     }
     .height(50)
+    .onClick(() => {
+      this.getPublisher()
+    })
   }
 }

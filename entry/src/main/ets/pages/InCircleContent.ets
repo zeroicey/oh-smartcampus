@@ -1,5 +1,5 @@
 import { FilterSheet, NotesWaterFlow } from '../commons/components'
-import { httpReq, logger } from '../commons/utils'
+import { httpReq } from '../commons/utils'
 import { ITopic, WaterFlowType } from '../models'
 import { router } from '@kit.ArkUI'
 
@@ -80,7 +80,7 @@ export struct InCircleContent {
         .width(60)
         .height(50)
         .justifyContent(FlexAlign.Center)
-        .backgroundColor('rgb(53, 50, 66)')
+        .backgroundColor('#16151A')
         .bindSheet($$this.isShow, this.FilterSheetBuilder, {
           showClose: false
         })
@@ -95,7 +95,7 @@ export struct InCircleContent {
       top: this.topHeight + 10,
       bottom: this.bottomHeight
     })
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
   }
 
   // 自定义标题样式

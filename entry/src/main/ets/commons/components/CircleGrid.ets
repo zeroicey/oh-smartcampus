@@ -18,6 +18,10 @@ export struct CircleGrid {
               .height(80)
               .borderRadius(30)
               .alignSelf(ItemAlign.Start)
+              .shadow({
+                radius: 13,
+                color: 'rgba(0, 0, 0, 0.25)',
+              })
             Text(item.name)
               .width('100%')
               .textAlign(TextAlign.End)

@@ -16,7 +16,6 @@ export struct CommentReply {
       Column() {
         Row() {
           Text('用户002')
-            .fontSize(16)
             .fontColor(Color.White)
             .fontWeight(900)
           Blank()

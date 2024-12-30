@@ -153,7 +153,7 @@ struct Answer {
           Divider()
             .width('100%')
             .height(1)
-            .backgroundColor('rgb(255, 153, 150)')
+            .backgroundColor('#FF9996')
 
           Text('查看答案')
             .TextStyle()
@@ -174,13 +174,13 @@ struct Answer {
       Row() {
         Text('上一题')
           .textBtn()
-          .opacity(this.subjectIndex == 0 ? 0.6 : 1)
+          .backgroundColor(this.subjectIndex == 0 ? '#BDBDBD' : '#FF9996')
           .onClick(() => {
             this.changeSubject(-1)
           })
         Text('下一题')
           .textBtn()
-          .opacity(this.subjectIndex == this.subjectList.length - 1 ? 0.6 : 1)//数组的最后一项：数组长度-1
+          .backgroundColor(this.subjectIndex == this.subjectList.length - 1 ? '#BDBDBD' : '#FF9996')//数组的最后一项：数组长度-1
           .onClick(() => {
             this.changeSubject(1)
           })
@@ -198,7 +198,7 @@ struct Answer {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
     .bindSheet($$this.isShow, this.AnswerBuilder(this.item.explanation), {
       height: SheetSize.MEDIUM,
       showClose: false,
@@ -219,7 +219,7 @@ struct Answer {
         bottom: 15
       })
       .borderRadius(30)
-      .backgroundColor(index == this.activeNum ? '#FF9996' : Color.Black)
+      .backgroundColor(index == this.activeNum ? '#FF9996' : '#313035')
       .onClick(() => {
         this.activeNum = index
         this.userChoose = items.split('.')[0]
@@ -279,7 +279,7 @@ struct Answer {
       }
       .width('100%')
     }
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
 
   }
 }
@@ -295,7 +295,6 @@ function TextStyle() {
 function textBtn() {
   .width(132)
   .height(50)
-  .backgroundColor('rgb(255, 153, 150)')
   .borderRadius(30)
   .fontSize(24)
   .fontWeight(900)

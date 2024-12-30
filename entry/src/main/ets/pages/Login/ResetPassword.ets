@@ -95,7 +95,7 @@ struct ResetPassword {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
     .padding({
       bottom: this.bottomHeight,
     })

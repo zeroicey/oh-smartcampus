@@ -51,7 +51,8 @@ struct BrushProblem {
 
   aboutToAppear(): void {
     const params = router.getParams() as IRouterParams
-    this.getChapterData(params.subjectId.toString())
+    // TODO
+    this.getChapterData('1')
   }
 
   build() {
@@ -87,7 +88,7 @@ struct BrushProblem {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
     .padding({ bottom: this.bottomHeight })
   }
 
@@ -143,7 +144,7 @@ struct BrushProblem {
       bottom: 15
     })
     .borderRadius(30)
-    .backgroundColor('rgb(145, 135, 202)')
+    .backgroundColor('#313035')
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Start)
     .onClick(() => {
@@ -165,5 +166,5 @@ function TsetBtnStyle() {
   .fontColor(Color.White)
   .width(150)
   .height(50)
-  .backgroundColor('rgb(251, 166, 163)')
+  .backgroundColor('#817AFC')
 }

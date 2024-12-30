@@ -18,7 +18,8 @@ export struct InputComponent {
   @State waitTime: number = 3
   regEmail: RegExp =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  onclick = () => {}
+  onclick = () => {
+  }
 
   async getEmailNum() {
     try {
@@ -59,11 +60,11 @@ export struct InputComponent {
         TextInput({ placeholder: this.placeholder, text: $$this.value })
           .fontColor(Color.White)
           .maxLength(100)
-          .placeholderColor('rgb(229, 228, 249)')
+          .placeholderColor('#313035')
           .placeholderFont({ weight: 700 })
           .height(50)
           .width('100%')
-          .backgroundColor('#141414')
+          .backgroundColor('#313035')
           .padding({ left: 24 })
           .type(this.type == ITextType.password ? InputType.Password : InputType.Normal)
           .passwordIcon(this.type == ITextType.password ?

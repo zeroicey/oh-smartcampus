@@ -21,7 +21,7 @@
         "description": "$string:EntryAbility_desc",
         "icon": "$media:logo",
         "label": "$string:EntryAbility_label",
-        "startWindowIcon": "$media:logo",
+        "startWindowIcon": "$media:dragonLogo",
         "startWindowBackground": "$color:start_window_background",
         "exported": true,
         "skills": [

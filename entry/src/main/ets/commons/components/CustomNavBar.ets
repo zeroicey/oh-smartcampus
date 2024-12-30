@@ -29,12 +29,11 @@ export struct CustomNavBar {
 
   }
 
-
   build() {
     Row() {
       if (this.showLeftIcon) {
         Image(this.leftIcon)
-          .width(30)
+          .width(23)
           .margin({ right: 20 })
           .onClick(() => {
             this.onClickBack()
@@ -43,7 +42,6 @@ export struct CustomNavBar {
       }
       Text(this.title)
         .fontSize(24)
-        .fontWeight(900)
         .fontColor(Color.White)
       Blank()
       if (this.showRightIcon) {

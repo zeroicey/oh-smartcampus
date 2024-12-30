@@ -34,7 +34,7 @@ export struct AIChatPage {
             CircleGrid({
               list: this.circleList,
               onclick: (circleId: string) => {
-                auth.CheckAuth(()=>{
+                auth.CheckAuth(() => {
                   router.pushUrl({
                     url: 'pages/TopicList',
                     params: {
@@ -52,7 +52,7 @@ export struct AIChatPage {
           right: 20,
           bottom: 20,
         })
-        .backgroundColor('rgb(53, 50, 66)')
+        .backgroundColor('#16151A')
         .borderRadius({ bottomLeft: 50, bottomRight: 50 })
 
         Column() {

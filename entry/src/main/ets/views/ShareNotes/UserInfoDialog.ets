@@ -46,46 +46,46 @@ export struct UserInfoDialog {
             .fontColor(Color.White)
             .width('100%')
             .fontSize(20)
-            .fontWeight(900)
+            .fontWeight(700)
             .textAlign(TextAlign.Center)
           Text(this.publisher.introduction)
             .fontColor(Color.White)
             .width('100%')
             .fontSize(20)
-            .fontWeight(900)
+            .fontWeight(700)
             .textAlign(TextAlign.Center)
           Row({ space: 25 }) {
             Column() {
               Text('' + this.publisher.attendance)
                 .fontColor('rgb(97, 217, 201)')
                 .fontSize(24)
-                .fontWeight(900)
+                .fontWeight(700)
               Text('累计签到')
                 .fontColor('rgb(232, 232, 232)')
                 .fontSize(14)
-                .fontWeight(900)
+                .fontWeight(700)
             }
 
             Column() {
               Text('' + this.publisher.brightTotal)
                 .fontColor('rgb(97, 217, 201)')
                 .fontSize(24)
-                .fontWeight(900)
+                .fontWeight(700)
               Text('累计发光')
                 .fontColor('rgb(232, 232, 232)')
                 .fontSize(14)
-                .fontWeight(900)
+                .fontWeight(700)
             }
 
             Column() {
               Text('' + this.publisher.likeTotal)
                 .fontColor('rgb(97, 217, 201)')
                 .fontSize(24)
-                .fontWeight(900)
+                .fontWeight(700)
               Text('累计获赞')
                 .fontColor('rgb(232, 232, 232)')
                 .fontSize(14)
-                .fontWeight(900)
+                .fontWeight(700)
             }
           }
         }
@@ -94,7 +94,7 @@ export struct UserInfoDialog {
 
       }
       .width(300)
-      .backgroundColor('rgb(53, 50, 66)')
+      .backgroundColor('#16151A')
       .borderRadius(30)
       .padding({ left: 20, right: 20 })
     }

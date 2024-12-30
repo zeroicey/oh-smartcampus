@@ -103,8 +103,8 @@ export struct SNNavBar {
       })
     }
     .width('100%')
-    .borderRadius(20)
-    .backgroundColor('rgb(59, 59, 59)')
+    .borderRadius(40)
+    .backgroundColor('#313035')
     .justifyContent(FlexAlign.SpaceAround)
     .padding({
       left: 50,
