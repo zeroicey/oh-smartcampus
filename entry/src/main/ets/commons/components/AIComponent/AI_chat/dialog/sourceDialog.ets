@@ -15,7 +15,7 @@ export struct sourceDialog {
               .margin({ top: 20 })
               .width('100%')
               .textAlign(TextAlign.Start)
-              .backgroundColor(Color.Black)
+              //.backgroundColor(Color.Black)
           }
           ForEach(this.souArr, (item: QuestionAnswer,index: number) => {
             ListItem() {

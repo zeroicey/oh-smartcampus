@@ -10,10 +10,10 @@ import { FormData } from '@ohos/axios';
 import { httpReq, logger, UserInfo } from 'ets/commons/utils';
 @Component
 export struct EditNote_imgArr {
-  //@Link imageItems:Array<string>
   @Link EditData:SendNoteData
   @Prop url:string = ''
   @Link LocalImg:string
+  @Link ImgArr:string[]
 
   dialog: CustomDialogController = new CustomDialogController({
     builder: HcLoadingDialog({ message: '更新中请稍后...' }),
@@ -62,9 +62,11 @@ export struct EditNote_imgArr {
         headers: { 'Content-Type': 'multipart/form-data' },
         context: getContext(this)
       })
+      console.log('GOT_LocalImg',this.LocalImg)
       this.dialog.close()
     }
   }
+
   build() {
     Column({space:10}) {
       Row(){
@@ -77,6 +79,8 @@ export struct EditNote_imgArr {
                 .margin({ top: 10, bottom: 10, left: 10, right: 10 })
                 .borderRadius(20)
                 .sharedTransition(JSON.stringify(item))//
+                .borderColor(Color.Gray)
+                .borderWidth(1)
                 .onClick(() => {
                   pushImagePreview({images:this.EditData.pictures,index:index})//
                 })
@@ -89,10 +93,14 @@ export struct EditNote_imgArr {
                 .width(50)
                 .height(50)
                 .margin({top:25})
-                .onClick(()=>{
-                  this.updateAvatar().then(()=>{
-                    this.EditData.pictures.push(this.LocalImg)
-                  })
+                .onClick( async () => {
+                  await this.updateAvatar()
+                  let arr: string[] = []
+                  // this.ImgArr.push(this.LocalImg)
+                  // this.EditData.pictures = this.ImgArr
+                  arr.push(this.LocalImg)
+                  this.EditData.pictures = arr
+                  console.log('GOT_添加图片成功',JSON.stringify(this.EditData.pictures))
                 })
 
             }

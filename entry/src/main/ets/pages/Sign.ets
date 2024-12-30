@@ -19,8 +19,8 @@ struct Sign {
   @State today: HmCalendarSelectedDay = { date: new Date().toLocaleDateString() }
   @State clickFlag: number = 1
   @State aniNum: number = 0
-  @State ConsecutiveCheckIn_month: number = -1 //get//连续签到天数
-  @State ConsecutiveCheckIn_all: number = -1
+  @State ConsecutiveCheckIn_month: number = 1 //get//连续签到天数
+  @State ConsecutiveCheckIn_all: number = 1
   @State signedDay: number = 4 //get//已签到天数
   @State rewardOfToday: string = '0' //get//今日奖励
   @State LearningPercentage: number = 8 //get//今日学习百分比
@@ -90,15 +90,15 @@ struct Sign {
         'date': time_now()
       },
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token, //token
         'uid': uid
       }
     })
       .then((response: AxiosResponse<SignData>) => {
+        console.log('GOT_res_signHistory:'+JSON.stringify(response.data));
         this.rewardOfToday = response.data.data.gotPoints //获得的分数
       }).catch((error: BusinessError) => {
-      console.log(error.message)
+      console.log('GOT_'+error.message)
     })
   }
 
@@ -111,9 +111,11 @@ struct Sign {
         'uid': this.user.uid
       }
     }).then((response: AxiosResponse<SignedDay>) => {
+      console.log('GOT_res_signMonthDay:'+JSON.stringify(response.data));
       this.ConsecutiveCheckIn_month = response.data.data
+      this.ConsecutiveCheckIn_month = 1
     }).catch((error: BusinessError) => {
-      console.log(error.message)
+      console.log('GOT_'+error.message)
     })
   }
 
@@ -126,9 +128,11 @@ struct Sign {
         'uid': this.user.uid
       }
     }).then((response: AxiosResponse<SignedDay>) => {
+      console.log('GOT_res_SignAllDay:'+JSON.stringify(response.data));
       this.ConsecutiveCheckIn_all = response.data.data
+      this.ConsecutiveCheckIn_all = 1
     }).catch((error: BusinessError) => {
-      console.log(error.message)
+      console.log('GOT_'+error.message)
     })
   }
 }

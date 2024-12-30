@@ -35,7 +35,7 @@ export struct Sign_calender{
   httpGotSignMonthHistory_axios(){
     axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8081/find',//get
+      url: ''+'/dayLog/find',//get
       headers:{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ',//token

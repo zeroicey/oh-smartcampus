@@ -24,7 +24,6 @@ export struct AINote_content {
                   .borderRadius(25)
                   .height('100%')
                   .width('100%')
-                  .backgroundColor(Color.Pink)
                   .sharedTransition('PrewiewImg',{ duration:500 })
                   .onClick(() => {
                     pushImagePreview({images:this.imageItems,index:0})//

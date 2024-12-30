@@ -39,6 +39,7 @@ export struct ReEdit{
   @State updateFlag: boolean = false
   @State EditData: SendNoteData = {} as SendNoteData
   @State LocalImg: string = ''
+  @State ImgArr: string[] = []
   // 加载弹窗
   dialog: CustomDialogController = new CustomDialogController({
     builder: HcLoadingDialog({ message: '更新中请稍后...' }),
@@ -145,7 +146,8 @@ export struct ReEdit{
           EditNote_imgArr({
             EditData: $EditData,
             url: this.url,
-            LocalImg: this.LocalImg
+            LocalImg: this.LocalImg,
+            ImgArr: $ImgArr
           })
           EditNote_edit({
             EditData: $EditData,

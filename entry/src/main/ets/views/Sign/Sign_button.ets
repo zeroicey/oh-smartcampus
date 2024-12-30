@@ -12,7 +12,7 @@ export struct Sign_button {
   @Prop uid: string = ''
   @Prop token: string = ''
   @State reqFlag:boolean = false
-  @State signedDays:number = 0
+  @State signedDays:number = 1
 
   animation_button(): void {
     animateTo({ duration: 1000, curve: Curve.FastOutLinearIn }, () => {
@@ -90,9 +90,9 @@ export struct Sign_button {
         'uid':uid,
         'Authorization': 'Bearer '+token,
       }
-    }).then(()=>{
+    }).then((res:AxiosResponse<boolean>)=>{
       this.signArr.push({ date: new Date().toLocaleDateString() })
-      //this.clickFlag = response.data
+      console.log('GOT_success:'+res)
       this.clickFlag=3//3跳弹窗
     }).catch((error:BusinessError)=>{
       this.fireworkSize = 0

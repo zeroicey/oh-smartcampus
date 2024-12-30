@@ -29,6 +29,7 @@ export struct EditNote {
   @State updateFlag: boolean = false
   @State EditData: SendNoteData = {} as SendNoteData
   @State LocalImg: string = ''
+  @State ImgArr:string[] = []
   // 加载弹窗
   dialog: CustomDialogController = new CustomDialogController({
     builder: HcLoadingDialog({ message: '更新中请稍后...' }),
@@ -64,13 +65,19 @@ export struct EditNote {
     }
   }
 
-
-
   aboutToAppear(): void {
     try {
       this.getPropmt = router.getParams() as NoteEditPropmtType
+      if (this.getPropmt.url != null || this.getPropmt.url != undefined || this.getPropmt.url != '') {
+        let arr: string[] = []
+        this.ImgArr.push(this.getPropmt.url)
+        this.EditData.pictures = this.ImgArr
+        // let arr: string[] = []
+        // arr.push(this.LocalImg)
+        // this.EditData.pictures = arr
+      }
       console.log('GOT_EditNote_aboutToAppear:'+JSON.stringify(this.getPropmt))
-      this.EditData.pictures.push(this.getPropmt.url)
+
     } catch (err) {
       console.log('ERROR_EditNote_aboutToAppear')
     }
@@ -87,13 +94,17 @@ export struct EditNote {
       CustomNavBar({
         title: '编辑笔记',
         showRightIcon: false,
+        onClickBack: () => {
+          this.EditData.pictures = []
+        }
       })
       Scroll() {
         Column() {
           EditNote_imgArr({
             EditData: $EditData,
             url: this.url,
-            LocalImg: $LocalImg
+            LocalImg: $LocalImg,
+            ImgArr:$ImgArr
           })
           EditNote_edit({
             EditData: $EditData,
