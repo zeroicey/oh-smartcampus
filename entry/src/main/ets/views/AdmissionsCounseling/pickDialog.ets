@@ -1,45 +1,45 @@
-import axios, { AxiosResponse } from "@ohos/axios"
-import { ScoreData, SearchSchoolData, SearchSchoolResponse } from "../../models/tempModel/Interface/SchoolSearch"
-import { BusinessError } from "@kit.BasicServicesKit"
+import axios, { AxiosResponse } from '@ohos/axios'
+import { ScoreData, SearchSchoolData, SearchSchoolResponse } from '../../models/tempModel/Interface/SchoolSearch'
+import { BusinessError } from '@kit.BasicServicesKit'
 
 
 @CustomDialog
 export struct pickDialog {
-  controller:CustomDialogController
-  @Link submitItem:SearchSchoolData
-  @Link responseSchoolData:Array<ScoreData>
-  @Prop token:string = ''
-  @Link flag:number
+  controller: CustomDialogController
+  @Link submitItem: SearchSchoolData
+  @Link responseSchoolData: Array<ScoreData>
+  @Prop token: string = ''
+  @Link flag: number
   //效果变化参数
-  @State selectedItem:string = ''//fst
-  @State selectedItemIndex:number = 0
-  @State SelectedItemName:string = ''
-
-  @State selectedString:string = ''//zyl
-  @State selectedStringIndex:number = -1
-  @State selectedStringName:string = ''
-
-  @State selectedSpecialized:string = ''//sf
-  @State selectedSpecializedIndex:number = -1
-  @State selectedSpecializedName:string = ''
-
-  @State selectedSecondIndex:number = -1//zy
-  @State selectedSecond:string = ''
-  @State selectedSecondName:string = ''
-
-  @State ListP:string[] = ['北京市', '天津市', '河北省', '山西省', '内蒙古自治区', '辽宁省', '吉林省', '黑龙江省', '上海市', '江苏省', '浙江省', '安徽省', '福建省', '江西省', '山东省', '河南省', '湖北省', '湖南省', '广东省', '广西壮族自治区', '海南省', '重庆市', '四川省', '贵州省', '云南省', '西藏自治区', '陕西省', '甘肃省', '青海省', '宁夏回族自治区', '新疆维吾尔自治区', '香港特别行政区', '澳门特别行政区', '台湾省']
-  @State ListS:string[] = ['计算机科学与技术','软件工程','电子信息']
-
-  @State specializedList:string[][] = [
-    ['计算机科学与技术','计算机软件与理论','计算机系统结构','计算机应用技术'],
+  @State selectedItem: string = '' //fst
+  @State selectedItemIndex: number = 0
+  @State SelectedItemName: string = ''
+  @State selectedString: string = '' //zyl
+  @State selectedStringIndex: number = -1
+  @State selectedStringName: string = ''
+  @State selectedSpecialized: string = '' //sf
+  @State selectedSpecializedIndex: number = -1
+  @State selectedSpecializedName: string = ''
+  @State selectedSecondIndex: number = -1 //zy
+  @State selectedSecond: string = ''
+  @State selectedSecondName: string = ''
+  @State ListP: string[] =
+    ['北京市', '天津市', '河北省', '山西省', '内蒙古自治区', '辽宁省', '吉林省', '黑龙江省', '上海市', '江苏省',
+      '浙江省', '安徽省', '福建省', '江西省', '山东省', '河南省', '湖北省', '湖南省', '广东省', '广西壮族自治区',
+      '海南省', '重庆市', '四川省', '贵州省', '云南省', '西藏自治区', '陕西省', '甘肃省', '青海省', '宁夏回族自治区',
+      '新疆维吾尔自治区', '香港特别行政区', '澳门特别行政区', '台湾省']
+  @State ListS: string[] = ['计算机科学与技术', '软件工程', '电子信息']
+  @State specializedList: string[][] = [
+    ['计算机科学与技术', '计算机软件与理论', '计算机系统结构', '计算机应用技术'],
     ['软件工程'],
-    ['电子信息','计算机技术','软件工程','人工智能','大数据技术与工程','网络信息安全']
+    ['电子信息', '计算机技术', '软件工程', '人工智能', '大数据技术与工程', '网络信息安全']
   ]
-  @State gotData:string[] = []
-  @State selectList:Array<string> = []
+  @State gotData: string[] = []
+  @State selectList: Array<string> = []
 
-  @Builder mybutton2(item:string,index:number){
-    Text('  '+item+'  ')
+  @Builder
+  mybutton2(item: string, index: number) {
+    Text('  ' + item + '  ')
       .height(40)
       .constraintSize({ minWidth: 75 })
       .borderRadius(20)
@@ -51,11 +51,13 @@ export struct pickDialog {
         this.selectedItem = item
         this.selectedItemIndex = index
         this.SelectedItemName = item
-        console.log('GOT_selectedStringIndex:'+this.selectedItemIndex.toString());
+        console.log('GOT_selectedStringIndex:' + this.selectedItemIndex.toString());
       })
   }
-  @Builder mybutton1(item:string,index:number){//zyl
-    Text('  '+item+'  ')
+
+  @Builder
+  mybutton1(item: string, index: number) { //zyl
+    Text('  ' + item + '  ')
       .height(40)
       .constraintSize({ minWidth: 75 })
       .borderRadius(20)
@@ -64,13 +66,15 @@ export struct pickDialog {
       .fontColor(this.selectedStringIndex == index ? Color.White : Color.Black)
       .backgroundColor(this.selectedStringIndex == index ? Color.Pink : Color.White)
       .onClick(() => {
-        this.selectedString=item
-        this.selectedStringIndex=index
-        this.submitItem.secondaryMajor = item//zyl
+        this.selectedString = item
+        this.selectedStringIndex = index
+        this.submitItem.secondaryMajor = item //zyl
       })
   }
-  @Builder mybutton3(item:string,index:number){//sf
-    Text('  '+item+'  ')
+
+  @Builder
+  mybutton3(item: string, index: number) { //sf
+    Text('  ' + item + '  ')
       .height(40)
       .constraintSize({ minWidth: 75 })
       .borderRadius(20)
@@ -81,12 +85,14 @@ export struct pickDialog {
       .onClick(() => {
         this.selectedSpecialized = item
         this.selectedSpecializedIndex = index
-        this.submitItem.region = item//sf
-        console.log('GOT_selectedStringIndex:'+this.selectedStringIndex.toString());
+        this.submitItem.region = item //sf
+        console.log('GOT_selectedStringIndex:' + this.selectedStringIndex.toString());
       })
   }
-  @Builder mybutton4(item:string,index:number){//zy
-    Text('  '+item+'  ')
+
+  @Builder
+  mybutton4(item: string, index: number) { //zy
+    Text('  ' + item + '  ')
       .height(40)
       .constraintSize({ minWidth: 75 })
       .borderRadius(20)
@@ -97,13 +103,14 @@ export struct pickDialog {
       .onClick(() => {
         this.selectedSecond = item
         this.selectedSecondIndex = index
-        this.submitItem.tertiaryMajor = item//zy
-        console.log('GOT_selectedStringIndex:'+this.selectedStringIndex.toString());
+        this.submitItem.tertiaryMajor = item //zy
+        console.log('GOT_selectedStringIndex:' + this.selectedStringIndex.toString());
       })
   }
+
   build() {
-    Column({space:20}){
-      Row(){
+    Column({ space: 20 }) {
+      Row() {
         Text('具体查询')
           .fontColor(Color.White)
           .fontSize(30)
@@ -114,28 +121,29 @@ export struct pickDialog {
         Image($rawfile('icon/search.png'))
           .height(30)
           .align(Alignment.End)
-          .onClick(()=>{
-            this.httpSearchBackByRegion_axios(1,10,this.token)
+          .onClick(() => {
+            this.httpSearchBackByRegion_axios(1, 10, this.token)
             this.controller.close()
           })
       }
       .width('90%')
-      Row({space:10}){
-        this.mybutton2('省份',0)
-        this.mybutton2('专业类',1)
+
+      Row({ space: 10 }) {
+        this.mybutton2('省份', 0)
+        this.mybutton2('专业类', 1)
       }
 
-      Text('选择'+this.selectedItem)
+      Text('选择' + this.selectedItem)
         .width('90%')
         .fontColor(Color.White)
         .fontSize(25)
         .fontWeight(FontWeight.Bolder)
         .textAlign(TextAlign.Start)
 
-      Column(){
+      Column() {
         Scroll() {
           Column() {
-            if (this.selectedItemIndex==0) {
+            if (this.selectedItemIndex == 0) {
               Flex({ wrap: FlexWrap.Wrap }) {
                 ForEach(this.ListP, (item: string, index: number) => {
                   Row() {
@@ -147,28 +155,37 @@ export struct pickDialog {
               }
               .margin({ bottom: 64 })
             } else {
-              Row({space:10}){
-                Row(){this.mybutton1('计算机科学与技术',0)}
+              Row({ space: 10 }) {
+                Row() {
+                  this.mybutton1('计算机科学与技术', 0)
+                }
                 .onClick(() => {
                   this.selectedString = '计算机科学与技术'
                   this.selectedStringIndex = 0
-                  this.submitItem.secondaryMajor = '计算机科学与技术'//zyl
+                  this.submitItem.secondaryMajor = '计算机科学与技术' //zyl
                 })
-                Row(){this.mybutton1('软件工程',1)}
+
+                Row() {
+                  this.mybutton1('软件工程', 1)
+                }
                 .onClick(() => {
                   this.selectedString = '软件工程'
                   this.selectedStringIndex = 1
-                  this.submitItem.secondaryMajor = '软件工程'//zyl
+                  this.submitItem.secondaryMajor = '软件工程' //zyl
                 })
-                Row(){this.mybutton1('电子信息',2)}
+
+                Row() {
+                  this.mybutton1('电子信息', 2)
+                }
                 .onClick(() => {
                   this.selectedString = '电子信息'
                   this.selectedStringIndex = 2
-                  this.submitItem.secondaryMajor = '电子信息'//zyl
+                  this.submitItem.secondaryMajor = '电子信息' //zyl
                 })
               }
+
               Blank().height(15)
-              Text('选择'+this.selectedString)
+              Text('选择' + this.selectedString)
                 .width('90%')
                 .fontColor(Color.White)
                 .fontSize(25)
@@ -197,24 +214,25 @@ export struct pickDialog {
     }
     .height('80%')
     .width('100%')
-    .backgroundColor('#353341')
+    .backgroundColor('#313035')
   }
-  httpSearchBackByRegion_axios(page:number,size:number,token:string){
+
+  httpSearchBackByRegion_axios(page: number, size: number, token: string) {
     this.submitItem.page = page
     this.submitItem.size = size
     axios({
       method: 'POST',
-      url: 'https://1fd33097.r5.cpolar.cn'+'/university/findRangeSearch',
-      data:this.submitItem,
-      headers:{
-        "Authorization":"Bearer "+token
+      url: 'https://1fd33097.r5.cpolar.cn' + '/university/findRangeSearch',
+      data: this.submitItem,
+      headers: {
+        "Authorization": "Bearer " + token
       }
-    }).then((response: AxiosResponse<SearchSchoolResponse>)=>{
+    }).then((response: AxiosResponse<SearchSchoolResponse>) => {
       this.responseSchoolData = response.data.data
-      console.log('GOT_responseSchoolData:'+JSON.stringify(response.data.data))
+      console.log('GOT_responseSchoolData:' + JSON.stringify(response.data.data))
     })
-      .catch((error:BusinessError)=>{
-        console.log('Got_ERR:'+error.message)
+      .catch((error: BusinessError) => {
+        console.log('Got_ERR:' + error.message)
       })
   }
 }
