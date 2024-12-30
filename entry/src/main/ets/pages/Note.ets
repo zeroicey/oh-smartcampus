@@ -12,6 +12,7 @@ import { UserInfo } from '../commons/utils';
 
 
 
+
 @Entry
 @Component
 export struct Note {
@@ -19,13 +20,12 @@ export struct Note {
   user: User = {} as User
   @State isLoading:boolean = true
   @State Text:string = ' wait for response...'//markdown
+  @State ChatArray:Array<Message> = []
+  @State TargetAI_topic:number = -1
   @State ImageUrl:string = ''//url
   @State finishFlag:boolean = false
   @State imageItems:Array<string> = []
-  aboutToAppear(): void {
-    //this.ChatArray = (router.getParams() as Array<Message> )['chatArray']
-
-  }
+  aboutToAppear(): void {}
 
   build() {
     Column(){
@@ -35,7 +35,7 @@ export struct Note {
       })
       AINote_content({
         Text:$Text,
-        TargetAI_topic:$TargetAI_topic,
+        TargetAI_TopicId:this.TargetAI_topic,
         isLoading:$isLoading,
         ImageUrl:$ImageUrl,
         finishFlag:$finishFlag,

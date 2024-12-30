@@ -139,7 +139,7 @@ export struct NotesWaterFlow {
                       router.pushUrl({
                         url: 'pages/EditNotes',
                         params: {
-                          //TODO
+                          //TODO 获取编辑笔记数据
                         } as NoteEditPropmtType
                       })
 

@@ -2,15 +2,17 @@ import { pushImagePreview } from 'ets/pages/ImgPreview'
 import { lvMarkdownIn } from '@luvi/lv-markdown-in';
 import router from '@ohos.router';
 import {SpinKit,SpinType} from '@pura/spinkit'
+import { IRouterParamsAIChat } from '../../pages/TopicList';
+
 @Component
 export struct AINote_content {
   @Link isLoading:boolean
   @Link Text:string
-  @Link TargetAI_topic:string
+  @Prop TargetAI_TopicId:number = -1
+  @Prop TargetAI_circleId:string = ''
   @Link ImageUrl:string
   @Link finishFlag:boolean
   @Link imageItems:Array<string>
-
 
     build() {
       Scroll() {
@@ -69,16 +71,17 @@ export struct AINote_content {
             Image($rawfile('icon/JumpToAI.png'))
               .height(30)
               .width(30)
-            Text('点击跳转话题' + this.TargetAI_topic)
+            Text('点击跳转相关话题AI')
               .fontSize(20)
               .fontWeight(FontWeight.Bold)
               .fontColor('#98f4e9')
               .onClick(()=>{
                 router.pushUrl({
-                  url: 'pages/AI_chatPage',
+                  url: 'pages/AIChat',
                   params: {
-
-                  }
+                    topic: this.TargetAI_TopicId.toString(),
+                    circleId: this.TargetAI_circleId
+                  } as IRouterParamsAIChat
                 })
               })
           }

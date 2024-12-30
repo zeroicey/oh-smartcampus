@@ -21,7 +21,6 @@ export struct AINote {
   @State isLoading:boolean = true
   @State Text:string = ' wait for response...'//markdown
   @State ChatArray:Array<Message> = []
-  @State TargetAI_topic:string = 'TOPIC'
   @State ImageUrl:string = ''//url
   @State finishFlag:boolean = false
   @State imageItems:Array<string> = []
@@ -40,7 +39,8 @@ export struct AINote {
         })
       AINote_content({
         Text:$Text,
-        TargetAI_topic:$TargetAI_topic,
+        TargetAI_TopicId:this.gotPropmt.topicId,
+        TargetAI_circleId:this.gotPropmt.circleId,
         isLoading:$isLoading,
         ImageUrl:$ImageUrl,
         finishFlag:$finishFlag,
@@ -79,7 +79,6 @@ export struct AINote {
           this.Text = '输入的内容意义不明，无法生成ai笔记。'
         } else {
           this.Text = trimKnownBackticks(response.data.choices[0].message.content)
-          //console.log('GOT_DealedText: ' + this.Text)
         }
       })
       .catch((error: BusinessError) => {

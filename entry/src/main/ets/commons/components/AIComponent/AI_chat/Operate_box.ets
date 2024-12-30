@@ -6,6 +6,7 @@ import { AINotePropmtType } from '../../../../models/tempModel/Interface/PropmtI
 @Component
 export struct OperateBox {
   @StorageProp('bottomHeight') bottomHeight: number = 0
+  @Prop CircleId: string
   @Link checkAll: boolean
   @Link onClickUpload: number
   @Link checkCount: number
@@ -16,6 +17,11 @@ export struct OperateBox {
   @Prop topicId: number
   @Prop topicName: string
   @Prop Imgurl: string
+
+  // 个人中心页
+  changIndexMine=(index:number) => {
+  }
+
   build() {
     Row({ space: 35 }) {
       Blank().width(15)
@@ -29,12 +35,7 @@ export struct OperateBox {
           .fontSize(12)
       }
       .onClick(() => {
-        router.pushUrl({
-          url: 'pages/Knowledge_circlePage',
-          params: {
-            //TODO(Jump to KnowledgeCircle)
-          }
-        })
+        this.changIndexMine(2)
       })
 
       Column() {
@@ -54,6 +55,7 @@ export struct OperateBox {
               topicId:this.topicId,
               topicName: this.topicName,
               chatArray: this.chatArray,
+              circleId:this.CircleId
             } as AINotePropmtType
           })
         } else {

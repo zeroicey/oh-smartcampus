@@ -5,6 +5,7 @@ export interface AINotePropmtType{
   topicId:number
   topicName:string
   chatArray:Array<Message>
+  circleId:string
 }
 
 export interface NoteEditPropmtType{

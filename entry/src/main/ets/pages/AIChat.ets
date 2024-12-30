@@ -1,14 +1,11 @@
-//引用库方法
+
 import { curves, promptAction, router } from '@kit.ArkUI';
 import { SpinKit, SpinType } from '@pura/spinkit';
 import axios, { AxiosResponse } from '@ohos/axios';
 import { BusinessError } from '@kit.BasicServicesKit';
-//数据模型
 import { Message } from 'ets/models/tempModel/DataModel/Message';
 import { TopicAI } from 'ets/models/tempModel/DataModel/TopicAI';
-//接口
 import { chatData, ChatHistoryData, chatResponseData } from 'ets/models/tempModel/Interface/Chat';
-
 import { UserItem } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/User_Item';
 import { AI_Item } from 'ets/commons/components/AIComponent/AI_chat/AI_chat_ListItem/AI_item'; //AI聊天项
 import { TypeIn_box } from 'ets/commons/components/AIComponent/AI_chat/TypeIn_box'; //底部输入框
@@ -192,6 +189,7 @@ export struct Chat {
           } else {
             Column() {
               OperateBox({
+                CircleId:this.idGet.circleId,
                 checkAll: $allchecked,
                 onClickUpload: $onClickUpload,
                 checkCount: $checkCount,

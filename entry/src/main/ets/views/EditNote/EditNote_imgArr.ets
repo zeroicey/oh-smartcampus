@@ -51,7 +51,6 @@ export struct EditNote_imgArr {
                 .margin({top:25})
                 .onClick(()=>{
                   this.EditData.pictures.push(this.LocalImg)
-                  //TODO 打开图片选择器添加图片(后续开发加入)
                 })
 
             }
