@@ -15,8 +15,8 @@ struct Encrypted {
   bottomHeight: number = 0
   @StorageProp('topHeight')
   topHeight: number = 0
-  @State email: string = '2372558841@qq.com'
-  @State emailNum: string = '123456'
+  @State email: string = ''
+  @State emailNum: string = ''
   regEmail: RegExp =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   regEmailNum: RegExp = /^\d{6}$/
@@ -100,7 +100,7 @@ struct Encrypted {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('rgb(53, 50, 66)')
+    .backgroundColor('#16151A')
     .padding({
       bottom: this.bottomHeight
     })

@@ -28,8 +28,8 @@ struct Login {
   bottomHeight: number = 0
   @StorageProp('topHeight')
   topHeight: number = 0
-  @State email: string = '2372558841@qq.com'
-  @State password: string = 'Xian20031112@'
+  @State email: string = ''
+  @State password: string = ''
   @State isAgree: boolean = false
   @State isLoading: boolean = false
 
@@ -90,10 +90,9 @@ struct Login {
 
   build() {
     Column() {
-      Text('')
+      Image($rawfile('other/loginLogo.png'))
         .width(180)
-        .height(180)
-        .backgroundColor('rgb(196, 196, 196)')
+        .aspectRatio(1)
         .margin({ bottom: 12, top: 40 })
       Text('登录您的账户')
         .fontSize(23)

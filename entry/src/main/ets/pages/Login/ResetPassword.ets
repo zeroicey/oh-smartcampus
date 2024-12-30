@@ -19,8 +19,8 @@ struct ResetPassword {
   bottomHeight: number = 0
   @StorageProp('topHeight')
   topHeight: number = 0
-  @State password: string = 'Xian20031112@'
-  @State repeatPassword: string = 'Xian20031112@'
+  @State password: string = ''
+  @State repeatPassword: string = ''
   regPassword: RegExp = new RegExp('^\\S*(?=\\S{6,})(?=\\S*\\d)(?=\\S*[A-Z])(?=\\S*[a-z])(?=\\S*[!@#$%^&*? ])\\S*$')
   dialog: CustomDialogController = new CustomDialogController({
     builder: HcLoadingDialog({ message: '请稍后...' }),

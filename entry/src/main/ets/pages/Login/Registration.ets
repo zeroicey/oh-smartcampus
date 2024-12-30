@@ -15,11 +15,11 @@ interface IRegisterParams {
 struct Registration {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
-  @State name: string = 'Chaos'
-  @State password: string = 'P@ssW0rd2024!'
-  @State repeatPassword: string = 'P@ssW0rd2024!'
-  @State email: string = '2372558841@qq.com'
-  @State emailNum: string = '123456'
+  @State name: string = ''
+  @State password: string = ''
+  @State repeatPassword: string = ''
+  @State email: string = ''
+  @State emailNum: string = ''
   regName: RegExp = new RegExp('^[a-zA-Z0-9_]{4,20}$')
   regPassword: RegExp = new RegExp('^\\S*(?=\\S{6,})(?=\\S*\\d)(?=\\S*[A-Z])(?=\\S*[a-z])(?=\\S*[!@#$%^&*? ])\\S*$')
   regEmail: RegExp =
