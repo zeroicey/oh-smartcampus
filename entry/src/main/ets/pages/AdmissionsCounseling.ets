@@ -34,11 +34,14 @@ export struct AdmissionsCounseling {
     Text(text)
       .fontSize(20)
       .fontWeight(FontWeight.Bolder)
-      .width('80%')
+      .width('60%')
       .height(30)
       .textAlign(TextAlign.Start)
       .backgroundColor(Color.Transparent)
       .borderRadius(10)
+      .maxLines(1)
+      .textOverflow({ overflow: TextOverflow.Ellipsis })
+      .backgroundColor(Color.Pink)
   }
 
   @Builder

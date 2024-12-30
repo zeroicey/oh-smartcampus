@@ -106,11 +106,12 @@ export struct NoteShareDialog {
             text: SaveDescription.SAVE_IMAGE,
             buttonType: ButtonType.Normal
           })
-            .fontColor($r('app.color.white'))
+            .fontColor(Color.White)
             .fontSize(14)
             .padding(12)
-            .backgroundColor('#B8ABEF')
+            .backgroundColor('#FFBA58EA')
             .onClick((event, result: SaveButtonOnClickResult) => {
+              promptAction.showToast({ message: result.toString() })
               if (result == SaveButtonOnClickResult.SUCCESS) {
                 this.saveImage()
               }
