@@ -51,8 +51,7 @@ struct BrushProblem {
 
   aboutToAppear(): void {
     const params = router.getParams() as IRouterParams
-    // TODO
-    this.getChapterData('1')
+    this.getChapterData(params.subjectId.toString())
   }
 
   build() {

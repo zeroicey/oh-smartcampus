@@ -97,7 +97,7 @@ export struct NoteShareDialog {
         .alignItems(HorizontalAlign.Start)
         .width(300)
         // .height(500)
-        .backgroundColor('rgb(53, 50, 66)')
+        .backgroundColor('#313035')
 
         Row() {
           // 使用安全控件
@@ -109,7 +109,7 @@ export struct NoteShareDialog {
             .fontColor($r('app.color.white'))
             .fontSize(14)
             .padding(12)
-            .backgroundColor('rgb(202, 193, 255)')
+            .backgroundColor('#B8ABEF')
             .onClick((event, result: SaveButtonOnClickResult) => {
               if (result == SaveButtonOnClickResult.SUCCESS) {
                 this.saveImage()

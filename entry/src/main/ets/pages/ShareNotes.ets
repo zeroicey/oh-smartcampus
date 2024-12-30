@@ -1,6 +1,6 @@
 import { NoteShareDialog, SNInput, SNList, SNNavBar, UserInfoDialog } from '../views/ShareNotes';
 import { promptAction, router } from '@kit.ArkUI';
-import { IPublisher, IPublisherData, User } from '../models';
+import { IPublisher, IPublisherData, User, WaterFlowType } from '../models';
 import { httpReq, logger, UserInfo } from '../commons/utils';
 import { INoteIdParams } from '../commons/components';
 import { IRouterParamsAIChat } from './TopicList';
@@ -21,6 +21,7 @@ struct ShareNotes {
   @State timeId: number = -1
   // 笔记id
   @State noteId: string = ''
+  @State flowType: WaterFlowType = WaterFlowType.circle
   UserInfoDialog = new CustomDialogController({
     builder: UserInfoDialog({ publisher: this.publisher }),
     customStyle: true,
@@ -79,9 +80,10 @@ struct ShareNotes {
   }
 
   aboutToAppear(): void {
-    // const params = router.getParams() as INoteIdParams
-    // this.getPublisherData(params)
-    // this.noteId = params.noteId
+    const params = router.getParams() as INoteIdParams
+    this.getPublisherData(params)
+    this.noteId = params.noteId
+    this.flowType = params.flowType!
   }
 
   build() {
@@ -94,7 +96,7 @@ struct ShareNotes {
           .onClick(() => {
             router.back()
           })
-        if (this.publisherData.creatorName) {
+        if (this.flowType != WaterFlowType.message) {
           this.UserTitleBuilder()
           Blank()
           if (this.user.uid != this.publisherData.creatorId) {
@@ -155,15 +157,15 @@ struct ShareNotes {
               .fontSize(14)
               .fontColor(Color.White)
               .width('100%')
-            if (this.publisherData.creatorAvatar) {
-              Row() {
+
+            Row() {
+              if (this.flowType != WaterFlowType.message) {
                 Image($rawfile('icon/aiIcon.png'))
                   .width(28)
                 Text(this.publisherData.topicName)
                   .fontSize(20)
                   .fontWeight(900)
                   .fontColor('#98F4E9')
-                  .width('100%')
                   .onClick(() => {
                     router.pushUrl({
                       url: 'pages/AIChat',
@@ -173,15 +175,16 @@ struct ShareNotes {
                       } as IRouterParamsAIChat
                     })
                   })
-                Blank()
-                Image($rawfile('icon/share.png'))
-                  .width(26)
-                  .onClick(() => {
-                    this.shareDialog.open()
-                  })
               }
-              .width('100%')
+              Blank()
+              Image($rawfile('icon/share.png'))
+                .width(26)
+                .onClick(() => {
+                  this.shareDialog.open()
+                })
             }
+            .width('100%')
+
             Divider()
               .width('100%')
               .height(2)
@@ -220,6 +223,7 @@ struct ShareNotes {
     Row({ space: 10 }) {
       Image(this.publisherData.creatorAvatar || $rawfile('other/ic_mine_avatar.svg'))
         .alt($rawfile('other/ic_mine_avatar.svg'))
+        .aspectRatio(1)
         .width(30)
         .borderRadius(25)
       Text(this.publisherData.creatorName)

@@ -17,7 +17,8 @@ interface IInCircleContentRes {
 
 // 跳转页面参数类型
 export interface INoteIdParams {
-  noteId: string
+  noteId: string,
+  flowType?: WaterFlowType
 }
 
 @Component
@@ -63,7 +64,7 @@ export struct NotesWaterFlow {
     return httpReq.request<IAllPublisherNotes>({
       url: '/note/queryBatch',
       params: {
-        circleId: flowType == WaterFlowType.circle ? this.circleId : '5',
+        circleId: flowType == WaterFlowType.circle ? this.circleId : '0',
         page: this.page,
         size: 10,
         topicId: flowType == WaterFlowType.circle ? this.topicId : '0'
@@ -148,6 +149,7 @@ export struct NotesWaterFlow {
                         url: 'pages/ShareNotes',
                         params: {
                           noteId: item.id,
+                          flowType: this.flowType
                         } as INoteIdParams
                       })
                     }

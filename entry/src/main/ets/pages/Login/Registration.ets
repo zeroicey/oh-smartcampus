@@ -55,13 +55,6 @@ struct Registration {
       promptAction.showToast({ message: this.emailNum == '' ? '验证码不正确' : '验证码格式不对' })
       return
     }
-    // TODO
-    // this.dialog.open()
-    // setTimeout(() => {
-    //   this.dialog.close()
-    //   router.back()
-    //   promptAction.showToast({ message: '注册成功！' })
-    // }, 1000)
     // 执行注册逻辑
     try {
       this.dialog.open()

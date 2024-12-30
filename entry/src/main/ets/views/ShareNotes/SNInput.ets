@@ -1,4 +1,3 @@
-
 @Component
 export struct SNInput {
   @Link isSend: boolean
@@ -6,10 +5,13 @@ export struct SNInput {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
 
+  // 欢迎使用小研书
+
   build() {
     Row({ space: 12 }) {
       TextInput({ placeholder: '请输入', text: $$this.value })
         .placeholderColor(Color.Gray)
+        .fontColor(Color.White)
         .layoutWeight(1)
       Image($rawfile('icon/send.png'))
         .width(30)
