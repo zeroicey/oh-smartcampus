@@ -38,19 +38,15 @@ struct Answer {
 
   // 根据字段或去对应题目
   async getTextSubjectData(params: IRouterParam) {
-    try {
-      this.dialog.open()
-      this.subjectList = await httpReq.request<ISubject[]>({
-        url: '/question/getQuestionByCircleContext',
-        params: {
-          topicContext: params.topicContext
-        }
-      })
-      this.item = this.subjectList[0]
-      this.dialog.close()
-    } catch (err) {
-      this.dialog.close()
-    }
+    this.dialog.open()
+    this.subjectList = await httpReq.request<ISubject[]>({
+      url: '/question/getQuestionByCircleContext',
+      params: {
+        topicContext: params.topicContext
+      }
+    })
+    this.item = this.subjectList[0]
+    this.dialog.close()
   }
 
   // 根据章节获取题目数据
