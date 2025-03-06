@@ -92,7 +92,7 @@ struct ChatHistory {
             }
             .height(100)
             .width('100%')
-            .backgroundColor('#313035')
+            .backgroundColor('#fffcf3')
             .borderRadius(25)
             .bindContextMenu(this.MyContextMenu, ResponseType.LongPress)
             .onClick(() => {
@@ -115,7 +115,7 @@ struct ChatHistory {
     .height('100%')
     .width('100%')
     .padding({ bottom: this.bottomHeight })
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
   }
 
   // axios_GotHistoryArray(): void {

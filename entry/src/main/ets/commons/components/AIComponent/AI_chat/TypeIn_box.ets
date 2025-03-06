@@ -42,7 +42,7 @@ export struct TypeIn_box {
           }
         })
     }
-    .backgroundColor('#313035')
+    .backgroundColor('#fce9a2')
     .borderRadius(30)
     .width('100%')
     .height('100%')

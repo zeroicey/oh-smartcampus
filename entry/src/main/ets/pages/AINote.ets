@@ -56,7 +56,7 @@ export struct AINote {
     .width("100%")
     .height("100%")
     .justifyContent(FlexAlign.SpaceBetween)
-    .backgroundColor('#353242')
+    .backgroundColor('#fffcf3')
   }
 
   httpGetToken_axios_beta(){

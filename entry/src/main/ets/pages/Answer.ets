@@ -194,7 +194,7 @@ struct Answer {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
     .bindSheet($$this.isShow, this.AnswerBuilder(this.item.explanation), {
       height: SheetSize.MEDIUM,
       showClose: false,
@@ -275,7 +275,7 @@ struct Answer {
       }
       .width('100%')
     }
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
 
   }
 }

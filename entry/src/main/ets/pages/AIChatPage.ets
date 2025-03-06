@@ -26,7 +26,7 @@ export struct AIChatPage {
         Column() {
           Text('AI对话')
             .fontSize(36)
-            .fontColor(Color.White)
+            .fontColor('#985e1f')
             .margin({ bottom: 6, top: 14 })
           if (this.isSkeleton) {
             HcSkeletonGrid()
@@ -52,11 +52,11 @@ export struct AIChatPage {
           right: 20,
           bottom: 20,
         })
-        .backgroundColor('#16151A')
+        .backgroundColor('#fffcf3')
         .borderRadius({ bottomLeft: 50, bottomRight: 50 })
 
         Column() {
-          Image($rawfile('other/dragonLogo.png'))
+          Image($rawfile('other/dragonLogo_L.png'))
             .height('100%')
         }
         .width('100%')
@@ -65,6 +65,6 @@ export struct AIChatPage {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor('#575470')
+    .backgroundColor('#fff0cc')
   }
 }

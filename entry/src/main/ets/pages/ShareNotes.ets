@@ -120,10 +120,10 @@ struct ShareNotes {
         Column() {
           // 轮播图
           Swiper() {
-            ForEach(this.publisherData.pictures || [$rawfile('other/defaultNote.png')], (item: string) => {
+            ForEach(this.publisherData.pictures || [$rawfile('icon/A.png')], (item: string) => {
               Column() {
                 Image(item)
-                  .alt($rawfile('other/defaultNote.png'))
+                  .alt($rawfile('icon/A.png'))
                   .width('100%')
                   .height(390)
                   .borderRadius(20)
@@ -150,12 +150,12 @@ struct ShareNotes {
             Text(this.publisherData.title)
               .fontSize(24)
               .fontWeight(900)
-              .fontColor(Color.White)
+              .fontColor('#c77a28')
               .width('100%')
 
             Text(this.publisherData.word)
               .fontSize(14)
-              .fontColor(Color.White)
+              .fontColor('#c77a28')
               .width('100%')
 
             Row() {
@@ -188,7 +188,7 @@ struct ShareNotes {
             Divider()
               .width('100%')
               .height(2)
-              .color('rgb(136, 136, 136)')
+              .color(Color.Pink)
               .width('100%')
               .margin({ top: 10 })
           }
@@ -215,7 +215,7 @@ struct ShareNotes {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
   }
 
   @Builder

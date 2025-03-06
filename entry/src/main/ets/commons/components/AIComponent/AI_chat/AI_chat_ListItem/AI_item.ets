@@ -39,7 +39,7 @@ export struct AI_Item {
   })
   build() {
     Row() {
-      Image($rawfile('other/Mock/Enpty.png'))
+      Image($rawfile('icon/Mock_icon.png'))
         .backgroundColor(Color.White)
         .objectFit(ImageFit.Fill)
         .width(30)
@@ -53,60 +53,60 @@ export struct AI_Item {
 
       Column() {
         lvMarkdownIn({ text: this.currentTxt })
-        if (this.extraMessageflag == 1) {
-          Column({space:5}) {
-            Divider()
-              .width('100%')
-              .borderWidth(0.3)
-              .borderColor('#353341')
-            Row(){
-              Blank().width(10)
-              Text('查看出处')
-                .fontSize(15)
-                .fontWeight(FontWeight.Bold)
-                .fontColor(Color.White)
-            }
-            .width('100%')
-            .height(25)
-            .borderRadius(20)
-            .backgroundColor('#9685ff')
-            .onClick(()=>{
-              this.controller.open()
-            })
-            .align(Alignment.Start)
-            Row(){
-              Row() {
-                Blank().width(10)
-                Image($rawfile('icon/GoAwnser.png'))
-                  .height(20)
-                  .width(15)
-                Blank().width(5)
-                Text('关于' + this.AITopic + '的题库，快去作答吧！')
-                  .fontSize(13)
-                  .fontColor(Color.White)
-                  .align(Alignment.Center)
-                  .fontWeight(FontWeight.Bold)
-                  .width('90%')
-                  .maxLines(1)
-                  .textOverflow({ overflow: TextOverflow.Ellipsis })
-                  .onClick(() => {
-                    router.pushUrl({
-                      url: 'pages/Answer',
-                      params: {
-                        topicContext: this.AITopic
-                      }
-                    })
-                  })
-              }
-              .align(Alignment.Center)
-              .width('100%')
-            }
-            .height(30)
-            .backgroundColor('#736f8a')
-            .width('100%')
-            .borderRadius(20)
-          }
-        }
+        // if (this.extraMessageflag == 1) {
+        //   Column({space:5}) {
+        //     Divider()
+        //       .width('100%')
+        //       .borderWidth(0.3)
+        //       .borderColor('#353341')
+        //     Row(){
+        //       Blank().width(10)
+        //       Text('查看出处')
+        //         .fontSize(15)
+        //         .fontWeight(FontWeight.Bold)
+        //         .fontColor(Color.White)
+        //     }
+        //     .width('100%')
+        //     .height(25)
+        //     .borderRadius(20)
+        //     .backgroundColor(Color.White)
+        //     .onClick(()=>{
+        //       this.controller.open()
+        //     })
+        //     .align(Alignment.Start)
+        //     Row(){
+        //       Row() {
+        //         Blank().width(10)
+        //         Image($rawfile('icon/GoAwnser.png'))
+        //           .height(20)
+        //           .width(15)
+        //         Blank().width(5)
+        //         Text('关于' + this.AITopic + '的题库，快去作答吧！')
+        //           .fontSize(13)
+        //           .fontColor(Color.White)
+        //           .align(Alignment.Center)
+        //           .fontWeight(FontWeight.Bold)
+        //           .width('90%')
+        //           .maxLines(1)
+        //           .textOverflow({ overflow: TextOverflow.Ellipsis })
+        //           .onClick(() => {
+        //             router.pushUrl({
+        //               url: 'pages/Answer',
+        //               params: {
+        //                 topicContext: this.AITopic
+        //               }
+        //             })
+        //           })
+        //       }
+        //       .align(Alignment.Center)
+        //       .width('100%')
+        //     }
+        //     .height(30)
+        //     .backgroundColor('#736f8a')
+        //     .width('100%')
+        //     .borderRadius(20)
+        //   }
+        // }
       }
       .width('80%')
       .height('auto')

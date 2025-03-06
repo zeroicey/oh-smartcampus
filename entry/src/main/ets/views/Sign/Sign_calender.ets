@@ -19,7 +19,7 @@ export struct Sign_calender{
           type: HmCalendarType.MONTH,
           selectedDays: this.signArr,
           showToolBar: true,
-          color:'#ff9996',
+          color:'#985e1f',
           rowsAuto: true,
           weeks: ['Su','Mo','Tu','We','Th','Fr','Sa']
         })
@@ -27,7 +27,7 @@ export struct Sign_calender{
       }
     }
     .scrollBar(BarState.Off)
-    .backgroundColor('#b7b2ff')
+    .backgroundColor('#fbe692')
     .borderRadius(25)
     .width('85%')
     .height('25%')
@@ -35,7 +35,7 @@ export struct Sign_calender{
   httpGotSignMonthHistory_axios(){
     axios({
       method: 'GET',
-      url: ''+'/dayLog/find',//get
+      url: 'http://hellooracle.free.idcfengye.com'+'/dayLog/find',//get
       headers:{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ',//token

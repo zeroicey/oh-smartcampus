@@ -10,26 +10,25 @@ export struct HomePage_hotCircle {
   @Prop token: string = ''
   @State CircleArr: circleItem[] = []
 
-
   aboutToAppear(): void {
     this.httpGetCircle_axios(this.token)
   }
 
   build() {
     Stack() {
-      Image($rawfile('icon/hotCircleBox.png'))
+      Image($rawfile('icon/hotCircleBox_L.png'))
         .width('100%')
         .margin({ top: 15})
 
       Column({ space: 5 }) { //hot circle
         Text('热门圈子')
-          .fontColor(Color.White)
+          .fontColor('#985e1f')//font color
           .fontSize(20)
           .fontWeight(FontWeight.Bolder)
           .width('100%')
         Blank().height(20)
         Row() {
-          if (this.CircleArr.length == 0) {Text('热门圈子出问题了？是不是没网?( \'ㅅ\' )').fontColor(Color.White)}
+          if (this.CircleArr.length == 0) {Text('热门圈子出问题了？是不是没网?( \'ㅅ\' )').fontColor('#985e1f')}
           Blank().width(10)
           ForEach(this.CircleArr, (item: circleItem) => {
             Column() {
@@ -64,7 +63,7 @@ export struct HomePage_hotCircle {
   httpGetCircle_axios(token:string){
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn'+'/circle/findAll',//reeor here
+      url: 'http://hellooracle.free.idcfengye.com'+'/circle/findAll',//reeor here
       headers: {
         'Authorization': 'Bearer '+token
       }

@@ -65,7 +65,7 @@ export struct SNNavBar {
             }
           })
         Text(`${this.publisherData.likeTotal}`)
-          .fontColor(this.publisherData.isLike ? 'rgb(255, 153, 150)' : Color.White)
+          .fontColor(this.publisherData.isLike ? 'rgb(255, 153, 150)' : '#c77a28')
           .fontSize(18)
           .fontWeight(900)
       }
@@ -83,7 +83,7 @@ export struct SNNavBar {
             }
           })
         Text(`${this.publisherData.collectTotal}`)
-          .fontColor(this.publisherData.isCollect ? 'rgb(242, 245, 95)' : Color.White)
+          .fontColor(this.publisherData.isCollect ? '#ff8a8b' : '#c77a28')
           .fontSize(18)
           .fontWeight(900)
       }
@@ -104,7 +104,7 @@ export struct SNNavBar {
     }
     .width('100%')
     .borderRadius(40)
-    .backgroundColor('#313035')
+    .backgroundColor('#fee170')
     .justifyContent(FlexAlign.SpaceAround)
     .padding({
       left: 50,

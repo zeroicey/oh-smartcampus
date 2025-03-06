@@ -49,7 +49,7 @@ export struct InputComponent {
     Column({ space: 15 }) {
       Text() {
         Span(this.title)
-          .fontColor(Color.White)
+          .fontColor('#985e1f')
           .fontWeight(600)
         Span('*')
           .fontColor('rgb(242, 111, 56)')
@@ -58,13 +58,13 @@ export struct InputComponent {
 
       Stack() {
         TextInput({ placeholder: this.placeholder, text: $$this.value })
-          .fontColor(Color.White)
+          .fontColor('#985e1f')
           .maxLength(100)
-          .placeholderColor('#313035')
+          .placeholderColor('#fee170')
           .placeholderFont({ weight: 700 })
           .height(50)
           .width('100%')
-          .backgroundColor('#313035')
+          .backgroundColor('#fee170')
           .padding({ left: 24 })
           .type(this.type == ITextType.password ? InputType.Password : InputType.Normal)
           .passwordIcon(this.type == ITextType.password ?

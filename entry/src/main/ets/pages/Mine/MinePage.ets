@@ -6,7 +6,7 @@ import { IInformation, User, WaterFlowType } from '../../models'
 import { Avatar, NoteInfomation, NoteServe } from '../../views/MinePage'
 import { emitter } from '@kit.BasicServicesKit'
 import { LOGIN_EVENT } from '../../commons/constants'
-
+import { IRouterParamsAIChat } from 'ets/pages/TopicList'
 @Component
 export struct MinePage {
   @StorageProp('bottomHeight')
@@ -116,28 +116,43 @@ export struct MinePage {
               BarChart({
                 dataValue: this.BarArr
               })
-              Button('清除用户数据')
-                .onClick(() => {
-                  auth.setUser({} as User)
-                })
-              Button('模拟token失效')
-                .onClick(() => {
-                  this.user.token += 'xx'
-                  auth.setUser(this.user)
-                })
-              Button('跳转刷题章节')
-                .onClick(() => {
-                  router.pushUrl({
-                    url: 'pages/BrushProblem'
-                  })
-                })
+              // Button('清除用户数据')
+              //   .onClick(() => {
+              //     auth.setUser({} as User)
+              //   })
+              // Button('模拟token失效')
+              //   .onClick(() => {
+              //     this.user.token += 'xx'
+              //     auth.setUser(this.user)
+              //   })
+              // Button('跳转刷题章节')
+              //   .onClick(() => {
+              //     router.pushUrl({
+              //       url: 'pages/BrushProblem'
+              //     })
+              //   })
+
+
+
+              // debug
+              // Button('jump to AI_Chat')
+              //   .backgroundColor(Color.Black)
+              //   .onClick(() => {
+              //     auth.CheckAuth({
+              //       url: 'pages/AIChat',
+              //       params: {
+              //         topic: '1',
+              //         circleId: '1'
+              //       } as IRouterParamsAIChat
+              //     })
+              //   })
             }
             .backgroundColor(Color.White)
             .width('100%')
             .padding({ left: 30, right: 30, top: 58 })
             .borderRadius({ topLeft: 50, topRight: 50 })
 
-            Image($rawfile('other/analyzeBg.png'))
+            Image($rawfile('other/analyzeBg_L.png'))
               .width(123)
           }
 
@@ -195,6 +210,6 @@ export struct MinePage {
       top: 30,
       bottom: this.bottomHeight
     })
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
   }
 }

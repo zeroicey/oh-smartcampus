@@ -16,9 +16,9 @@ export struct NoteInfomation {
 
   build() {
     Row() {
-      this.noteInfoBuilder({ count: this.item.likeTotal, title: '获赞数', icon: $rawfile('icon/mineLike.png') })
-      this.noteInfoBuilder({ count: this.item.brightTotal, title: '获亮数', icon: $rawfile('icon/mineLight.png') })
-      this.noteInfoBuilder({ count: this.item.noteTotal, title: '笔记数', icon: $rawfile('icon/mineNote.png') })
+      this.noteInfoBuilder({ count: this.item.likeTotal, title: '获赞数', icon: $rawfile('icon/mineLike_L.png') })
+      this.noteInfoBuilder({ count: this.item.brightTotal, title: '获亮数', icon: $rawfile('icon/mineLight_L.png') })
+      this.noteInfoBuilder({ count: this.item.noteTotal, title: '笔记数', icon: $rawfile('icon/mineNote_L.png') })
     }
     .width('100%')
     .justifyContent(FlexAlign.SpaceBetween)
@@ -41,11 +41,14 @@ export struct NoteInfomation {
       .width(100)
       .height(120)
       .borderRadius(30)
-      .backgroundColor(Color.Pink)
+      //.backgroundColor(Color.Pink)
+      .backgroundColor('#fbe690')
       .justifyContent(FlexAlign.End)
-      .linearGradient({
-        colors: [['rgb(241, 232, 255)', -0.07], ['rgb(164, 154, 223)', 0.49], ['rgb(65, 49, 158)', 1.39]]
-      })
+      .borderColor('#c77a28')
+      .borderWidth(4)
+      // .linearGradient({
+      //   colors: [['rgb(241, 232, 255)', -0.07], ['rgb(164, 154, 223)', 0.49], ['rgb(65, 49, 158)', 1.39]]
+      // })
 
       Row() {
         Image(item.icon)
@@ -53,7 +56,9 @@ export struct NoteInfomation {
       }
       .width(50)
       .height(50)
-      .backgroundColor('rgb(53, 50, 66)')
+      .borderColor('#c77a28')
+      .borderWidth(4)
+      .backgroundColor('#f5cb68')
       .borderRadius(25)
       .justifyContent(FlexAlign.Center)
       .translate({ y: '-50%' })

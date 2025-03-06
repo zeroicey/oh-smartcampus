@@ -1,6 +1,25 @@
 {
   "color": [
     {
+      "name": "background",
+      "value": "#15161a"
+    },
+    {
+      "name": "background_typeBox",
+      "value": "#15161a"
+    },
+    {
+      "name": "font_title",
+      "value": "#ffffff"
+    },
+    {
+      "name": "font_content",
+      "value": "#ffffff"
+    },
+
+
+
+    {
       "name": "start_window_background",
       "value": "#16151A"
     },

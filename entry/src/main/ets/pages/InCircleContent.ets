@@ -95,7 +95,7 @@ export struct InCircleContent {
       top: this.topHeight + 10,
       bottom: this.bottomHeight
     })
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
   }
 
   // 自定义标题样式

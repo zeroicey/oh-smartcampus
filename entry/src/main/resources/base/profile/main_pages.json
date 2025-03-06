@@ -20,6 +20,8 @@
     "pages/Note",
     "pages/TopicList",
     "pages/HistoryDetail",
-    "pages/reEdit"
+    "pages/reEdit",
+    "pages/HardwareControler",
+    "pages/Deepseek"
   ]
 }

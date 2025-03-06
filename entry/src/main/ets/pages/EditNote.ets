@@ -115,7 +115,7 @@ export struct EditNote {
           Row() {
             Text('<  END')
               .width('100%')
-              .fontColor(Color.White)
+              .fontColor('#c77a28')
               .textAlign(TextAlign.End)
           }
         }
@@ -144,6 +144,6 @@ export struct EditNote {
     .width('100%')
     .height('100%')
     .padding({ bottom: this.bottomHeight })
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
   }
 }

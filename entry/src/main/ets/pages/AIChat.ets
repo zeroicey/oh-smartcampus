@@ -142,7 +142,7 @@ export struct Chat {
                     Blank().width(10)
                     SpinKit({
                       spinType: SpinType.spinF,
-                      spinColor: Color.White,
+                      spinColor: '#c77a28',
                       spinSize: 25,
                     })
                   }
@@ -215,7 +215,7 @@ export struct Chat {
       .height("100%")
       .padding({ bottom: this.bottomHeight })
       .justifyContent(FlexAlign.SpaceBetween)
-      .backgroundColor('#16151a')
+      .backgroundColor('#fffcf3')
       .transition( //入场
         TransitionEffect.translate({ y: 1000 })
           .animation({ curve: curves.springMotion(0.6, 0.8) })
@@ -227,7 +227,7 @@ export struct Chat {
     try {
       let response: AxiosResponse = await axios({
         method: 'GET',
-        url: `https://1fd33097.r5.cpolar.cn/` + `topic/findById/${id}`,
+        url: `http://hellooracle.free.idcfengye.com/` + `topic/findById/${id}`,
         headers: {
           'Authorization': 'Bearer ' + token
         },
@@ -266,7 +266,7 @@ export struct Chat {
   async http_keepChatData_axios(token: string) {
     axios({
       method: 'POST',
-      url: `https://1fd33097.r5.cpolar.cn/` + `ai/save`,
+      url: `http://hellooracle.free.idcfengye.com/` + `ai/save`,
       data: {
         uid: this.user.uid,
         topicId: this.firstMessage.id,

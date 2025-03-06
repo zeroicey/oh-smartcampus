@@ -16,7 +16,7 @@ export struct CommentReply {
       Column() {
         Row() {
           Text('用户002')
-            .fontColor(Color.White)
+            .fontColor('#c77a28')
             .fontWeight(900)
           Blank()
           if (this.showRightIcon) {
@@ -26,7 +26,7 @@ export struct CommentReply {
               Text('24')
                 .fontSize(14)
                 .fontWeight(900)
-                .fontColor('rgb(177, 177, 177)')
+                .fontColor('#c77a28')
             }
             .onClick(() => {
               this.praiseFlag = !this.praiseFlag
@@ -40,7 +40,7 @@ export struct CommentReply {
           .width('100%')
           .margin({ bottom: 18 })
           .fontSize(14)
-          .fontColor('rgb(241, 241, 241)')
+          .fontColor(Color.Black)
       }
       .layoutWeight(1)
     }

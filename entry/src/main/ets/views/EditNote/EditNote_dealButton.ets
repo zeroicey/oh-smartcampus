@@ -70,7 +70,7 @@ export struct EditNote_dealButton{
       }
     }
     .height('10%')
-    .backgroundColor('#3b3b3b')
+    .backgroundColor('#fee170')
     .borderRadius(30)
     .width('100%')
   }
@@ -79,7 +79,7 @@ export struct EditNote_dealButton{
 function httpKeepNote_axios(imgArr:string[],title:string,word:string,uid:string,topicId:string,circleId:string,token:string){
   axios({
     method: 'POST',
-    url: "https://1fd33097.r5.cpolar.cn"+"/note/save_note",
+    url: "http://hellooracle.free.idcfengye.com"+"/note/save_note",
     data: {
       circle_id: circleId,
       id: getNoteId(),
@@ -108,7 +108,7 @@ function httpKeepNote_axios(imgArr:string[],title:string,word:string,uid:string,
 function httpPublishNote_axios(EditData:SendNoteData,token:string,uid:string){
   axios({
     method: 'POST',
-    url: "https://1fd33097.r5.cpolar.cn"+"/note/sendNote",
+    url: "http://hellooracle.free.idcfengye.com"+"/note/sendNote",
     data: EditData,
     headers: {
       'uid': uid,

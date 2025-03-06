@@ -32,7 +32,7 @@ export struct HomePage_head {
         .width(50)
         .borderRadius(15)
         .borderWidth(1)
-        .borderColor(Color.White)
+        .borderColor('#985e1f')//notice border
         .onClick(() => {
           auth.CheckAuth(() => {
             this.isShowSideBar = !this.isShowSideBar
@@ -43,13 +43,13 @@ export struct HomePage_head {
         Text('Hello,' + this.userName)
           .fontSize(25)
           .fontWeight(FontWeight.Bolder)
-          .fontColor(Color.White)
+          .fontColor('#c77a28')//font color
           .textAlign(TextAlign.Start)
           .width('100%')
         Text(this.userText)
           .fontSize(15)
           .fontWeight(FontWeight.Bolder)
-          .fontColor(Color.White)
+          .fontColor('#c77a28')
           .textAlign(TextAlign.Start)
           .width('100%')
       }

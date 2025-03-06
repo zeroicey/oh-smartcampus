@@ -26,13 +26,13 @@ export struct KnowledgeSpherePage {
         Column() {
           Text('知识圈')
             .fontSize(36)
-            .fontColor(Color.White)
+            .fontColor('#985e1f')
             .margin({ bottom: 6, top: 14 })
           if (this.isSkeleton) {
             HcSkeletonGrid()
           } else {
             Stack({ alignContent: Alignment.TopEnd }) {
-              Image($rawfile('other/dragonLogo.png'))
+              Image($rawfile('other/dragonLogo_L.png'))
                 .width(58)
                 .translate({ y: '-80%' })
               CircleGrid({
@@ -55,14 +55,14 @@ export struct KnowledgeSpherePage {
           right: 20,
           bottom: 20,
         })
-        .backgroundColor('#16151A')
+        .backgroundColor('#fffcf3')
         .borderRadius({ bottomLeft: 50, bottomRight: 50 })
 
         Column() {
           Text('今日资讯')
             .fontSize(18)
             .fontWeight(500)
-            .fontColor(Color.White)
+            .fontColor('#985e1f')
             .margin({ bottom: 15 })
             .width('100%')
           NotesWaterFlow({ flowType: WaterFlowType.message })
@@ -76,7 +76,7 @@ export struct KnowledgeSpherePage {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#575470')
+    .backgroundColor('#fff0cc')
     .scrollBar(BarState.Off)
   }
 }

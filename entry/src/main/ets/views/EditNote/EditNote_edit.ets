@@ -23,10 +23,10 @@ export struct EditNote_edit{
         .width('100%')
         .height('auto')
         .fontSize(25)
-        .fontColor(Color.White)
+        .fontColor('#c77a28')
         .fontWeight(FontWeight.Bolder)
         .backgroundColor(Color.Transparent)
-        .placeholderColor(Color.White)
+        .placeholderColor('#c77a28')
         .onChange((text: string) => {
           this.EditData.title = text
         })
@@ -35,10 +35,10 @@ export struct EditNote_edit{
         .width('100%')
         .height('auto')
         .fontSize(25)
-        .fontColor(Color.White)
+        .fontColor('#c77a28')
         .fontWeight(FontWeight.Bolder)
         .backgroundColor(Color.Transparent)
-        .placeholderColor(Color.White)
+        .placeholderColor('#c77a28')
         .onChange((text: string) => {
           this.EditData.word = text
         })
@@ -64,14 +64,14 @@ export struct EditNote_edit{
 
 
       Text(this.DATE)//date
-        .fontColor(Color.White)
+        .fontColor('#c77a28')
         .fontSize(15)
         .fontWeight(FontWeight.Bold)
         .width('100%')
         .textAlign(TextAlign.End)
 
       Text(this.UserName)//name
-        .fontColor(Color.White)
+        .fontColor('#c77a28')
         .fontSize(15)
         .fontWeight(FontWeight.Bold)
         .width('100%')
@@ -82,7 +82,7 @@ export struct EditNote_edit{
   httpGettopicAiDetil_axios(id:string){
     axios({
       method: 'GET',
-      url: "https://1fd33097.r5.cpolar.cn"+"/topic/findById/{id}",
+      url: "http://hellooracle.free.idcfengye.com"+"/topic/findById/{id}",
       headers: {
         'Content-Type': 'application/json',
       }

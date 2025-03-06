@@ -27,6 +27,6 @@ export struct SNInput {
       bottom: this.bottomHeight
     })
     .borderRadius(40)
-    .backgroundColor('#313035')
+    .backgroundColor('#fee170')
   }
 }
