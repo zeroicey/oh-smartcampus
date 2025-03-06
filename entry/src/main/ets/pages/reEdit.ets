@@ -138,7 +138,7 @@ export struct ReEdit{
   build() {
     Column() {
       CustomNavBar({
-        title: '编辑笔记',
+        title: '重新编辑发布笔记',
         showRightIcon: false,
       })
       Scroll() {
@@ -187,12 +187,12 @@ export struct ReEdit{
     .width('100%')
     .height('100%')
     .padding({ bottom: this.bottomHeight })
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
   }
   async httpGotDetial_axios(): Promise<void> {
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn' + '/note/get_save_note_one',
+      url: 'http://hellooracle.free.idcfengye.com' + '/note/get_save_note_one',
       headers: {
         'Authorization': 'Bearer ' + this.user.token
       },

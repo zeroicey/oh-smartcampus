@@ -33,7 +33,7 @@ export struct AIChatNavBar {
         .fontSize(24)
         .fontWeight(900)
         .width('60%')
-        .fontColor(Color.White)
+        .fontColor('#985e1f')
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
       Blank()

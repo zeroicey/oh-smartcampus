@@ -59,7 +59,7 @@ export struct AdmissionsCounseling {
       .fontSize(20)
       .fontWeight(FontWeight.Bolder)
       .textAlign(TextAlign.Center)
-      .backgroundColor('#817afc')
+      .backgroundColor('#985e1f')
       .borderRadius(10)
   }
 
@@ -74,7 +74,7 @@ export struct AdmissionsCounseling {
         .fontColor(Color.White)
         .fontWeight(FontWeight.Bolder)
         .textAlign(TextAlign.Center)
-        .backgroundColor('#817afc')
+        .backgroundColor('#985e1f')
         .borderRadius(10)
     }
   }
@@ -148,7 +148,7 @@ export struct AdmissionsCounseling {
             }
             .height(35)
             .borderRadius(15)
-            .backgroundColor('#313035')
+            .backgroundColor('#fffcf3')
             .width('80%')
 
           }
@@ -188,7 +188,7 @@ export struct AdmissionsCounseling {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor('#15161a')
+    .backgroundColor('#fffcf3')
     .padding({ bottom: this.bottomHeight })
   }
 

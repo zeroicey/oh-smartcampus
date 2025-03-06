@@ -73,19 +73,19 @@ struct Sign {
         })
       } else if (this.clickFlag == 4) {
         Blank().height(0).onAppear(() => {
-          promptAction.showToast({ message: "网络错误，打卡失败", duration: 2000 })
+          //promptAction.showToast({ message: "网络错误，打卡失败", duration: 2000 })
         })
       }
     }
     .height('160%')
     .width('100%')
-    .backgroundColor('#16151A')
+    .backgroundColor('#f7f0dd')
   }
 
   httpSignData_axios(uid: string, token: string) { //每日打卡
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn' + '/dayLog/find',
+      url: 'http://hellooracle.free.idcfengye.com' + '/dayLog/find',
       params: {
         'date': time_now()
       },
@@ -105,7 +105,7 @@ struct Sign {
   httpSignContinuousSignMonthDays_axios() { //获取月连续签到的天数
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn' + '/taskList/getMDay', //get
+      url: 'http://hellooracle.free.idcfengye.com' + '/taskList/getMDay', //get
       headers: {
         'Authorization': 'Bearer ' + this.user.token, //token
         'uid': this.user.uid
@@ -122,7 +122,7 @@ struct Sign {
   httpSignContinuousSignAllDays_axios() { //获取总连续签到的天数
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn' + '/taskList/getDay', //get
+      url: 'http://hellooracle.free.idcfengye.com' + '/taskList/getDay', //get
       headers: {
         'Authorization': 'Bearer ' + this.user.token, //token
         'uid': this.user.uid

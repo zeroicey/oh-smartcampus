@@ -35,7 +35,7 @@ export struct AINote_content {
                 Column() {
                   Blank().height('45%')
                   Text('不知道什么原因，\n生成图片的ai罢工了(ó﹏ò｡)')
-                    .fontColor(Color.White)
+                    .fontColor('#c77a28')
                     .fontSize(20)
                     .width('100%')
                 }
@@ -64,7 +64,7 @@ export struct AINote_content {
             .textAlign(TextAlign.Start)
             .fontWeight(FontWeight.Bold)
             .fontColor(Color.White)
-          lvMarkdownIn({ text: this.Text})
+          lvMarkdownIn({ text: this.Text })
           Blank().height(25)
           Row() {
             Image($rawfile('icon/JumpToAI.png'))

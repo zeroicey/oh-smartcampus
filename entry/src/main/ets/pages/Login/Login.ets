@@ -90,7 +90,7 @@ struct Login {
 
   build() {
     Column() {
-      Image($rawfile('other/loginLogo.png'))
+      Image($rawfile('icon/Mock_icon.png'))
         .width(180)
         .aspectRatio(1)
         .margin({ bottom: 12, top: 40 })
@@ -150,7 +150,7 @@ struct Login {
             .fontColor(Color.White)
         }
       }
-      .backgroundColor('rgb(141, 135, 242)')
+      .backgroundColor('#985e1f')
       .width('90%')
       .height(50)
       .margin({ bottom: 5 })
@@ -176,7 +176,7 @@ struct Login {
           })
         Text('已阅读并同意隐私协议和隐私政策')
           .fontWeight(600)
-          .fontColor(Color.White)
+          .fontColor('#985e1f')
           .fontSize(14)
       }
       .width('100%')
@@ -184,7 +184,7 @@ struct Login {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
     .padding({
       left: 45,
       right: 45,

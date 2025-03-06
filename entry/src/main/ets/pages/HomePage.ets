@@ -7,7 +7,7 @@ import {
     HomePage_InfFastLook,
     HomePage_sign
 } from '../views/HomePage';
-import { router } from '@kit.ArkUI';
+import { promptAction, router } from '@kit.ArkUI';
 import { circleItem, GotCircle } from '../models/tempModel/Interface/GotCircle';
 import { NoteEditPropmtType } from '../models/tempModel/Interface/PropmtInterfaces';
 import axios, { AxiosResponse } from '@ohos/axios';
@@ -55,9 +55,9 @@ export struct HomePage {
   SideBarButton(text: string) {
     Text('    ' + text)
       .width('80%')
-      .fontColor(Color.White)
+      .fontColor('#985e1f')
       .height(45)
-      .backgroundColor('#5e5e5e')
+      .backgroundColor('#fee170')
       .borderRadius(20)
       .margin({ right: 30 })
 
@@ -68,7 +68,7 @@ export struct HomePage {
     Blank().height(5)
     Row() {
       Text(' ' + text)
-        .fontColor(Color.White)
+        .fontColor('#985e1f')//font color
         .width('60%')
 
       Blank().width('30%')
@@ -87,7 +87,7 @@ export struct HomePage {
         .width(45)
         .borderRadius(15)
         .borderWidth(1)
-        .borderColor(Color.White)
+        .borderColor('#985e1f')
         .onClick(() => {
           this.isShowSideBar = !this.isShowSideBar
           this.sidebar_Animation()
@@ -96,13 +96,13 @@ export struct HomePage {
         Text('Hello,' + this.user.name)
           .fontSize(20)
           .fontWeight(FontWeight.Bolder)
-          .fontColor(Color.White)
+          .fontColor('#985e1f')
           .textAlign(TextAlign.Start)
           .width('100%')
         Text(this.user.introduction)
           .fontSize(12)
           .fontWeight(FontWeight.Bolder)
-          .fontColor(Color.White)
+          .fontColor('#985e1f')
           .textAlign(TextAlign.Start)
           .width('100%')
       }
@@ -177,6 +177,57 @@ export struct HomePage {
               token: this.user.token
             })
 
+            Row(){
+              Column().width('65%')
+              Button('硬件操控 >')//debug
+                .width("35%")
+                .backgroundColor('#985e1f')
+                .type(ButtonType.Normal)
+                .align(Alignment.End)
+                .borderRadius({
+                  topLeft:20,
+                  bottomLeft:20
+                })
+                .onClick(() => {
+                  router.pushUrl({
+                    url: 'pages/HardwareControler'
+                  })
+                })
+            }
+            Row(){
+              Button('和 小智 对话 >')
+                .backgroundColor('#985e1f')
+                .type(ButtonType.Normal)
+                .width('45%')
+                .borderRadius({
+                  topLeft: 20,
+                  bottomLeft: 20,
+                  topRight:20,
+                  bottomRight:20
+                })
+                .onClick(() => {
+                  promptAction.showToast({message:'小智已打开'})
+                })
+                Column().width('10%')
+              Button('和 Deepseek 对话 >')
+                .backgroundColor('#985e1f')
+                .type(ButtonType.Normal)
+                .width('45%')
+                .borderRadius({
+                  topLeft:20,
+                  bottomLeft:20
+                })
+                .onClick(() => {
+                  router.pushUrl({
+                    url: 'pages/Deepseek'
+                  })
+                })
+
+              Row() {
+                Column().width('55%')
+
+              }
+            }
           }
           .width('90%')
         }
@@ -240,11 +291,11 @@ export struct HomePage {
 
           Blank().height(0)
           Stack() {
-            Image($rawfile('icon/GotoUserCenter.png'))
-              .width('50%')
-              .height(30)
-              .margin({ right: 90 })
-            Text('      个人中心')
+            // Image($rawfile('icon/GotoUserCenter.png'))
+            //   .width('50%')
+            //   .height(30)
+            //   .margin({ right: 90 })
+            Text('   个人中心   ')
               .fontSize(20)
               .fontColor(Color.White)
               .fontWeight(FontWeight.Bolder)
@@ -252,13 +303,16 @@ export struct HomePage {
               .height(30)
               .width('100%')
           }
+          .backgroundColor('#985e1f')
+          .borderRadius(20)
+          .width('50%')
           .onClick(() => {
             this.changIndexMine(3)
           })
         }
         .height('100%')
         .width(this.sideBarWidth)
-        .backgroundImage($rawfile('other/card/SideBar.png'))
+        .backgroundImage($rawfile('other/card/SideBar_L.png'))
         .backgroundImageSize(ImageSize.Contain)
         .backgroundImagePosition(Alignment.Start)
 
@@ -282,7 +336,7 @@ export struct HomePage {
   httpGetCircle_axios(token: string) {
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn' + '/circle/findAll',
+      url: 'http://hellooracle.free.idcfengye.com' + '/circle/findAll',
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -299,11 +353,11 @@ export struct HomePage {
 function colorDraw(arr: Array<week>) {
   for (let i = 0; i < 7; i++) {
     if (arr[i].isToday) {
-      arr[i].color = '#8d87f2'
+      arr[i].color = '#c77a28'
     } else if (arr[i].isSignned) {
-      arr[i].color = '#cac7ff'
+      arr[i].color = '#c77a28'
     } else {
-      arr[i].color = '#ffffff'
+      arr[i].color = '#fbe690'
     }
   }
 

@@ -18,7 +18,7 @@ export struct Avatar {
           Text(this.user.token ? 'Hi~' + this.user.name : '立即登录')
             .fontSize(23)
             .fontWeight(900)
-            .fontColor(Color.White)
+            .fontColor('#c77a28')
             .onClick(() => {
               if (!this.user.token) {
                 router.pushUrl({
@@ -29,10 +29,10 @@ export struct Avatar {
           if (this.user.token) {
             Row({ space: 5 }) {
               Text(`学时:${this.item.studyTime}h`)
-                .fontColor(Color.White)
+                .fontColor('#c77a28')
                 .fontSize(12)
               Text(`签到:${this.item.attendance}天`)
-                .fontColor(Color.White)
+                .fontColor('#c77a28')
                 .fontSize(12)
             }
           }
@@ -51,7 +51,7 @@ export struct Avatar {
           .height(55)
           .borderRadius(40)
           .translate({ x: 10 })
-          .backgroundColor('#16151A')
+          .backgroundColor('#fffcf3')
           .justifyContent(FlexAlign.Center)
           .zIndex(1)
 
@@ -61,7 +61,7 @@ export struct Avatar {
           }
           .width(50)
           .height(50)
-          .backgroundColor('rgb(112, 111, 116)')
+          .backgroundColor('#fbe692')
           .justifyContent(FlexAlign.Center)
           .borderRadius(25)
         }
@@ -79,7 +79,7 @@ export struct Avatar {
       Text(this.user.introduction)
         .fontSize(20)
         .fontWeight(700)
-        .fontColor(Color.White)
+        .fontColor('#c77a28')
         .width('100%')
     }
     .width('100%')

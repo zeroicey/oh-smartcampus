@@ -179,7 +179,7 @@ export struct HmCalendar {
   }
 
   onUpdateData() {
-    this.items = this.genData()
+    //this.items = this.genData()
   }
 
   @Builder

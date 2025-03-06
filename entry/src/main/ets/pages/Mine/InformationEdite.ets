@@ -160,7 +160,7 @@ export struct InformationEdite {
             Divider()
               .width('100%')
               .height(2)
-              .backgroundColor('rgb(171, 171, 171)')
+              .backgroundColor('#985e1f')
               .margin({ bottom: 15 })
 
             List({ space: 15 }) {
@@ -184,7 +184,7 @@ export struct InformationEdite {
                 Column({ space: 15 }) {
                   Text() {
                     Span('生日')
-                      .fontColor(Color.White)
+                      .fontColor('#985e1f')
                       .fontWeight(600)
                     Span('*')
                       .fontColor('rgb(242, 111, 56)')
@@ -210,7 +210,7 @@ export struct InformationEdite {
                   .width('100%')
                   .height(50)
                   .borderRadius(20)
-                  .backgroundColor('#313035')
+                  .backgroundColor('#fee170')
                   .padding({ left: 24 })
                 }
               }
@@ -219,7 +219,7 @@ export struct InformationEdite {
                 Column({ space: 15 }) {
                   Text() {
                     Span('性别')
-                      .fontColor(Color.White)
+                      .fontColor('#985e1f')
                       .fontWeight(600)
                     Span('*')
                       .fontColor('rgb(242, 111, 56)')
@@ -233,7 +233,7 @@ export struct InformationEdite {
                   .width('100%')
                   .height(50)
                   .borderRadius(20)
-                  .backgroundColor('#313035')
+                  .backgroundColor('#fee170')
                   .padding({ left: 24 })
                   .bindMenu(this.MenuBuilder)
                 }
@@ -251,7 +251,7 @@ export struct InformationEdite {
             .width(100)
             .height(50)
             .borderRadius(30)
-            .backgroundColor('rgb(184, 171, 239)')
+            .backgroundColor('#fee170')
             .justifyContent(FlexAlign.Center)
             .margin({ top: 15 })
             .onClick(() => {
@@ -268,7 +268,7 @@ export struct InformationEdite {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
     .padding({ top: 10, bottom: this.bottomHeight })
   }
 

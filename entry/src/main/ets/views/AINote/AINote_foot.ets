@@ -13,7 +13,7 @@ export struct AINote_foot {
         .width('70%')
         .height(50)
         .margin({top:10})
-        .backgroundColor('#9893b1')
+        .backgroundColor('#c77a28')
         .fontSize(25)
         .fontWeight(FontWeight.Bolder)
         .onClick(()=>{

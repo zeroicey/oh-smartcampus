@@ -49,7 +49,7 @@ export struct Note {
     .width("100%")
     .height("100%")
     .justifyContent(FlexAlign.SpaceBetween)
-    .backgroundColor('#353242')
+    .backgroundColor('#fffcf3')
   }
 
   httpMarkdown_axios( message:Array<Message> ){

@@ -11,7 +11,7 @@ export struct CustomNavBar {
   title: string = '忘记密码'
   // 左边图标
   @Prop
-  leftIcon: ResourceStr = $rawfile('icon/backIcon.png')
+  leftIcon: ResourceStr = $rawfile('icon/back_L.png')
   // 右边图标
   @Prop
   rightIcon: ResourceStr = $rawfile('icon/Finished.png')
@@ -42,7 +42,7 @@ export struct CustomNavBar {
       }
       Text(this.title)
         .fontSize(24)
-        .fontColor(Color.White)
+        .fontColor('#985e1f')
       Blank()
       if (this.showRightIcon) {
         Image(this.rightIcon)

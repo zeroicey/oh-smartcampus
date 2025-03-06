@@ -29,7 +29,7 @@ export struct OperateBox {
           .height(35)
         Blank().height(5)
         Text('查看知识圈')
-          .fontColor(Color.White)
+          .fontColor('#c77a28')
           .fontSize(12)
       }
       .onClick(() => {
@@ -42,7 +42,7 @@ export struct OperateBox {
           .height(35)
         Blank().height(5)
         Text('一键生成AI笔记')
-          .fontColor(Color.White)
+          .fontColor('#c77a28')
           .fontSize(12)
       }
       .onClick(() => {
@@ -83,7 +83,7 @@ export struct OperateBox {
           .height(35)
         Blank().height(5)
         Text('选择全部')
-          .fontColor(Color.White)
+          .fontColor('#c77a28')
           .fontSize(12)
       }
       .onClick(() => {
@@ -93,6 +93,6 @@ export struct OperateBox {
     .width('100%')
     .height('100%')
     .borderRadius(30)
-    .backgroundColor('#313035')
+    .backgroundColor('#fff0cc')
   }
 }

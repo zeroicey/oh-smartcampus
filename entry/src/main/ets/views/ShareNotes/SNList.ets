@@ -17,11 +17,11 @@ export struct SNList {
               Divider()
                 .width(50)
                 .height(2)
-                .color('rgb(136, 136, 136)')
+                .color('#c77a28')
               Text('展开25条回复')
                 .fontSize(12)
                 .fontWeight(900)
-                .fontColor('rgb(136, 136, 136)')
+                .fontColor('#c77a28')
                 .onClick(() => {
                   this.isShow = true
                 })
@@ -33,7 +33,7 @@ export struct SNList {
             Divider()
               .width('100%')
               .height(2)
-              .color('rgb(136, 136, 136)')
+              .color('#c77a28')
           }
           .width('100%')
         }
@@ -58,7 +58,7 @@ export struct SNList {
       CommentReply({ showRightIcon: false })
       Divider()
         .width('100%')
-        .color('rgb(136, 136, 136)')
+        .color('#c77a28')
         .height(2)
         .margin({ bottom: 10 })
       Text() {
@@ -68,7 +68,7 @@ export struct SNList {
       .width('100%')
       .fontSize(14)
       .fontWeight(900)
-      .fontColor('rgb(177, 177, 177)')
+      .fontColor('#c77a28')
       .margin({ bottom: 27 })
 
       List({ space: 20 }) {
@@ -79,7 +79,7 @@ export struct SNList {
               Divider()
                 .width('100%')
                 .height(2)
-                .color('rgb(136, 136, 136)')
+                .color('#c77a28')
                 .width('100%')
                 .margin({ top: 10 })
             }
@@ -91,7 +91,7 @@ export struct SNList {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor('#16151A')
+    .backgroundColor('#fee170')
     .padding({
       left: 30,
       right: 30,

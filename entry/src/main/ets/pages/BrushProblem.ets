@@ -82,7 +82,7 @@ struct BrushProblem {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
     .padding({ bottom: this.bottomHeight })
   }
 
@@ -138,7 +138,7 @@ struct BrushProblem {
       bottom: 15
     })
     .borderRadius(30)
-    .backgroundColor('#313035')
+    .backgroundColor('#fffcf3')
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Start)
     .onClick(() => {
@@ -160,5 +160,5 @@ function TsetBtnStyle() {
   .fontColor(Color.White)
   .width(150)
   .height(50)
-  .backgroundColor('#817AFC')
+  .backgroundColor('#985e1f')
 }

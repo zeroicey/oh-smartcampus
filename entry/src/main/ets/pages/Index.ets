@@ -54,13 +54,13 @@ struct Index {
       if (this.activeIndex == index) {
         Text(item.name)
           .fontSize(18)
-          .fontColor(index == this.activeIndex ? '#0cddbe' : Color.White)
+          .fontColor(index == this.activeIndex ? '#0cddbe' : '#c0baa7')
           .fontWeight(700)
       }
     }
     .padding(13)
     .borderRadius(12)
-    .backgroundColor('rgba(255, 255, 255, 0.1)')
+    .backgroundColor('#fef4d1')
   }
 
   build() {
@@ -91,7 +91,10 @@ struct Index {
       })
     }
     .barPosition(BarPosition.End)
-    .backgroundColor('rgba(0,0,0,0)')
+    .barBackgroundColor('#fbe692')
+    .barHeight(60)
+    //.barBackgroundBlurStyle(BlurStyle.)
+    .backgroundColor('#2e9cfe')
     .scrollable(false)
     .onTabBarClick((index: number) => {
       this.activeIndex = index
@@ -99,7 +102,7 @@ struct Index {
     })
     .width('100%')
     .height('100%')
-    .backgroundColor('#15161a')
+    .backgroundColor('#fffcf3')//background Color
     .padding({ top: this.topHeight + 10, bottom: this.bottomHeight })
     .animationMode(AnimationMode.NO_ANIMATION)
   }

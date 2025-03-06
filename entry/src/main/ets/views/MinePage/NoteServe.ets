@@ -11,9 +11,10 @@ export struct NoteServe {
     .height(60)
     .borderRadius(20)
     .justifyContent(FlexAlign.Center)
-    .linearGradient({
-      direction: GradientDirection.Right,
-      colors: [['rgb(198, 255, 248)', 0.02], ['rgb(43, 190, 171)', 1]]
-    })
+    .backgroundColor('#cce4ff')
+    // .linearGradient({
+    //   direction: GradientDirection.Right,
+    //   colors: [['rgb(198, 255, 248)', 0.02], ['rgb(43, 190, 171)', 1]]
+    // })
   }
 }

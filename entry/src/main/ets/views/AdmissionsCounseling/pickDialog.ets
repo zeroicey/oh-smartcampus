@@ -222,7 +222,7 @@ export struct pickDialog {
     this.submitItem.size = size
     axios({
       method: 'POST',
-      url: 'https://1fd33097.r5.cpolar.cn' + '/university/findRangeSearch',
+      url: 'http://hellooracle.free.idcfengye.com' + '/university/findRangeSearch',
       data: this.submitItem,
       headers: {
         "Authorization": "Bearer " + token

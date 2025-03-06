@@ -58,7 +58,7 @@ export struct HomePage_InfFastLook {
     Column({ space: 20 }) {
       Row() {
         Text('资讯速看')
-          .fontColor(Color.White)
+          .fontColor('#985e1f')//font color
           .fontSize(20)
           .fontWeight(FontWeight.Bolder)
           .width('70%')
@@ -76,7 +76,7 @@ export struct HomePage_InfFastLook {
 
       Scroll() {
         Row() {
-          if (this.TopicArr.length == 0) {
+          if (this.TopicArr.length == 0 || this.TopicArr == null || this.TopicArr == undefined) {
             Text('咨询好像也跑路了( ﾟдﾟ)*').fontColor(Color.Gray)
           }
           List() {
@@ -166,6 +166,7 @@ export struct HomePage_InfFastLook {
             .width('100%')
             .height(120)
             .borderRadius(30)
+
             .onClick(() => {
               auth.CheckAuth(() => {
                 router.pushUrl({
@@ -186,7 +187,7 @@ export struct HomePage_InfFastLook {
   httpGetNTopic_axios(size: number, token: string) {
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn' + '/topic/findList',
+      url: 'http://hellooracle.free.idcfengye.com' + '/topic/findList',
       headers: {
         'Authorization': 'Bearer ' + token
       },

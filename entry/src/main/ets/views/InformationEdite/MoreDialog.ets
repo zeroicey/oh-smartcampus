@@ -40,7 +40,7 @@ export struct MoreDialog {
 
         this.BtnBuilder({ icon: $rawfile('icon/logOut.png'), title: '退出登录', width: 200 })
       }
-      .backgroundColor('rgb(184, 171, 239)')
+      .backgroundColor('#fff0cc')
       .borderRadius(30)
       .padding({
         right: 30,
@@ -65,11 +65,11 @@ export struct MoreDialog {
       .height(52)
       .borderRadius(30)
       .justifyContent(FlexAlign.Center)
-      .backgroundColor('rgba(208, 206, 241, 0.8)')
+      .backgroundColor('#fee170')
 
       Text(item.title)
         .fontSize(12)
-        .fontColor(Color.White)
+        .fontColor('#985e1f')
     }
     .onClick(() => {
       this.onclick()

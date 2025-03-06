@@ -135,7 +135,7 @@ export struct HistoryDetial {
         .height("100%")
         .padding({ bottom: this.bottomHeight })
         .justifyContent(FlexAlign.SpaceBetween)
-        .backgroundColor('#16151a')
+        .backgroundColor('#fffcf3')
         .transition( //入场
           TransitionEffect.translate({ y: 1000 })
             .animation({ curve: curves.springMotion(0.6, 0.8) })
@@ -145,7 +145,7 @@ export struct HistoryDetial {
   async httpGotDetial_axios(): Promise<void> {
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn'+'/ai/history_detail',
+      url: 'http://hellooracle.free.idcfengye.com'+'/ai/history_detail',
       headers: {
         'Authorization': 'Bearer ' +this.user.token
       },

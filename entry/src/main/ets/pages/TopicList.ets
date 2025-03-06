@@ -38,7 +38,7 @@ struct TopicList {
     Column({ space: 10 }) {
       Text('AI对话')
         .fontSize(36)
-        .fontColor(Color.White)
+        .fontColor('#c77a28')
         .fontWeight(700)
       Image($rawfile('icon/point.png'))
         .height(10)
@@ -50,9 +50,10 @@ struct TopicList {
                 Text(index.toString())
                   .fontSize(36)
                   .fontWeight(700)
+                  .fontColor(Color.White)
               }
               .justifyContent(FlexAlign.Center)
-              .backgroundColor('rgb(223, 218, 255)')
+              .backgroundColor('#c77a28')
               .width(55)
               .height(55)
               .borderRadius(30)
@@ -60,12 +61,12 @@ struct TopicList {
               Column({ space: 10 }) {
                 Text(item.name)
                   .fontSize(18)
-                  .fontColor(Color.White)
+                  .fontColor('#c77a28')
                   .maxLines(1)
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
                 Text(item.name)
                   .fontSize(14)
-                  .fontColor(Color.White)
+                  .fontColor('#c77a28')
                   .maxLines(1)
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
               }
@@ -74,7 +75,7 @@ struct TopicList {
             }
             .width('100%')
             .height(80)
-            .backgroundColor('rgb(49, 48, 53)')
+            .backgroundColor('#fce071')
             .borderRadius(30)
             .padding({
               left: 20,
@@ -99,7 +100,7 @@ struct TopicList {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor('rgb(22, 21, 26)')
+    .backgroundColor('#fffcf3')
     .padding({
       bottom: this.bottomHeight,
       top: this.topHeight,
@@ -109,7 +110,7 @@ struct TopicList {
   }
   httpGotTopicArray_axios(circleId: string,token: string){
     axios({
-      url: 'https://1fd33097.r5.cpolar.cn'+'/topic/findTopic',
+      url: 'http://hellooracle.free.idcfengye.com'+'/topic/findTopic',
       headers: {
         'Authorization': 'Bearer '+token
       },

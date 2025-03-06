@@ -8,8 +8,8 @@ export struct NotesWaterFlowItem {
 
   build() {
     Stack() {
-      Image(this.item.picture || $rawfile('other/defaultNote.png'))
-        .alt($rawfile('other/defaultNote.png'))
+      Image(this.item.picture || $rawfile('icon/A.png'))
+        .alt($rawfile('icon/A.png'))
         .width('100%')
         .borderRadius(20)
         .aspectRatio(1)

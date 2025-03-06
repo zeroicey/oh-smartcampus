@@ -8,11 +8,11 @@ export struct HomePage_sign{
   build() {
       Column() {
           Stack() {
-            Image($rawfile('icon/homeSignCard.png'))
+            Image($rawfile('icon/homeSignCard_L.png'))//photo change
               .width('100%')
             Column({ space: 10}) {
               Text('每日打卡进度')
-                .fontColor(Color.White)
+                .fontColor('#c77a28')//font color
                 .fontSize(45)
                 .width('100%')
                 .textAlign(TextAlign.Center)
@@ -21,7 +21,7 @@ export struct HomePage_sign{
                 ForEach(this.week, (item: week) => {
                   Row() {
                     Text(item.day.toString())
-                      .fontColor(Color.Black)
+                      .fontColor(Color.White)//color change
                       .fontWeight(FontWeight.Bolder)
                       .fontSize(20)
                       .height(38)

@@ -85,7 +85,7 @@ export struct Sign_button {
   httpSign_axios(uid:string,token:string){//打卡
     axios({
       method: 'GET',
-      url: 'https://1fd33097.r5.cpolar.cn'+'/taskList/press',
+      url: 'http://hellooracle.free.idcfengye.com'+'/taskList/press',
       headers:{
         'uid':uid,
         'Authorization': 'Bearer '+token,

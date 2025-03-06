@@ -82,7 +82,7 @@ struct ResetPassword {
       Row() {
         Button('完成')
           .width('80%')
-          .backgroundColor('rgb(141, 135, 242)')
+          .backgroundColor('#985e1f')
           .fontSize(20)
           .fontWeight(900)
           .onClick(() => {
@@ -95,7 +95,7 @@ struct ResetPassword {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#16151A')
+    .backgroundColor('#fffcf3')
     .padding({
       bottom: this.bottomHeight,
     })
