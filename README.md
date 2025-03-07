@@ -240,4 +240,4 @@
 - **日志记录**：在设备操作时，将操作信息记录到设备表和操作日志表中，便于管理和查询。
 
 <img src="media/嵌入式系统数据库设计.jpg">
-<img src="media/小智AI.jpg" style="width: 900px; height: 600px;">
+<img src="media/小智AI.jpg" width="300" height="450">
