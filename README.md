@@ -17,6 +17,7 @@
 [![东软灵犀——基于openHarmony的AI智慧校园助手 演示视频](https://img.shields.io/badge/哔哩哔哩-观看HarmonyOS模拟器演示-blue)](https://www.bilibili.com/video/BV1dn9CYdEfk/)
 
 #### 2. 核心应用界面展示
+| ![AI](media/AI.png) |
 
 | ![首页](media/2.png) | ![知识圈](media/3.png) | ![数据统计](media/11.png) |
 |--------------------------|--------------------------|--------------------------|
