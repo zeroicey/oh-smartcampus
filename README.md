@@ -15,7 +15,7 @@
 
 #### 1. 样机演示视频
 [![东软灵犀——基于openHarmony的AI智慧校园助手 演示视频](https://img.shields.io/badge/哔哩哔哩-观看样机演示-blue)](https://www.bilibili.com/video/BV1dn9CYdEfk/)
-)
+
 
 #### 2. 核心应用界面展示
 
