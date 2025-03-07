@@ -14,9 +14,12 @@
 ### 样例库（包含HarmonyOS模拟器演示视频一份,以及页面截图）
 
 #### 1. HarmonyOS模拟器演示视频
-[![东软灵犀——基于openHarmony的AI智慧校园助手 演示视频](https://img.shields.io/badge/哔哩哔哩-观看HarmonyOS模拟器演示-blue)](https://www.bilibili.com/video/BV1dn9CYdEfk/)
+[![东软灵犀——基于openHarmony的智慧校园智能体 演示视频](https://img.shields.io/badge/哔哩哔哩-观看HarmonyOS模拟器演示-blue)](https://www.bilibili.com/video/BV1dn9CYdEfk/)
 
-#### 2. 核心应用界面展示
+#### 2. HarmonyOS智能体演示视频
+[![东软灵犀——基于openHarmony的智慧校园智能体 演示视频](https://img.shields.io/badge/哔哩哔哩-观看HarmonyOS模拟器演示-blue)](https://b23.tv/J9lQUHa)
+
+#### 3. 核心应用界面展示
 | ![AI](media/AI.png) | ![知识圈](media/知识圈2.png) |
 |--------------------------|--------------------------|
 
