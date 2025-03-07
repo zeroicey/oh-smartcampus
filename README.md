@@ -239,5 +239,5 @@
 - **HTTP请求处理**：在服务器的"/update"路由中处理来自app的HTTP GET请求，获取请求中的参数，控制继电器的状态，并返回HTTP响应。
 - **日志记录**：在设备操作时，将操作信息记录到设备表和操作日志表中，便于管理和查询。
 
-<img src="media/嵌入式系统数据库设计.png">
-<img src="media/小智AI.png">
+<img src="media/嵌入式系统数据库设计.jpg">
+<img src="media/小智AI.jpg">
