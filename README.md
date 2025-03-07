@@ -16,7 +16,6 @@
 #### 1. HarmonyOS模拟器演示视频
 [![东软灵犀——基于openHarmony的AI智慧校园助手 演示视频](https://img.shields.io/badge/哔哩哔哩-观看HarmonyOS模拟器演示-blue)](https://www.bilibili.com/video/BV1dn9CYdEfk/)
 
-
 #### 2. 核心应用界面展示
 
 ## 首页
@@ -45,8 +44,6 @@
 
 ## 个人主页
 ![个人主页](media/15.png)
-
-
 
 ## 二、场景介绍
 当前在线教育市场火热，用户群体不断扩大，服务需求也日趋多元。我们意识到，要在激烈的市场竞争中持续保持领先优势，亟需通过科技创新助力**教学质量**和**用户体验**的全面提升。
@@ -260,5 +257,5 @@
 - **HTTP请求处理**：在服务器的"/update"路由中处理来自app的HTTP GET请求，获取请求中的参数，控制继电器的状态，并返回HTTP响应。
 - **日志记录**：在设备操作时，将操作信息记录到设备表和操作日志表中，便于管理和查询。
 
-<img src="media/嵌入式系统数据库设计.jpg">
-<img src="media/小智AI.jpg" width="720">
+  <img src="media/嵌入式系统数据库设计.jpg">
+  <img src="media/小智AI.jpg" width="720">
