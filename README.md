@@ -171,19 +171,19 @@
 
 - 模拟AI对话应用场景1：我们定向训练的AI助教：AI助教提供易错点和知识点补充；同时，标明引用材料，并提供电子版学习资料在线查阅功能。
 
-![A1](media/A1.png)
+<img src="media/A1.png" style="width: 900px; height: 600px;">
 
 - 模拟AI对话应用场景2：传统的AI产品往往以宏观视角，泛泛的输出，虽然这种打法看似全面，却缺乏深度和针对性，显得虚无缥缈。经过我们改良，让AI助教关联考点，同时，设计案例教学板块。
 
-![A2](media/A2.png)
+<img src="media/A2.png" style="width: 900px; height: 600px;">
 
 - 模拟AI对话应用场景3：用户先提问“平衡二叉树的插入“，又问了“插入的位置如何找”。 我们提供这样一个工具能把数条冗杂的数据集合并处理。下一次，另一用户搜索“平衡二叉树的插入”的时候，接受到的答复会更优。
 
-![A3](media/A3.png)
+<img src="media/A3.png" style="width: 900px; height: 600px;">
 
 - 模拟AI对话应用场景4：多模态问答，AI精准理解照片内题目内容，进行回答。
 
-<img src="media/A4.png" style="width: 300px; height: 200px;">
+<img src="media/A4.png" style="width: 900px; height: 600px;">
 
 ### 6.2.2 其他技术亮点
 - 在权限认证方面，我们使用了`sa-token`框架，这是一个轻量级的Java权限认证框架，它支持登录认证、权限认证、分布式Session会话、微服务网关鉴权、SSO单点登录、OAuth2.0统一认证等功能，体现了在安全认证方面的技术先进性。
