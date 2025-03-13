@@ -76,9 +76,6 @@ export struct HomePage_InfFastLook {
 
       Scroll() {
         Row() {
-          if (this.TopicArr.length == 0 || this.TopicArr == null || this.TopicArr == undefined) {
-            Text('咨询好像也跑路了( ﾟдﾟ)*').fontColor(Color.Gray)
-          }
           List() {
             ForEach(this.TopicArr, (item: DataItem) => {
               ListItem() {
