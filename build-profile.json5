@@ -5,47 +5,47 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\Administrator\\.ohos\\config\\default_oracle-plus-themeLight_5YQGfpEdsvK0IWRkQcFmVwLcphCS-TT1zqrXu_6Qwoc=.cer",
-          "storePassword": "0000001B9D599F304E582EB803058D9002929EEB03447A396271EA8F766C8B2EEEE6E783333EC8C4A348BB",
+          "certpath": "C:\\Users\\18048\\.ohos\\config\\default_oracle-plus-themeLight_5YQGfpEdsvK0IWRkQcFmVwLcphCS-TT1zqrXu_6Qwoc=.cer",
+          "storePassword": "0000001B42B9B86386A5FBCA59A72991732AEB588A9208F2A15B4674B56E9CEEDEBD7D3CBAAD375BEFE4EA",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B7D458DEA26D0A8F96ECE4220AE134B6249343EC6309F8451A095A5A8E726927023CBFCE8C202A4",
-          "profile": "C:\\Users\\Administrator\\.ohos\\config\\default_oracle-plus-themeLight_5YQGfpEdsvK0IWRkQcFmVwLcphCS-TT1zqrXu_6Qwoc=.p7b",
+          "keyPassword": "0000001B1FF574879EB2959680B895FDA85833958CDEEBAC14385C7D237E39116D78A9ED65C260B81D0299",
+          "profile": "C:\\Users\\18048\\.ohos\\config\\default_oracle-plus-themeLight_5YQGfpEdsvK0IWRkQcFmVwLcphCS-TT1zqrXu_6Qwoc=.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\Administrator\\.ohos\\config\\default_oracle-plus-themeLight_5YQGfpEdsvK0IWRkQcFmVwLcphCS-TT1zqrXu_6Qwoc=.p12"
+          "storeFile": "C:\\Users\\18048\\.ohos\\config\\default_oracle-plus-themeLight_5YQGfpEdsvK0IWRkQcFmVwLcphCS-TT1zqrXu_6Qwoc=.p12"
         }
       }
     ],
-    "products": [
-      {
-        "name": "default",
-        "signingConfig": "default",
-        "compatibleSdkVersion": "5.0.0(12)",
-        "runtimeOS": "HarmonyOS",
-        "buildOption": {
-          "strictMode": {
-            "caseSensitiveCheck": true,
-            "useNormalizedOHMUrl": true
+//    "products": [
+//      {
+//        "name": "default",
+//        "signingConfig": "default",
+//        "compatibleSdkVersion": "5.0.0(12)",
+//        "runtimeOS": "HarmonyOS",
+//        "buildOption": {
+//          "strictMode": {
+//            "caseSensitiveCheck": true,
+//            "useNormalizedOHMUrl": true
+//          }
+//        }
+//      }
+//    ],
+        "products": [
+          {
+            "name": "default",
+            "signingConfig": "default",
+            "compileSdkVersion": 12,
+            //指定OpenHarmony应用/服务编译时的版本
+            "compatibleSdkVersion": 12,
+            //指定OpenHarmony应用/服务兼容的最低版本。
+            "targetSdkVersion": 12,
+            "runtimeOS": "OpenHarmony",
+            "buildOption": {
+              "strictMode": {
+                "caseSensitiveCheck": true,
+              }
+            }
           }
-        }
-      }
-    ],
-    //    "products": [
-    //      {
-    //        "name": "default",
-    //        "signingConfig": "default",
-    //        "compileSdkVersion": 12,
-    //        //指定OpenHarmony应用/服务编译时的版本
-    //        "compatibleSdkVersion": 12,
-    //        //指定OpenHarmony应用/服务兼容的最低版本。
-    //        "targetSdkVersion": 12,
-    //        "runtimeOS": "OpenHarmony",
-    //        "buildOption": {
-    //          "strictMode": {
-    //            "caseSensitiveCheck": true,
-    //          }
-    //        }
-    //      }
-    //    ],
+        ],
     "buildModeSet": [
       {
         "name": "debug",
