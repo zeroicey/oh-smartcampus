@@ -19,3 +19,5 @@ export * from './dateUtil'
 export * from './storage'
 
 export * from './toast'
+
+export * from './network'
