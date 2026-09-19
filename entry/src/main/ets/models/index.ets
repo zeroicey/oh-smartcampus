@@ -207,3 +207,11 @@ export interface TopicAiList {
    */
   name: string;
 }
+
+// ---------------------------------------------------------------------------
+// 子模块统一出口
+// ---------------------------------------------------------------------------
+
+export * from './tempModel/Interface/PageResult'
+
+export * from './tempModel/Interface/Settings'
