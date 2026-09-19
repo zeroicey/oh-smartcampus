@@ -17,3 +17,5 @@ export * from './validator'
 export * from './dateUtil'
 
 export * from './storage'
+
+export * from './toast'
