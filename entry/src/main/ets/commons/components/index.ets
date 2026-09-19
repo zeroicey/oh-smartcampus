@@ -27,3 +27,9 @@ export * from './CircleGrid'
 export * from './HcEmpty'
 
 export * from './HcError'
+
+export * from './HcSearchBar'
+
+export * from './HcTag'
+
+export * from './HcAvatar'
