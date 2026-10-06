@@ -23,3 +23,5 @@ export * from './toast'
 export * from './network'
 
 export * from './statistics'
+
+export * from './SearchHistory'
