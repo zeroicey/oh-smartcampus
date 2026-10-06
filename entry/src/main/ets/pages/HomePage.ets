@@ -1,4 +1,5 @@
-import { auth, tracking, UserInfo } from '../commons/utils';
+import { auth, env, logger, toast, tracking, UserInfo } from '../commons/utils';
+import { API } from '../commons/constants';
 import { User } from '../models';
 import {
     HomePage_GoToAI,
@@ -336,16 +337,18 @@ export struct HomePage {
   httpGetCircle_axios(token: string) {
     axios({
       method: 'GET',
-      url: 'http://hellooracle.free.idcfengye.com' + '/circle/findAll',
+      url: env.url(API.CIRCLE_FIND_ALL),
       headers: {
         'Authorization': 'Bearer ' + token
       }
     }).then((response: AxiosResponse<GotCircle>) => {
-      for (let i = 0; i < 4; i++) {
-        this.CircleArr[i] = response.data.data[i]
-      }
+      // 修复：历史实现固定循环 4 次，当后端返回的知识圈少于 4 个时会越界写入 undefined，
+      // 侧边栏渲染 item.name 时直接崩溃。这里按实际返回长度截断。
+      const list = response.data?.data ?? []
+      this.CircleArr = list.slice(0, 4)
     }).catch((error: BusinessError) => {
-      console.log(error.message)
+      logger.error('HomePage: 获取知识圈失败', error.message)
+      toast.error('知识圈加载失败，请下拉重试')
     })
   }
 }

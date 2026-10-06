@@ -1,7 +1,7 @@
 // 自定义输入栏
 import { ITextType } from '../../models'
-import { httpReq } from '../utils'
-import { promptAction } from '@kit.ArkUI'
+import { httpReq, logger, toast, validateEmail } from '../utils'
+import { EMAIL_COUNTDOWN_SECONDS } from '../constants'
 
 interface EmailParam {
   email: string
@@ -15,10 +15,21 @@ export struct InputComponent {
   @Prop placeholder: string
   @Link value: string
   @State isWaiting: boolean = false
-  @State waitTime: number = 3
-  regEmail: RegExp =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  @State waitTime: number = EMAIL_COUNTDOWN_SECONDS
+  private timerId: number = -1
   onclick = () => {
+  }
+
+  aboutToDisappear(): void {
+    this.clearTimer()
+  }
+
+  /** 清理倒计时，避免页面销毁后定时器仍在跑 */
+  private clearTimer(): void {
+    if (this.timerId !== -1) {
+      clearInterval(this.timerId)
+      this.timerId = -1
+    }
   }
 
   async getEmailNum() {
@@ -30,19 +41,27 @@ export struct InputComponent {
           email: this.value
         }
       })
-      promptAction.showToast({ message: '发送成功' })
-      this.isWaiting = true
-      const timeId = setInterval(() => {
-        --this.waitTime
-        if (this.waitTime == 0) {
-          clearTimeout(timeId)
-          this.isWaiting = false
-          this.waitTime = 3
-        }
-      }, 1000)
+      toast.success('验证码已发送')
+      this.startCountdown()
     } catch (err) {
-      promptAction.showToast({ message: '发送失败' })
+      toast.requestFailed(err)
+      logger.error('InputComponent: 发送验证码失败', JSON.stringify(err))
     }
+  }
+
+  /** 开始倒计时：结束后恢复为完整的 60 秒，而不是重置为 3 秒 */
+  private startCountdown(): void {
+    this.clearTimer()
+    this.isWaiting = true
+    this.waitTime = EMAIL_COUNTDOWN_SECONDS
+    this.timerId = setInterval(() => {
+      this.waitTime--
+      if (this.waitTime <= 0) {
+        this.clearTimer()
+        this.isWaiting = false
+        this.waitTime = EMAIL_COUNTDOWN_SECONDS
+      }
+    }, 1000)
   }
 
   build() {
@@ -77,9 +96,10 @@ export struct InputComponent {
                 Image($rawfile('icon/email.png'))
                   .width(25)
                   .onClick(() => {
-                    // 如果格式不对或者为空不允许发送邮件
-                    if (this.value == '' || !this.regEmail.test(this.value)) {
-                      promptAction.showToast({ message: this.value == '' ? '请输入邮箱' : '邮箱格式不对' })
+                    // 统一使用校验工具，避免正则重复维护
+                    const result = validateEmail(this.value)
+                    if (!result.valid) {
+                      toast.warn(result.message)
                       return
                     }
                     this.getEmailNum()
@@ -87,6 +107,7 @@ export struct InputComponent {
               } else {
                 Text(`${this.waitTime}s`)
                   .fontColor(Color.White)
+                  .fontSize(14)
               }
             }
             if (this.emailType == 1) {
