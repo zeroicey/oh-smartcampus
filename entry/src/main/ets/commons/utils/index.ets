@@ -21,3 +21,5 @@ export * from './storage'
 export * from './toast'
 
 export * from './network'
+
+export * from './statistics'
