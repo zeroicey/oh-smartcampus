@@ -11,6 +11,54 @@
     {
       "name": "EntryAbility_label",
       "value": "小研书"
+    },
+    {
+      "name": "app_name",
+      "value": "东软灵犀 · 校园智能体"
+    },
+    {
+      "name": "about_title",
+      "value": "关于我们"
+    },
+    {
+      "name": "about_version_label",
+      "value": "版本号"
+    },
+    {
+      "name": "about_intro",
+      "value": "基于 OpenHarmony 打造的校园智能体，融合知识图谱与大语言模型，为师生提供精准教学辅助。"
+    },
+    {
+      "name": "about_team_label",
+      "value": "开发团队"
+    },
+    {
+      "name": "about_team_value",
+      "value": "东软灵犀团队"
+    },
+    {
+      "name": "about_agreement",
+      "value": "用户协议"
+    },
+    {
+      "name": "about_privacy",
+      "value": "隐私政策"
+    },
+    {
+      "name": "about_copyright",
+      "value": "保留所有权利。"
+    },
+    {
+      "name": "common_retry",
+      "value": "重新加载"
+    },
+    {
+      "name": "common_empty",
+      "value": "暂无内容"
+    },
+    {
+      "name": "common_loading",
+      "value": "加载中..."
     }
   ]
 }

@@ -2,6 +2,8 @@
  * 标签组件
  *
  * 用于话题标签、状态标记、难度标识等场景。
+ * selected 使用 @Prop（单向）+ 内部状态，父组件可直接传字面量，
+ * 需要感知变化时通过 onchange 回调获取。
  */
 @Component
 export struct HcTag {
@@ -12,11 +14,18 @@ export struct HcTag {
   @Prop outlined: boolean = false
   /** 是否可选中 */
   @Prop selectable: boolean = false
-  /** 是否选中 */
-  @Link selected: boolean
+  /** 初始选中态 */
+  @Prop selected: boolean = false
   /** 尺寸：small 20vp / normal 26vp / large 32vp */
   @Prop size: string = 'normal'
+  @State innerSelected: boolean = false
   onclick = () => {
+  }
+  onchange = (selected: boolean) => {
+  }
+
+  aboutToAppear(): void {
+    this.innerSelected = this.selected
   }
 
   private getHeight(): number {
@@ -40,7 +49,7 @@ export struct HcTag {
   }
 
   private isActive(): boolean {
-    return this.selectable ? this.selected : !this.outlined
+    return this.selectable ? this.innerSelected : !this.outlined
   }
 
   build() {
@@ -62,7 +71,8 @@ export struct HcTag {
       })
       .onClick(() => {
         if (this.selectable) {
-          this.selected = !this.selected
+          this.innerSelected = !this.innerSelected
+          this.onchange(this.innerSelected)
         }
         this.onclick()
       })

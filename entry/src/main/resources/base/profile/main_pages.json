@@ -22,6 +22,7 @@
     "pages/HistoryDetail",
     "pages/reEdit",
     "pages/HardwareControler",
-    "pages/Deepseek"
+    "pages/Deepseek",
+    "pages/About"
   ]
 }

@@ -11,6 +11,54 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "app_name",
+      "value": "Dongruan Lingxi Campus Agent"
+    },
+    {
+      "name": "about_title",
+      "value": "About"
+    },
+    {
+      "name": "about_version_label",
+      "value": "Version"
+    },
+    {
+      "name": "about_intro",
+      "value": "An intelligent campus assistant built on OpenHarmony, combining a knowledge graph with large language models to deliver precise teaching support."
+    },
+    {
+      "name": "about_team_label",
+      "value": "Team"
+    },
+    {
+      "name": "about_team_value",
+      "value": "Dongruan Lingxi Team"
+    },
+    {
+      "name": "about_agreement",
+      "value": "User Agreement"
+    },
+    {
+      "name": "about_privacy",
+      "value": "Privacy Policy"
+    },
+    {
+      "name": "about_copyright",
+      "value": "All rights reserved."
+    },
+    {
+      "name": "common_retry",
+      "value": "Retry"
+    },
+    {
+      "name": "common_empty",
+      "value": "No content yet"
+    },
+    {
+      "name": "common_loading",
+      "value": "Loading..."
     }
   ]
 }
