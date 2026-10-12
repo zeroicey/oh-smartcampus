@@ -1,0 +1,59 @@
+东软灵犀 · OpenHarmony 校园智能体
+Copyright 2025 神谕战队（东软灵犀项目组）
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+
+==============================================================================
+Project Attribution
+==============================================================================
+
+Team:            神谕战队
+Members:         张开鑫、蓝晓华、黄韵淇、罗智韬、李秋宇
+Advisor:         李小峰
+
+Awards:
+  第二届开放原子大赛 · 基于 OpenHarmony 的智慧校园创新应用赛
+    国家级 三等奖 | 开放原子开源基金会 | 2025-05 | 证书编号 20240AC068C074
+  第十四届粤港物联网大赛（院校赛道）
+    省级 二等奖 | 粤港物联网大赛组委会 | 2025-03
+
+Repository hosting:
+  Upstream (competition organization): oh-smartcampus/000057
+  Personal mirror:                     happpy/oh-smartcampus
+
+
+==============================================================================
+Bundled Third-Party Code
+==============================================================================
+
+This repository intentionally tracks exactly one file from the ohpm
+dependency tree:
+
+  oh_modules/.ohpm/@ohmos+calendar@2.1.4/oh_modules/@ohmos/calendar/
+      src/main/ets/components/HmCalendar.ets
+
+That file originates from the `@ohmos/calendar` package. The upstream package
+metadata available in this repository does not declare a license, and the
+package directory ships without a LICENSE or NOTICE file. Anyone redistributing
+this repository should verify the licensing terms of `@ohmos/calendar`
+directly with its publisher before reuse.
+
+If you do not need that file, remove it from the repository rather than relying
+on this notice.
+
+
+==============================================================================
+Runtime Dependencies (not redistributed)
+==============================================================================
+
+The remaining dependencies declared in oh-package.json5 are resolved from the
+ohpm registry at build time and are not vendored into this repository:
+
+  @ohos/axios, @pura/spinkit, @luvi/lv-markdown-in, @ohmos/calendar,
+  @visactor/harmony-vchart, @hw-agconnect/ui-calendar-picker,
+  @xwf/image_preview
+  (dev) @ohos/hypium, @ohos/hamock
+
+Each remains under its own license; consult the respective package metadata on
+the ohpm registry for details.
